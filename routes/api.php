@@ -25,7 +25,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResources([   
     'category' => 'API\CategoryController',       
-    //'posts' => 'PostController'
+    'brand' => 'API\BrandController'
 ]);
 
+//Other category routes
 Route::get('loadSubCategories/{mainId}', 'API\CategoryController@load_subs');
+Route::get('destroyCategories', 'API\CategoryController@destroyAll');
