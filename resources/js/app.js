@@ -21,6 +21,7 @@ window.Form = Form;
 Vue.use(VueRouter);
 let routes = [
     { path: '/admin/categories', component: require('./components/CategoryComponent.vue').default  },
+    { path: '/admin/brands', component: require('./components/BrandComponent.vue').default  },
     { path: '/admin/users', component: require('./components/UsersComponent.vue')  },
     { path: '*', component: require('./components/404.vue').default }
 ];

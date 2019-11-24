@@ -31,3 +31,7 @@ Route::apiResources([
 //Other category routes
 Route::get('loadSubCategories/{mainId}', 'API\CategoryController@load_subs');
 Route::get('destroyCategories', 'API\CategoryController@destroyAll');
+
+//Other brand routes
+Route::post('uploadBrandLogo', 'API\ImageController@uploadBrandLogo');
+Route::post('validateImage', 'API\BrandController@validateImage');

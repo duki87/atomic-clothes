@@ -20,6 +20,9 @@
             <li class="nav-item">
               <router-link to="/admin/categories" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Manage Categories</router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/admin/brands" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Manage Brands</router-link>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">Dropdown

@@ -55,6 +55,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'brand_logos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/brand_logos'),
+            'url' => env('APP_URL').'/storage/brand_logos',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -197,8 +197,10 @@
                 $('#categoryModal').modal('show');
             },
             addTag() {
-                this.form.tags.push(this.category_tag);
-                this.category_tag = '';
+                if(this.category_tag !== '') {
+                    this.form.tags.push(this.category_tag);
+                    this.category_tag = '';
+                }
             },
             removeTag(index) {
                 this.form.tags.splice(index, 1);
