@@ -25,7 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResources([   
     'category' => 'API\CategoryController',       
-    'brand' => 'API\BrandController'
+    'brand' => 'API\BrandController',
+    'product' => 'API\ProductController'
 ]);
 
 //Other category routes
@@ -33,5 +34,6 @@ Route::get('loadSubCategories/{mainId}', 'API\CategoryController@load_subs');
 Route::get('destroyCategories', 'API\CategoryController@destroyAll');
 
 //Other brand routes
-Route::post('uploadBrandLogo', 'API\ImageController@uploadBrandLogo');
-Route::post('validateImage', 'API\BrandController@validateImage');
+Route::get('destroyBrandLogo/{id}', 'API\BrandController@destroyLogo');
+Route::post('validateImage', 'API\BrandController@validateBrandLogo');
+Route::get('destroyBrands', 'API\BrandController@destroyAll');

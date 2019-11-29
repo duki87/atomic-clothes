@@ -38,7 +38,7 @@ class BrandController extends Controller
             'website' => 'url',
         ]); 
         if($request->has('logo') && !empty($request->logo)) {
-            $logo = self::uploadBrandLogo($request->logo);
+            $logo = self::uploadConstraintImage($request->logo, 300, 'png', 'images/brandLogos');
         }
         $brand = new Brand([
             'title' => $request->title,
@@ -59,12 +59,68 @@ class BrandController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        //
+    {      
+        $brand = Brand::where(['id' => $id])->first();
+        $this->validate($request, [
+            'title' => 'required|string|min:2',
+            'description' => 'string|min:20',
+            'website' => 'url|sometimes',
+        ]); 
+        if($request->has('logo') && $brand->logo != $request->logo) {
+            self::deleteImage('brandLogos', $brand->logo);
+            $logo = self::uploadConstraintImage($request->logo, 300, 'png', 'images/brandLogos');
+        }
+        $update = $brand->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'logo' => isset($logo) ? $logo : $brand->logo,
+            'website'  =>  $request->website,
+            'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : ''
+        ]);
+        if($update) {
+            return ['message' => 'success'];
+        }
+        return ['message' => 'failed'];
     }
 
     public function destroy($id)
     {
-        //
+        $brand = Brand::where(['id' => $id])->first();
+        $logo = $brand->logo;
+        if($logo != '') {
+            self::deleteImage('brandLogos', $logo);
+        }    
+        if($brand->delete()) {
+            return ['message' => 'success'];
+        }
+        return ['message' => 'failed'];
+    }
+
+    public function destroyLogo($id)
+    {
+        $brand = Brand::where(['id' => $id])->first();
+        $logo = $brand->logo;
+        if($logo != '') {
+            if(self::deleteImage('brandLogos', $logo)) {
+                $brand->update([
+                    'logo' => ''
+                ]);
+                return ['message' => 'success'];
+            }         
+        }
+        return ['message' => 'failed'];    
+    }
+    public function destroyAll() 
+    {
+        $logos = Brand::get()->pluck('logo');
+        $deleteLogos = $logos->each(function ($item, $key) {
+            self::deleteImage('brandLogos', $item);
+        });
+        if($deleteLogos) {
+            if(Brand::truncate()) {
+                return ['message' => 'success'];
+            } 
+        }
+        return ['message' => 'failed'];
     }
 }

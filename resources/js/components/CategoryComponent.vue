@@ -50,7 +50,7 @@
         </div>
 
         <!-- Modal: modalCart -->
-        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div @click="detectClick" @keydown.esc="getPage(currentPage)" class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -58,7 +58,7 @@
             <div class="modal-header">
                 <h4 v-show="!editMode" class="modal-title" id="myModalLabel">Add Category</h4>
                 <h4 v-show="editMode" class="modal-title" id="myModalLabel">Edit Category</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button @click="getPage(currentPage)" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -109,7 +109,7 @@
                 </div>
                 <!--Footer-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
+                    <button @click="getPage(currentPage)" type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
                     <button v-show="!editMode" type="submit" class="btn btn-default">Create</button>
                     <button v-show="editMode" type="submit" class="btn btn-default">Update</button>
                 </div>
@@ -139,7 +139,8 @@
                 mains: {},
                 subs: {},
                 formErrors: {},
-                editMode: false
+                editMode: false,
+                currentPage: 1
             }
         },
         methods: {
@@ -229,6 +230,7 @@
                 }
             },
             getPage(page = 1) {
+                this.currentPage = page;
                 axios.get('/api/category?page=' + page)
                     .then(response => {
                         this.categories = response.data.categories;
@@ -244,7 +246,8 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Delete'
+                    confirmButtonText: 'Delete',
+                    onClose: this.cancelProgress 
                 }).then((result) => {
                     this.$Progress.start();
                         if(result.value) {
@@ -280,7 +283,8 @@
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Delete'
+                        confirmButtonText: 'Delete',
+                        onClose: this.cancelProgress
                     }).then((result) => {
                         this.$Progress.start();
                         if(result.value) {
@@ -305,17 +309,23 @@
                             );
                         }
                     }).catch(
-                        console.log('error')
                     )
+                },
+                cancelProgress() {
+                    this.$Progress.finish();
+                },
+                detectClick(event) {
+                    if(event.target.id == 'categoryModal') {
+                        this.getPage(this.currentPage);
+                    }
                 }
-            },
-        
-            created() {
+        },     
+        created() {
+            this.getCategories();
+            Fire.$on('AfterCreate', () => {
                 this.getCategories();
-                Fire.$on('AfterCreate', () => {
-                this.getCategories();
-                });
-            },
+            });
+        },
 
         mounted() {
             console.log('Component mounted.')

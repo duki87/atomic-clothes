@@ -55,11 +55,9 @@ return [
             'visibility' => 'public',
         ],
 
-        'brand_logos' => [
+        'images' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/images/brand_logos'),
-            'url' => env('APP_URL').'/storage/brand_logos',
-            'visibility' => 'public',
+            'root'   => public_path() . '/images/',
         ],
 
         's3' => [

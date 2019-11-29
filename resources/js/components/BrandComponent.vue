@@ -55,7 +55,7 @@
         </div>
 
         <!-- Modal: modalCart -->
-        <div class="modal fade" id="brandModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div @click="detectClick" @keydown.esc="getPage(currentPage)" class="modal fade" id="brandModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -63,7 +63,7 @@
             <div class="modal-header">
                 <h4 v-show="!editMode" class="modal-title" id="myModalLabel">Add Brand</h4>
                 <h4 v-show="editMode" class="modal-title" id="myModalLabel">Edit Brand</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button @click="getPage(currentPage)" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="form-group">
                         <label for="title">Brand Description</label>
-                        <input v-model="form.description" :class="{'is-invalid': form.errors.has('description')}" type="text" class="form-control" id="description" placeholder="Brand Title">
+                        <input v-model="form.description" :class="{'is-invalid': form.errors.has('description')}" type="text" class="form-control" id="description" placeholder="Brand Description">
                         <div class="invalid-feedback">
                             <span v-for="err in formErrors.description">{{err}}</span>
                         </div>
@@ -126,13 +126,12 @@
                         </div>
                     </div>             
                     <div v-if="form.logo" class="p-2 d-flex justify-content-center" :class="[form.logo ? borderClass : '']">
-                        <img v-if="editMode" class="" :src="'/images/brandLogos/' + form.logo" alt="" style="width:200px">
-                        <img v-if="!editMode" class="" :src="form.logo" alt="" style="width:200px">
+                        <img class="" :src="image" alt="" style="width:200px">
                     </div>           
                 </div>
                 <!--Footer-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
+                    <button @click="getPage(currentPage)" type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
                     <button v-show="!editMode" type="submit" class="btn btn-default">Create</button>
                     <button v-show="editMode" type="submit" class="btn btn-default">Update</button>
                 </div>
@@ -164,6 +163,7 @@
                 editMode: false,
                 image: '',
                 logoErrors: [],
+                currentPage: 1
             }
         },
         methods: {
@@ -213,6 +213,7 @@
                 this.editMode = true;
                 this.form.reset();
                 this.form.fill(brand);
+                this.image = '/images/brandLogos/' + this.form.logo;
                 $('#brandModal').modal('show');
             },
             newBrandModal() {
@@ -240,13 +241,14 @@
                 );
             },
             getPage(page = 1) {
-                axios.get('/api/brands?page=' + page)
+                this.currentPage = page;
+                axios.get('/api/brand?page=' + page)
                     .then(response => {
                         this.brands = response.data.brands;
                     }
                 );
             },
-            deleteCategory(brandId) {
+            deleteBrand(brandId) {
                 Swal.fire({
                     title: 'Are you sure to delete this brand?',
                     text: 'All brand data will be deleted.',
@@ -254,7 +256,8 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Delete'
+                    confirmButtonText: 'Delete',
+                    onClose: this.cancelProgress 
                 }).then((result) => {
                     this.$Progress.start();
                         if(result.value) {
@@ -279,7 +282,9 @@
                             );
                         }
                 }).catch(
-                    console.log('error')
+                    () => {
+                            this.$Progress.fail();
+                        }
                     )
                 },
                 resetBrands() {
@@ -290,7 +295,8 @@
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Delete'
+                        confirmButtonText: 'Delete',
+                        onClose: this.cancelProgress 
                     }).then((result) => {
                         this.$Progress.start();
                         if(result.value) {
@@ -315,8 +321,13 @@
                             );
                         }
                     }).catch(
-                        console.log('error')
+                        () => {
+                            this.$Progress.fail();
+                        }
                     )
+                },
+                cancelProgress() {
+                    this.$Progress.finish();
                 },
                 uploadLogo(event) {
                     this.form.logo = '';
@@ -325,6 +336,7 @@
                     let reader = new FileReader();
                     reader.onloadend = (event) => {
                         this.form.logo = reader.result;
+                        this.image = reader.result;
                     }
                     reader.readAsDataURL(file);
                     const config = {
@@ -338,15 +350,28 @@
                     })
                     .catch((error) => {
                         this.form.logo = '';
+                        this.image = '';
                         this.logoErrors = error.response.data.errors.image;                   
                     })
                 },
                 deleteLogo() {
+                    if(this.editMode) {
+                        axios.get('/api/destroyBrandLogo/'+this.form.id).then(
+                            ({result}) => {
+                                console.log(result.message);
+                            }
+                        );
+                    }
+                    this.image = '';
                     this.form.logo = '';
                     this.logoErrors = '';
+                },
+                detectClick(event) {
+                    if(event.target.id == 'brandModal') {
+                        this.getPage(this.currentPage);
+                    }
                 }
-            },
-        
+            },       
             created() {
                 this.getBrands();
                 Fire.$on('AfterCreate', () => {

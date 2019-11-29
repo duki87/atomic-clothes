@@ -25,12 +25,11 @@
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">Dropdown
+                aria-haspopup="true" aria-expanded="false">Manage Products
               </a>
               <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <router-link to="/admin/products" class="dropdown-item" tag="a" class="nav-link" active-class="active" exact>All Products</router-link>
+                <router-link to="/admin/add-product" class="dropdown-item" tag="a" class="nav-link" active-class="active" exact>Add Product</router-link>
               </div>
             </li>
           </ul>
