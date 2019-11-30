@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2019 at 12:02 AM
+-- Generation Time: Nov 30, 2019 at 08:12 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -21,6 +21,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `atomic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brands`
+--
+
+CREATE TABLE `brands` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `title`, `description`, `logo`, `website`, `tags`, `created_at`, `updated_at`) VALUES
+(1, 'Atomic', 'Atomic is our primary brand.', 'ukaVONUHw4XWHTuvVS8Pg2bbhxXb7uq3.png', 'http://www.atomic.com', '[\"atomic\"]', '2019-11-26 18:10:08', '2019-11-26 18:10:08'),
+(2, 'Core', 'Core is a new brand which offers casual clothing.', 's2MC7Q27EWHnzi5Nvy3iiaxj3WKUmVOU.png', 'http://www.core-clothing.com', '[\"core\"]', '2019-11-26 18:35:13', '2019-11-26 18:35:13');
 
 -- --------------------------------------------------------
 
@@ -43,15 +68,13 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `main`, `sub`, `title`, `tags`, `created_at`, `updated_at`) VALUES
-(1, 0, 0, 'Men', '[\"men\"]', '2019-11-18 21:08:23', '2019-11-18 21:08:23'),
-(2, 0, 0, 'Women', '[\"women\"]', '2019-11-18 21:08:37', '2019-11-18 21:08:37'),
-(3, 0, 0, 'Children', '[\"children\"]', '2019-11-18 21:08:54', '2019-11-18 21:08:54'),
-(4, 1, 0, 'Shirts', '[\"men\",\"shirts\"]', '2019-11-18 21:09:17', '2019-11-18 21:09:17'),
-(5, 1, 4, 'Long Sleeve', '[\"shirts\",\"men\",\"long-sleeve\"]', '2019-11-18 21:09:47', '2019-11-18 21:10:26'),
-(6, 1, 4, 'Short Sleeve', '[\"shirts\",\"men\",\"short-sleeve\"]', '2019-11-18 21:10:22', '2019-11-18 21:10:22'),
-(7, 1, 0, 'T-Shirts', '[\"men\",\"t-shirts\"]', '2019-11-18 21:11:05', '2019-11-18 21:11:05'),
-(8, 1, 0, 'Pants', '[\"men\",\"pants\"]', '2019-11-18 21:11:25', '2019-11-18 21:11:25'),
-(9, 1, 0, 'Jackets', '[\"men\",\"jackets\"]', '2019-11-18 21:34:13', '2019-11-18 21:34:13');
+(1, 0, 0, 'Men', '[\"men\"]', '2019-11-26 17:57:59', '2019-11-26 17:57:59'),
+(2, 0, 0, 'Women', '[\"women\"]', '2019-11-26 17:58:11', '2019-11-26 17:58:11'),
+(3, 0, 0, 'Children', '[\"children\"]', '2019-11-26 17:58:27', '2019-11-26 17:58:27'),
+(4, 1, 0, 'Shirts', '[\"shirts\",\"men\"]', '2019-11-26 17:58:54', '2019-11-26 17:58:54'),
+(5, 1, 4, 'Long Sleeve', '[\"men\",\"shirts\",\"long-sleeve\"]', '2019-11-26 17:59:21', '2019-11-26 17:59:21'),
+(6, 2, 0, 'Shirts', '[\"women\",\"shirts\"]', '2019-11-26 17:59:43', '2019-11-26 17:59:43'),
+(7, 2, 6, 'Long Sleeves', '[\"women\",\"shirts\",\"long-sleeve\"]', '2019-11-26 18:00:12', '2019-11-26 18:00:12');
 
 -- --------------------------------------------------------
 
@@ -70,7 +93,8 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2019_11_13_212221_create_categories_table', 1);
+(1, '2019_11_13_212221_create_categories_table', 1),
+(2, '2019_11_18_223523_create_brands_table', 2);
 
 -- --------------------------------------------------------
 
@@ -116,6 +140,12 @@ INSERT INTO `users` (`id`, `name`, `username`, `role`, `email`, `email_verified_
 --
 
 --
+-- Indexes for table `brands`
+--
+ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
@@ -138,15 +168,20 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `brands`
+--
+ALTER TABLE `brands`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users`
 --

@@ -37,3 +37,6 @@ Route::get('destroyCategories', 'API\CategoryController@destroyAll');
 Route::get('destroyBrandLogo/{id}', 'API\BrandController@destroyLogo');
 Route::post('validateImage', 'API\BrandController@validateBrandLogo');
 Route::get('destroyBrands', 'API\BrandController@destroyAll');
+
+//Other product routes
+Route::post('validateCoverImage', 'API\ProductController@validateCoverImage');

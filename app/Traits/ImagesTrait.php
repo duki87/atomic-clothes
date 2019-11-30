@@ -15,6 +15,13 @@
         ]);           
     }
 
+    public function validateCoverImage(Request $request)
+    {
+        $this->validate($request, [
+            'image' => 'mimes:jpeg,jpg,png,gif|max:3000' // max 10000kb
+        ]);           
+    }
+
     public static function uploadConstraintImage($image, $ratio, $saveFormat, $folder) 
     {
         $img = Image::make($image);

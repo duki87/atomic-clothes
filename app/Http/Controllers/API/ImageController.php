@@ -14,6 +14,11 @@ class ImageController extends Controller
         //
     }
 
+    public function validateImage()
+    {
+        //
+    }
+
     public function store(Request $request)
     {
         //
