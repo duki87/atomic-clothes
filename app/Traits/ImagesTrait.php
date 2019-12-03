@@ -11,26 +11,34 @@
     public function validateBrandLogo(Request $request)
     {
         $this->validate($request, [
-            'image' => 'mimes:jpeg,jpg,png,gif|max:2000' // max 10000kb
+            'image' => 'mimes:jpeg,jpg,png,gif|max:2000' 
         ]);           
     }
 
-    public function validateCoverImage(Request $request)
+    public function validateProductImage(Request $request)
     {
         $this->validate($request, [
-            'image' => 'mimes:jpeg,jpg,png,gif|max:3000' // max 10000kb
+            'image' => 'mimes:jpeg,jpg,png,gif|max:5000' 
         ]);           
     }
 
     public static function uploadConstraintImage($image, $ratio, $saveFormat, $folder) 
     {
         $img = Image::make($image);
-        // resize the image to a width of 300 and constrain aspect ratio (auto height)
+        // resize the image to a width of $ratio and constrain aspect ratio (auto height)
         $img->resize($ratio, null, function ($constraint) {
             $constraint->aspectRatio();
         });
         $imgTitle = Str::random(32).'.'.$saveFormat;
-        if($img->save($folder.'/'.$imgTitle)) {
+/*         if($makeFolder) {
+            $directory = Str::random(32);
+            Storage::disk('images')->makeDirectory('products/'.$directory);
+            $folder .= $directory;
+        } */
+        if(!Storage::disk('images')->has($folder)) {
+            Storage::disk('images')->makeDirectory($folder);
+        }
+        if($img->save('images/'.$folder.'/'.$imgTitle)) {
             return $imgTitle;
         }     
     }

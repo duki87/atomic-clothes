@@ -104,4 +104,26 @@ class CategoryController extends Controller
             ])->get();
         return ['subCategories' => $subs];
     }
+
+    public function loadCategories($type, $id) 
+    {
+        $categories;
+        if($type == 'main') {
+            $categories = Category::where([
+                ['main', '=', 0]
+            ])->pluck('id', 'title')->all();
+        }
+        if($type == 'sub') {
+            $categories = Category::where([
+                ['main', '=', $id],
+                ['sub', '=', 0]
+            ])->pluck('id', 'title')->all();
+        }
+        if($type == 'category') {
+            $categories = Category::where([
+                ['sub', '=', $id]
+            ])->pluck('id', 'title')->all();
+        }
+        return [$type => $categories];
+    }
 }

@@ -12,18 +12,29 @@
                             <h3 class="mt-2">Enter Product Data</h3>
                             <hr>                                  
                             <div class="form-row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="title">Product Title</label>
                                     <input v-model="form.title" :class="{'is-invalid': form.errors.has('title')}" type="text" class="form-control" id="title" placeholder="Product Title">
                                     <div class="invalid-feedback">
                                         <span v-for="err in formErrors.title">{{err}}</span>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-2">
+                                    <label for="title">Product Price</label>
+                                    <input v-model="form.price" :class="{'is-invalid': form.errors.has('price')}" type="number" step="0.01" min="0" class="form-control" id="price" placeholder="Product Price">
+                                    <div class="invalid-feedback">
+                                        <span v-for="err in formErrors.price">{{err}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="title">Product Discount (%)</label>
+                                    <input v-model="form.discount" type="number" min="0" max="99" class="form-control" id="discount" placeholder="Product Discount">
+                                </div>
+                                <div class="col-md-4">
                                     <label for="title">Select Brand</label>
                                     <select v-model="form.brand_id" name="brand_id" id="brand_id" :class="{'is-invalid': form.errors.has('brand_id')}" class="custom-select browser-default">
                                         <option value="">Select Brand</option>
-                                        <option v-for="brand in brands" v-bind:value="brand.id" v-bind:selected="brand.id == form.brand_id">{{brand.title}}</option>
+                                        <option v-for="[key, value] of Object.entries(brands)" v-bind:value="value" v-bind:selected="value == form.brand_id">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <span v-for="err in formErrors.brand_id">{{err}}</span>
@@ -33,9 +44,9 @@
                             <div class="form-row">
                                 <div class="col-md-4">
                                     <label for="title">Select Main Category</label>
-                                    <select @change="loadSubCategories" v-model="form.main" name="main_category_id" id="main_category_id" :class="{'is-invalid': form.errors.has('main_category_id')}" class="custom-select browser-default">
+                                    <select @change="loadSubCategories" v-model="form.main_category_id" name="main_category_id" id="main_category_id" :class="{'is-invalid': form.errors.has('main_category_id')}" class="custom-select browser-default">
                                         <option value="" selected>Select Main Category</option>
-                                        <option v-for="mainCat in mains" v-bind:value="mainCat.id" v-bind:selected="mainCat.id == form.main_category_id">{{mainCat.title}}</option>
+                                        <option v-for="[key, value] of Object.entries(mains)" v-bind:value="value" v-bind:selected="value == form.main_category_id">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <span v-for="err in formErrors.main_category_id">{{err}}</span>
@@ -43,9 +54,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="title">Select Sub Category</label>
-                                    <select @change="loadCategories" vv-model="form.sub" name="sub_category_id" id="sub_category_id" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('sub_category_id')}">
+                                    <select @change="loadCategories" v-model="form.sub_category_id" name="sub_category_id" id="sub_category_id" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('sub_category_id')}">
                                         <option value="">Select Sub Category</option>
-                                        <option v-for="subCat in subs" v-bind:value="subCat.id" v-bind:selected="subCat.id == form.sub_category_id">{{subCat.title}}</option>
+                                        <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" v-bind:selected="value == form.sub_category_id">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <span v-for="err in formErrors.sub_category_id">{{err}}</span>
@@ -53,10 +64,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="title">Select Category</label>
-                                    <select v-model="form.sub" name="category_id" id="category_id" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('category_id')}">
+                                    <select v-model="form.category_id" name="category_id" id="category_id" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('category_id')}">
                                         <option value="">Select Sub Category</option>
-                                        <option value="0">None</option>
-                                        <option v-for="subCat in subs" v-bind:value="subCat.id" v-bind:selected="subCat.id == form.category_id">{{subCat.title}}</option>
+                                        <option v-for="[key, value] of Object.entries(categories)" v-bind:value="value" v-bind:selected="value == form.category_id">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <span v-for="err in formErrors.category_id">{{err}}</span>
@@ -65,7 +75,7 @@
                             </div>     
                             <div class="md-form mb-4 pink-textarea active-pink-textarea-2">
                                 <i class="fas fa-pencil-alt prefix"></i>
-                                <textarea id="form23" class="md-textarea form-control" rows="3"></textarea>
+                                <textarea id="description" v-model="form.description" class="md-textarea form-control" rows="3"></textarea>
                                 <label for="form23">Enter Product Description</label>
                             </div>   
                             <div class="md-form input-group mb-3">
@@ -128,28 +138,41 @@
                     brand_id: '',
                     title: '',
                     description: '',
+                    price: '',
+                    discount: '',
                     image_folder: '',
                     cover_image: '',
                     tags: []
                 }),
                 product_tag: '',
                 borderClass: 'border border-secondary',
-                hoverBtn: undefined,
-                categories: {},
+                hoverBtn: undefined,        
                 mains: {},
                 subs: {},
+                categories: {},
                 brands: {},
                 formErrors: {},
                 editMode: false,
                 image: '',
                 coverErrors: [],
-                currentPage: 1,
                 product_tag: ''
             }          
         },
         methods: {
             createProduct() {
-
+                this.$Progress.start();
+                this.form.post('/api/product')
+                .then((res) => {
+                    this.$Progress.finish();
+                    this.form.reset();
+                    this.$router.push({ name: 'product-variants', params: { url: res.data.product_id }});
+                })
+                .catch(
+                    (err) => {
+                        this.formErrors = err.response.data.errors;
+                        this.$Progress.fail();
+                    }
+                )
             },
             addTag() {
                 if(this.product_tag !== '') {
@@ -163,28 +186,43 @@
             isHovering(index) {
                 return this.hoverBtn == index;
             },
-            getCategories() {
-                axios.get('/api/category').then(
-                    ({data}) => {
-                        this.categories = data.categories;
-                        this.mains = data.mains;
+            loadMainCategories() {
+                axios.get('/api/loadCategories/main/0').then(
+                ({ data }) => {
+                    this.mains = data.main;
                     }
-                );
+                ).catch(e => console.log(e)); 
             },
             loadSubCategories() {
-                //console.log(this.form.main)
-                if(this.form.main_category_id == 0) {
+                if(this.form.main_category_id == '') {
                     this.subs = {};
+                    this.categories = {};
+                    this.form.category_id = '';
+                    this.form.sub_category_id = '';                    
                 } else {
-                    axios.get('/api/loadSubCategories/'+this.form.main_category_id).then(
+                    axios.get('/api/loadCategories/sub/'+this.form.main_category_id).then(
                     ({ data }) => {
-                        this.subs = data.subCategories;
+                        this.subs = data.sub;
                         }
                     ).catch(e => console.log(e)); 
                 }
             },
             loadCategories() {
-
+                if(this.form.sub_category_id == '') {
+                    this.form.category_id = '';
+                    this.categories = {};
+                } else {
+                    axios.get('/api/loadCategories/category/'+this.form.sub_category_id).then(
+                    ({ data }) => {
+                        this.categories = data.category;
+                    }).catch(e => console.log(e)); 
+                }
+            },
+            loadBrands() {
+                axios.get('/api/loadBrands').then(
+                ({ data }) => {
+                    this.brands = data.brands;        
+                }).catch(e => console.log(e)); 
             },
             uploadCover(event) {
                 this.form.cover_image = '';
@@ -201,7 +239,7 @@
                 }
                 let formData = new FormData();
                 formData.append('image', file);                 
-                axios.post('/api/validateCoverImage', formData, config)
+                axios.post('/api/validateProductImage', formData, config)
                 .then((response) => {                                     
                     console.log(response.data);
                 })
@@ -225,7 +263,8 @@
             },
         },
         created() {
-            this.getCategories();
+            this.loadMainCategories();
+            this.loadBrands();
         },
         mounted() {
             console.log('Component mounted.')

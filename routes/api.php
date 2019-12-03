@@ -30,13 +30,15 @@ Route::apiResources([
 ]);
 
 //Other category routes
-Route::get('loadSubCategories/{mainId}', 'API\CategoryController@load_subs');
+Route::get('loadSubCategories/{mainId}', 'API\CategoryController@load_subs'); //after applying loadCategories route for categories component, delete this
+Route::get('loadCategories/{type}/{id}', 'API\CategoryController@loadCategories');
 Route::get('destroyCategories', 'API\CategoryController@destroyAll');
 
 //Other brand routes
 Route::get('destroyBrandLogo/{id}', 'API\BrandController@destroyLogo');
-Route::post('validateImage', 'API\BrandController@validateBrandLogo');
+Route::post('validateLogoImage', 'API\BrandController@validateBrandLogo');
 Route::get('destroyBrands', 'API\BrandController@destroyAll');
+Route::get('loadBrands', 'API\BrandController@loadBrands');
 
 //Other product routes
-Route::post('validateCoverImage', 'API\ProductController@validateCoverImage');
+Route::post('validateProductImage', 'API\BrandController@validateProductImage');

@@ -38,7 +38,7 @@ class BrandController extends Controller
             'website' => 'url',
         ]); 
         if($request->has('logo') && !empty($request->logo)) {
-            $logo = self::uploadConstraintImage($request->logo, 300, 'png', 'images/brandLogos');
+            $logo = self::uploadConstraintImage($request->logo, 300, 'png', 'brandLogos');
         }
         $brand = new Brand([
             'title' => $request->title,
@@ -122,5 +122,11 @@ class BrandController extends Controller
             } 
         }
         return ['message' => 'failed'];
+    }
+
+    public function loadBrands()
+    {
+        $brands = Brand::orderBy('created_at', 'desc')->pluck('id', 'title')->all();                 
+        return ['brands' => $brands];
     }
 }

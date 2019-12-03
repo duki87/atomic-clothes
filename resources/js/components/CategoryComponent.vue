@@ -86,7 +86,7 @@
                         <select v-model="form.sub" name="sub" id="sub" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('sub')}">
                             <option value="">Select Sub Category</option>
                             <option value="0">None</option>
-                            <option v-for="subCat in subs" v-bind:value="subCat.id" v-bind:selected="subCat.id == form.sub.id">{{subCat.title}}</option>
+                            <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" v-bind:selected="value == form.sub.id">{{key}}</option>
                         </select>
                         <div class="invalid-feedback">
                             <span v-for="err in formErrors.sub">{{err}}</span>
@@ -218,13 +218,13 @@
                 );
             },
             loadSubCategories() {
-                //console.log(this.form.main)
-                if(this.form.main == 0) {
+                if(this.form.main == '' || this.form.main == 0) {
                     this.subs = {};
+                    this.form.sub = '';
                 } else {
-                    axios.get('/api/loadSubCategories/'+this.form.main).then(
+                    axios.get('/api/loadCategories/sub/'+this.form.main).then(
                     ({ data }) => {
-                        this.subs = data.subCategories;
+                        this.subs = data.sub;
                         }
                     ).catch(e => console.log(e)); 
                 }

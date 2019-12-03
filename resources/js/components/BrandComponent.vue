@@ -344,7 +344,7 @@
                     }
                     let formData = new FormData();
                     formData.append('image', file);                 
-                    axios.post('/api/validateImage', formData, config)
+                    axios.post('/api/validateLogoImage', formData, config)
                     .then((response) => {                                     
                         console.log(response.data);
                     })
