@@ -41,4 +41,4 @@ Route::get('destroyBrands', 'API\BrandController@destroyAll');
 Route::get('loadBrands', 'API\BrandController@loadBrands');
 
 //Other product routes
-Route::post('validateProductImage', 'API\BrandController@validateProductImage');
+Route::post('validateProductImage', 'API\ProductController@validateProductImage');

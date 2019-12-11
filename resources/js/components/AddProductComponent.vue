@@ -21,14 +21,14 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label for="title">Product Price</label>
-                                    <input v-model="form.price" :class="{'is-invalid': form.errors.has('price')}" type="number" step="0.01" min="0" class="form-control" id="price" placeholder="Product Price">
+                                    <input type="text" v-model="form.price" :class="{'is-invalid': form.errors.has('price')}" @keypress="validateNumbers" class="form-control" id="price" placeholder="Product Price">
                                     <div class="invalid-feedback">
                                         <span v-for="err in formErrors.price">{{err}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="title">Product Discount (%)</label>
-                                    <input v-model="form.discount" type="number" min="0" max="99" class="form-control" id="discount" placeholder="Product Discount">
+                                    <input v-model="form.discount" type="text" @keypress="validateNumbers"  class="form-control" id="discount" placeholder="Product Discount">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="title">Select Brand</label>
@@ -117,8 +117,8 @@
                             </div> 
                         </div>   
                         <div class="card-footer">
-                            <button type="button" class="btn btn-outline-default">Reset</button>
-                            <button type="submit" class="btn btn-default">Create</button>                                 
+                            <button type="submit" class="btn btn-default">Create</button>
+                            <button type="button" class="btn btn-outline-default" @click="resetForm">Reset</button>                             
                         </div>
                     </form>               
                 </div>
@@ -161,11 +161,15 @@
         methods: {
             createProduct() {
                 this.$Progress.start();
+                if(this.formErrors) {
+                    this.$Progress.fail();
+                }
+                this.$Progress.start();
                 this.form.post('/api/product')
                 .then((res) => {
                     this.$Progress.finish();
                     this.form.reset();
-                    this.$router.push({ name: 'product-variants', params: { url: res.data.product_id }});
+                    this.$router.push({ name: 'product-variants', params: { id: res.data.product_id }});
                 })
                 .catch(
                     (err) => {
@@ -261,6 +265,15 @@
                 this.form.cover_image = '';
                 this.coverErrors = '';
             },
+            validateNumbers(event) {
+                let allowed = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Backspace', '.'];
+                if(allowed.indexOf(event.key) == -1) {
+                    event.preventDefault();
+                }
+            },
+            resetForm() {
+                this.form.reset();
+            }
         },
         created() {
             this.loadMainCategories();

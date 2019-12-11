@@ -5,9 +5,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\Category;
+use App\Brand;
 use App\Traits\ImagesTrait;
 use App\Traits\ManualPaginationTrait;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -15,7 +18,17 @@ class ProductController extends Controller
 
     public function index()
     {
-        //
+        $products = Product::orderBy('created_at', 'desc')->with('variants')->get();
+        $products->transform(function($product) {
+            $product->mainCatTitle = Category::where(['id' => $product->main_category_id])->first()['title'];
+            $product->subCatTitle = Category::where(['id' => $product->sub_category_id])->first()['title'];
+            $product->catTitle = Category::where(['id' => $product->category_id])->first()['title'];
+            $product->brandTitle = Brand::where(['id' => $product->brand_id])->first()['title'];
+            $product->tags = $product->tags ? json_decode($product->tags) : [];
+            return $product;
+        });
+        $products = self::paginate($products, $products->count(), 5);
+        return ['products' => $products];
     }
 
     public function store(Request $request)
@@ -64,6 +77,9 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        //
+        $product = Product::where(['id' => $id])->with('variants')->first();
+        self::deleteImage('products/'.$product->image_folder, $product->cover_image);
+        Storage::disk('images')->deleteDirectory('products/'.$product->image_folder);
+        $product->delete();
     }
 }

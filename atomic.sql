@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2019 at 10:00 PM
+-- Generation Time: Dec 11, 2019 at 11:15 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -149,10 +149,7 @@ INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_i
 (3, 1, 8, 9, 1, 'V-Neck Men T-Shirt', 'V-Neck Men T-Shirt V-Neck Men T-Shirt V-Neck Men T-Shirt', 15.99, NULL, 'v-neck.men.t-shirt.201912032043', 'PWmjIuY9iVtNjffus2MldKD6ywftjZgP.jpg', '[\"V-Neck\",\"Men\",\"T-Shirt\"]', '2019-12-03 19:06:43', '2019-12-03 19:06:43'),
 (4, 1, 8, 9, 2, 'V-Neck Men T-Shirt Core Inspire', 'V-Neck Men T-Shirt Core Inspire V-Neck Men T-Shirt Core Inspire V-Neck Men T-Shirt Core Inspire', 16.99, NULL, 'v-neck.men.t-shirt.core.inspire.201912032059', 'qbLtM7KxpbpwfBYkusFsk6RaJ4UKHsfx.jpg', '[\"V-Neck\"]', '2019-12-03 19:07:59', '2019-12-03 19:07:59'),
 (5, 1, 4, 5, 1, 'Atomic Fantastic Shirt', 'Atomic Fantastic Shirt Atomic Fantastic Shirt Atomic Fantastic Shirt Atomic Fantastic Shirt Atomic Fantastic Shirt', 19.99, NULL, 'atomic.fantastic.shirt.201912032047', 'R28KbYCUSgW6OLnsVVpJc5DFaN3CduCW.jpg', '', '2019-12-03 19:12:48', '2019-12-03 19:12:48'),
-(6, 1, 4, 5, 2, 'product test 2445', 'product test 2445 product test 2445 product test 2445 product test 2445 product test 2445', 12.99, NULL, 'product.test.2445.201912032059', '4NYxWnwet6J7yASdivooMKRdxy2yTbT2.jpg', '[\"dfdfg\"]', '2019-12-03 19:24:00', '2019-12-03 19:24:00'),
-(7, 1, 4, 5, 2, 'dfg dghgh fghfghtrytry', 'gfh gfhgfhyrtyrty rty hghjdrgergfh fhjh', 40.99, NULL, 'dfg.dghgh.fghfghtrytry.201912032012', 'ND4icfJb11y6RtOmkLTglFSpg8QD7E9c.jpg', '[\"gfh fh\"]', '2019-12-03 19:31:13', '2019-12-03 19:31:13'),
-(8, 2, 6, 7, 2, 'gfhdfghdfg dhhfjhgj', 'jhgj ghjghj ghjsfgergt eh fgh fnvbjghjghj', 12.99, 20, 'gfhdfghdfg.dhhfjhgj.201912032013', 'AU95DWk2ZvCuID0oJPI5DW0ZCctDtXVO.jpg', '', '2019-12-03 19:32:13', '2019-12-03 19:32:13'),
-(10, 2, 6, 7, 1, 'ljkjkljk ghjrtyrty  qwewqe', 'ljkjkljk ghjrtyrty  qwewqe ljkjkljk ghjrtyrty  qwewqe ljkjkljk ghjrtyrty  qwewqe', 11.99, 30, 'ljkjkljk.ghjrtyrty..qwewqe.201912032026', 'Z9PNcmcP4nO4z463tNm1wEVfkwWGgYP9.jpg', '', '2019-12-03 19:33:26', '2019-12-03 19:33:26');
+(6, 1, 4, 5, 2, 'product test 2445', 'product test 2445 product test 2445 product test 2445 product test 2445 product test 2445', 12.99, NULL, 'product.test.2445.201912032059', '4NYxWnwet6J7yASdivooMKRdxy2yTbT2.jpg', '[\"dfdfg\"]', '2019-12-03 19:24:00', '2019-12-03 19:24:00');
 
 -- --------------------------------------------------------
 

@@ -25,7 +25,8 @@ let routes = [
     { path: '/admin/products', component: require('./components/ProductsComponent.vue').default, 
       //children: [{path: ':url', component: require('./components/ProductComponent.vue').default}]  
     },
-    { path: '/admin/products/:url/variants', name: 'product-variants', component: require('./components/VariantComponent.vue').default },
+    { path: '/admin/products/:id', name: 'product', component: require('./components/ProductComponent.vue').default },
+    { path: '/admin/products/:id/variants', name: 'product-variants', component: require('./components/VariantComponent.vue').default },
     { path: '/admin/add-product', component: require('./components/AddProductComponent.vue').default  },
     { path: '/admin/users', component: require('./components/UsersComponent.vue')  },
     { path: '*', component: require('./components/404.vue').default }

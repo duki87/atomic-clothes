@@ -115,7 +115,7 @@ return [
     'unique' => 'The :attribute has already been taken.',
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
-    'uuid' => 'The :attribute must be a valid UUID.',
+    'uuid' => 'The :attribute must be a valid UUID.',  
 
     /*
     |--------------------------------------------------------------------------
@@ -145,6 +145,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'brand_id'  =>  'brand',
+        'category_id'  =>  'category',
+        'main_category_id'  =>  'main category',
+        'sub_category_id'  =>  'sub category'
+    ],
 
 ];
