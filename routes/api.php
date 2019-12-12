@@ -42,3 +42,4 @@ Route::get('loadBrands', 'API\BrandController@loadBrands');
 
 //Other product routes
 Route::post('validateProductImage', 'API\ProductController@validateProductImage');
+Route::get('loadProduct/{id}', 'API\ProductController@loadProduct');

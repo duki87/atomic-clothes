@@ -31,7 +31,7 @@
                                         <td class="text-center">{{product.subCatTitle}}</td>
                                         <td class="text-center">{{product.catTitle}}</td>
                                         <td class="text-center">
-                                            <img src="" alt="">
+                                            <img :src="'/images/products/' + product.image_folder + '/' + product.cover_image" style="width:50px" alt="">
                                         </td>
                                         <td class="text-center align-middle">
                                             <a v-for="(tag, index) in product.tags" class="badge badge-default d-inline p-2 ml-2">

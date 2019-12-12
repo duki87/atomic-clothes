@@ -33,6 +33,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        //dd($this->generateCode());
         $this->validate($request, [
             'title' => 'required|string|min:2',
             'description' => 'string|min:20',
@@ -57,6 +58,7 @@ class ProductController extends Controller
             'sub_category_id'  =>  $request->sub_category_id,
             'category_id'  =>  $request->category_id,
             'brand_id'  =>  $request->brand_id,
+            'code'  =>  $this->generateCode(),
             'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : ''
         ]);
         if($product->save()) {
@@ -67,7 +69,8 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        //
+        $product = Product::where(['id' => $id])->with('product_images')->first();
+        return ['product' => $product];
     }
 
     public function update(Request $request, $id)
@@ -81,5 +84,13 @@ class ProductController extends Controller
         self::deleteImage('products/'.$product->image_folder, $product->cover_image);
         Storage::disk('images')->deleteDirectory('products/'.$product->image_folder);
         $product->delete();
+    }
+
+    private function generateCode() 
+    {
+        $lastCode = Product::orderBy('created_at', 'desc')->first()['code'];
+        (int)$lastCode++;
+        $lastCode = sprintf("%06s", $lastCode);
+        return (string)$lastCode;
     }
 }
