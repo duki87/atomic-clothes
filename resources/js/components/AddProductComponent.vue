@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-secondary text-white">Add Product</div> 
-                    <form @submit.prevent="createProduct">                          
+                    <form @submit.prevent="updateProduct">                          
                         <div class="card-body">
                             <button type="button" class="btn btn-secondary">Add Variant</button>
                             <button type="button" class="btn btn-danger">Delete Product</button>
@@ -93,9 +93,9 @@
                                 </a>                       
                             </div> 
                             <div class="md-form input-group mb-3">
-                                <input :class="{'is-invalid': coverErrors.length > 0}" type="text" class="form-control" readonly id="" placeholder="Add Cover Image">
+                                <input :class="{'is-invalid': coverErrors.length > 0}" type="text" class="form-control" readonly id="" placeholder="Add Images">
                                 <div class="input-group-append">
-                                    <button v-if="form.cover_image" @click="deleteCover" class="btn btn-md btn-danger m-0 px-3" type="button" title="Delete Image"><i class="fas fa-trash"></i></button>
+                                    <button v-if="images.length > 0" @click="deleteImages" class="btn btn-md btn-danger m-0 px-3" type="button" title="Delete Images">Delete All Images <i class="fas fa-trash"></i></button>
                                     <button @click="$refs.fileInput.click()" class="btn btn-md btn-secondary m-0 px-3" type="button" title="Upload Image"><i class="fas fa-upload"></i></button>
                                 </div>
                                 <div class="invalid-feedback">
@@ -104,16 +104,19 @@
                             </div>
                             <div class="input-group d-none">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroupFileAddon01">Brand Logo</span>
+                                    <span class="input-group-text" id="inputGroupFileAddon01">Images</span>
                                 </div>
                                 <div class="custom-file">
-                                    <input ref="fileInput" type="file" @change="uploadCover" class="custom-file-input" id="image"
+                                    <input ref="fileInput" type="file" multiple @change="uploadImages" class="custom-file-input" name="image[]" id="image"
                                     aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="image">Choose file</label>
+                                    <label class="custom-file-label" for="image">Choose Files</label>
                                 </div>
                             </div> 
-                            <div v-if="form.cover_image" class="p-2 d-flex justify-content-center" :class="[form.cover_image ? borderClass : '']">
-                                <img class="" :src="image" alt="" style="width:200px">
+                            <div v-if="images.length > 0" class="p-2 d-flex justify-content-center" :class="[images.length > 0 ? borderClass : '']">
+                                <div style="position:relative; width:33%; height:200px" class="ml-2" v-for="(imgObj, index) in images" :class="{'cover-image': form.cover_image == imgObj.name}">
+                                    <img @click="selectCover" alt="thumbnail" class="img-thumbnail" :src="'/images/products/' + form.image_folder + '/' + imgObj.name" :data-imgname="imgObj.name" style="object-fit:cover;width:100%;height:100%">
+                                    <button type="button" @click.prevent="deleteImage(imgObj)" :data-imgId="imgObj.id" class="btn btn-danger px-3" style="position:absolute;right:5px;top:5px;"><i class="fas fa-times"></i></button>
+                                </div>                               
                             </div> 
                         </div>   
                         <div class="card-footer">
@@ -155,21 +158,37 @@
                 editMode: false,
                 image: '',
                 coverErrors: [],
-                product_tag: ''
+                product_tag: '',
+                images: [],
+                imageData: undefined
             }          
         },
         methods: {
             createProduct() {
+                this.form.post('/api/product')
+                .then((res) => {
+                    this.form.id = res.data.product_id;
+                    this.form.image_folder = res.data.image_folder;
+                })
+                .catch(
+                    (err) => {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Something went wrong!'
+                        });  
+                    }
+                )
+            },
+            updateProduct() {
                 this.$Progress.start();
                 if(this.formErrors) {
                     this.$Progress.fail();
                 }
                 this.$Progress.start();
-                this.form.post('/api/product')
+                this.form.put('/api/product/'+this.form.id)
                 .then((res) => {
-                    this.$Progress.finish();
-                    this.form.reset();
-                    this.$router.push({ name: 'product-variants', params: { id: res.data.product_id }});
+                    this.$Progress.finish(); 
+                    this.$router.push({ name: 'product-variants', params: { id: this.form.id }});
                 })
                 .catch(
                     (err) => {
@@ -177,6 +196,50 @@
                         this.$Progress.fail();
                     }
                 )
+            },
+            selectCover(event) {
+                this.form.cover_image = event.target.dataset.imgname;
+            },
+            deleteImage(imgObj) {
+                if(imgObj.name == this.form.cover_image) {
+                    this.form.cover_image = '';
+                }  
+                this.images.splice(this.images.indexOf(imgObj), 1);   
+                axios.get('/api/destroyProductImage/'+imgObj.id)
+                .then((response) => {       
+                    this.$Progress.finish();                                    
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Image Deleted!'
+                    });                       
+                })
+                .catch((error) => {
+                   Toast.fire({
+                        icon: 'danger',
+                        title: 'Something went wrong!'
+                    });  
+                    this.$Progress.fail();                
+                })
+            },
+            deleteImages() {
+                this.form.cover_image = '';
+                this.images = [];
+                this.imageData = undefined;
+                axios.get('/api/destroyProductImages/'+this.form.id)
+                .then((response) => {       
+                    this.$Progress.finish();                                    
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'All Images Deleted!'
+                    });                       
+                })
+                .catch((error) => {
+                   Toast.fire({
+                        icon: 'error',
+                        title: 'Something went wrong!'
+                    });  
+                    this.$Progress.fail();                
+                })
             },
             addTag() {
                 if(this.product_tag !== '') {
@@ -228,42 +291,42 @@
                     this.brands = data.brands;        
                 }).catch(e => console.log(e)); 
             },
-            uploadCover(event) {
-                this.form.cover_image = '';
-                this.coverErrors = '';
-                var file = event.target.files[0];
-                let reader = new FileReader();
-                reader.onloadend = (event) => {
-                    this.form.cover_image = reader.result;
-                    this.image = reader.result;
+            uploadImages(event) {                
+                this.imageData = new FormData();
+                Array.from(event.target.files).forEach(
+                    file => {
+                        this.imageData.append('images[]', file);  
+                    }
+                ); 
+                if(this.form.image_folder !== '') {
+                    this.imageData.append('directory', this.form.image_folder);  
                 }
-                reader.readAsDataURL(file);
+                this.imageData.append('product_id', this.form.id);
+                this.$Progress.start();
                 const config = {
                     headers: { 'content-type': 'multipart/form-data' }
-                }
-                let formData = new FormData();
-                formData.append('image', file);                 
-                axios.post('/api/validateProductImage', formData, config)
-                .then((response) => {                                     
-                    console.log(response.data);
+                }                                                                
+                axios.post('/api/uploadProductImages', this.imageData, config)
+                .then((response) => {       
+                    this.$Progress.finish(); 
+                    Object.keys(response.data.images).forEach(key => {
+                        this.images.push(response.data.images[key]);
+                    });             
+                    this.form.cover_image = response.data.images[0].name;                       
+                    this.imageData = undefined;
+                    this.form.image_folder = response.data.directory;
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Images Uploaded!'
+                    });                       
                 })
                 .catch((error) => {
-                    this.form.cover_image = '';
-                    this.image = '';
-                    this.coverErrors = error.response.data.errors.image;                   
+                   Toast.fire({
+                        icon: 'error',
+                        title: 'Allowed file types are .jpg, .png, .jpeg.'
+                    });  
+                    this.$Progress.fail();                
                 })
-            },
-            deleteCover() {
-                if(this.editMode) {
-                    axios.get('/api/destroyCover/'+this.form.id).then(
-                        ({result}) => {
-                            console.log(result.message);
-                        }
-                    );
-                }
-                this.image = '';
-                this.form.cover_image = '';
-                this.coverErrors = '';
             },
             validateNumbers(event) {
                 let allowed = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Backspace', '.'];
@@ -272,11 +335,43 @@
                 }
             },
             resetForm() {
-                this.form.reset();
-            }
+                Swal.fire({
+                    title: 'Are you sure to reset all product data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Delete',
+                    onClose: this.cancelProgress 
+                }).then((result) => {
+                    this.$Progress.start();
+                        if(result.value) {
+                            this.form.delete('/api/product/'+this.form.id)
+                            .then(() => {
+                                this.$Progress.finish();
+                                this.$router.go();
+                            }).catch(
+                                () => {
+                                    this.$Progress.fail();
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'There was an error!'
+                                    })
+                                }
+                            );
+                        }
+                }).catch(
+                    console.log('error')
+                )
+            },
+            cancelProgress() {
+                this.$Progress.finish();
+            },
         },
         created() {
-            this.loadMainCategories();
+            this.createProduct();
+            this.loadMainCategories();            
             this.loadBrands();
         },
         mounted() {

@@ -11,6 +11,7 @@ use App\Traits\ImagesTrait;
 use App\Traits\ManualPaginationTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -33,38 +34,25 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        //dd($this->generateCode());
-        $this->validate($request, [
-            'title' => 'required|string|min:2',
-            'description' => 'string|min:20',
-            'main_category_id' => 'required|integer',
-            'sub_category_id' => 'required|integer',
-            'category_id' => 'required|integer',
-            'brand_id' => 'required|integer',
-            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-        ]); 
-        if($request->has('cover_image') && !empty($request->cover_image)) {
-            $directory = strtolower(str_replace(' ', '.', $request->title).'.'.Carbon::now()->format('YmdHs'));
-            $cover_image = self::uploadConstraintImage($request->cover_image, 1024, 'jpg', 'products/'.$directory);
-        }
+        $directory = strtolower(Carbon::now()->format('dmYHis').'-'.Str::random(16));
+        Storage::disk('images')->makeDirectory('products/'.$directory);
         $product = new Product([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'discount' => $request->discount,
+            'title' => 'Product title',
+            'description' => 'Product description must have at least 20 characters',
+            'price' => 0.00,
+            'discount' => 0,
             'image_folder'  => $directory,
-            'cover_image' => isset($cover_image) ? $cover_image : '',
-            'main_category_id'  =>  $request->main_category_id,
-            'sub_category_id'  =>  $request->sub_category_id,
-            'category_id'  =>  $request->category_id,
-            'brand_id'  =>  $request->brand_id,
+            'cover_image' => 'Product cover image',
+            'main_category_id'  =>  0,
+            'sub_category_id'  =>  0,
+            'category_id'  =>  0,
+            'brand_id'  =>  0,
             'code'  =>  $this->generateCode(),
-            'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : ''
+            'tags'  =>  json_encode(['product', 'tags']),
         ]);
         if($product->save()) {
-            return ['message' => 'success', 'product_id' => $product->id];
+            return ['product_id' => $product->id, 'image_folder' => $directory];
         }
-        return ['message' => 'failed']; 
     }
 
     public function show($id)
@@ -75,13 +63,40 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string|min:2',
+            'description' => 'string|min:20',
+            'main_category_id' => 'required|integer',
+            'sub_category_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'brand_id' => 'required|integer',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/'
+        ]); 
+        $update = Product::where(['id' => $id])->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'discount' => $request->discount,
+            'image_folder'  => $request->image_folder,
+            'cover_image' => $request->cover_image,
+            'main_category_id'  =>  $request->main_category_id,
+            'sub_category_id'  =>  $request->sub_category_id,
+            'category_id'  =>  $request->category_id,
+            'brand_id'  =>  $request->brand_id,
+            'code'  =>  $this->generateCode(),
+            'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : '',
+            'status' => 1
+        ]);
+        if($update) {
+            return ['message' => 'success'];
+        }
+        return ['message' => 'failed']; 
     }
 
     public function destroy($id)
     {
         $product = Product::where(['id' => $id])->with('variants')->first();
-        self::deleteImage('products/'.$product->image_folder, $product->cover_image);
+        $this->destroyProductImages($id);  
         Storage::disk('images')->deleteDirectory('products/'.$product->image_folder);
         $product->delete();
     }
@@ -89,6 +104,9 @@ class ProductController extends Controller
     private function generateCode() 
     {
         $lastCode = Product::orderBy('created_at', 'desc')->first()['code'];
+        if($lastCode == null) {
+            $lastCode = 0;
+        }
         (int)$lastCode++;
         $lastCode = sprintf("%06s", $lastCode);
         return (string)$lastCode;

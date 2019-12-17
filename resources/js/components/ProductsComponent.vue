@@ -145,7 +145,7 @@
         created() {        
             this.loadProducts();
             Fire.$on('AfterCreate', () => {
-                this.getProducts();
+                this.loadProducts();
             });
         },
         mounted() {

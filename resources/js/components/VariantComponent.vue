@@ -7,7 +7,7 @@
                     <div class="card-header bg-secondary text-white">Add Product Variant</div> 
                     <form @submit.prevent="createVariant">                          
                         <div class="card-body">
-                            <button type="button" class="btn btn-secondary">All Variant</button>
+                            <button type="button" class="btn btn-secondary">All Variants</button>
                             <button type="button" class="btn btn-danger">Delete Variant</button>
                             <h3 class="mt-2">Enter Product Variant Data</h3>
                             <hr>                                  

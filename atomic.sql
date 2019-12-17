@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2019 at 11:15 PM
+-- Generation Time: Dec 17, 2019 at 11:28 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -102,7 +102,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_11_26_195106_create_product_variants_table', 3),
 (5, '2019_12_03_154652_create_product_images_table', 3),
 (6, '2019_12_03_173502_add_price_to_products', 4),
-(7, '2019_12_03_201632_add_discount_to_products', 5);
+(7, '2019_12_03_201632_add_discount_to_products', 5),
+(8, '2019_12_12_125412_add_code_to_products_table', 6),
+(9, '2019_12_12_142549_add_product_id_to_images_table', 7),
+(10, '2019_12_17_133051_add_status_to_products_table', 8);
 
 -- --------------------------------------------------------
 
@@ -128,6 +131,7 @@ CREATE TABLE `products` (
   `sub_category_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double(8,2) NOT NULL,
@@ -135,6 +139,7 @@ CREATE TABLE `products` (
   `image_folder` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `cover_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -143,13 +148,10 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_id`, `brand_id`, `title`, `description`, `price`, `discount`, `image_folder`, `cover_image`, `tags`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, 5, 2, 'dfgdfgdfg', 'dfg dfg dfgd hbh ey eryhgfbnh bvn', 20.11, NULL, 'dfgdfgdfg.201912031924', 'RqGVdQlpvUYwa21DLPU2uSgQHSTEQJ1u.jpg', '[\"gfhgfh\"]', '2019-12-03 18:24:24', '2019-12-03 18:24:24'),
-(2, 1, 4, 5, 1, 'shirt long sleeves', 'very nice shirt bla bla bla', 20.99, NULL, 'shirt.long.sleeves.201912031949', '8jaBNIfHDljSlB2gWRqAvsFac3JMJ1bK.jpg', '[\"shirt\"]', '2019-12-03 18:52:50', '2019-12-03 18:52:50'),
-(3, 1, 8, 9, 1, 'V-Neck Men T-Shirt', 'V-Neck Men T-Shirt V-Neck Men T-Shirt V-Neck Men T-Shirt', 15.99, NULL, 'v-neck.men.t-shirt.201912032043', 'PWmjIuY9iVtNjffus2MldKD6ywftjZgP.jpg', '[\"V-Neck\",\"Men\",\"T-Shirt\"]', '2019-12-03 19:06:43', '2019-12-03 19:06:43'),
-(4, 1, 8, 9, 2, 'V-Neck Men T-Shirt Core Inspire', 'V-Neck Men T-Shirt Core Inspire V-Neck Men T-Shirt Core Inspire V-Neck Men T-Shirt Core Inspire', 16.99, NULL, 'v-neck.men.t-shirt.core.inspire.201912032059', 'qbLtM7KxpbpwfBYkusFsk6RaJ4UKHsfx.jpg', '[\"V-Neck\"]', '2019-12-03 19:07:59', '2019-12-03 19:07:59'),
-(5, 1, 4, 5, 1, 'Atomic Fantastic Shirt', 'Atomic Fantastic Shirt Atomic Fantastic Shirt Atomic Fantastic Shirt Atomic Fantastic Shirt Atomic Fantastic Shirt', 19.99, NULL, 'atomic.fantastic.shirt.201912032047', 'R28KbYCUSgW6OLnsVVpJc5DFaN3CduCW.jpg', '', '2019-12-03 19:12:48', '2019-12-03 19:12:48'),
-(6, 1, 4, 5, 2, 'product test 2445', 'product test 2445 product test 2445 product test 2445 product test 2445 product test 2445', 12.99, NULL, 'product.test.2445.201912032059', '4NYxWnwet6J7yASdivooMKRdxy2yTbT2.jpg', '[\"dfdfg\"]', '2019-12-03 19:24:00', '2019-12-03 19:24:00');
+INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_id`, `brand_id`, `code`, `title`, `description`, `price`, `discount`, `image_folder`, `cover_image`, `tags`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 8, 9, 2, '000003', 'Product test 1', 'Test product 1 this is a nice tshirt buy this shit', 19.99, 23, '17122019215219-5yjtfzaixrhhrsdi', 'UME1xJpq1N7DRQkj3obtQMVC84blRVvx.jpg', '[\"product-1\"]', 1, '2019-12-17 20:52:19', '2019-12-17 20:53:53'),
+(6, 0, 0, 0, 0, '000004', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '17122019220958-lpydjs8j6umoujpw', 'Product cover image', '[\"product\",\"tags\"]', 0, '2019-12-17 21:09:58', '2019-12-17 21:09:58'),
+(16, 0, 0, 0, 0, '000005', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '17122019222808-r7e0psjewsnawtkv', 'Product cover image', '[\"product\",\"tags\"]', 0, '2019-12-17 21:28:09', '2019-12-17 21:28:09');
 
 -- --------------------------------------------------------
 
@@ -159,11 +161,21 @@ INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_i
 
 CREATE TABLE `product_images` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `variant_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `variant_id` int(11) DEFAULT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_images`
+--
+
+INSERT INTO `product_images` (`id`, `product_id`, `variant_id`, `image`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, 'UME1xJpq1N7DRQkj3obtQMVC84blRVvx.jpg', '2019-12-17 20:53:29', '2019-12-17 20:53:29'),
+(2, 1, NULL, 'nzFGvzcNV4u5nrj9MnEU3U9Gj8v9w2VR.jpg', '2019-12-17 20:53:29', '2019-12-17 20:53:29'),
+(3, 1, NULL, 'EO9fICuSRwZiGvfGQEGld3T9I0N1iY36.jpg', '2019-12-17 20:53:30', '2019-12-17 20:53:30');
 
 -- --------------------------------------------------------
 
@@ -274,17 +286,17 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `product_variants`
 --

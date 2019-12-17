@@ -23303,3 +23303,7 @@ ul.stepper li.completed a .label {
           transform: rotate(180deg);
 }
 
+.cover-image {
+  box-shadow: 0 0 10px 2px #2bbbad;
+}
+
