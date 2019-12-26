@@ -31,7 +31,7 @@
                                         <td class="text-center">{{product.subCatTitle}}</td>
                                         <td class="text-center">{{product.catTitle}}</td>
                                         <td class="text-center">
-                                            <img :src="'/images/products/' + product.image_folder + '/' + product.cover_image" style="width:50px" alt="">
+                                            <img v-if="product.cover_image !== 'Product cover image'" :src="'/images/products/' + product.image_folder + '/' + product.cover_image" style="width:50px" alt="">
                                         </td>
                                         <td class="text-center align-middle">
                                             <a v-for="(tag, index) in product.tags" class="badge badge-default d-inline p-2 ml-2">
@@ -39,7 +39,8 @@
                                             </a>
                                         </td>
                                         <td class="text-center">
-                                            <router-link :to="{ name: 'product-variants', params: { id: product.id }}" class="btn btn-success btn-sm" exact>Edit Variants</router-link>
+                                            <router-link :to="{ name: 'product-variants', params: { id: product.id }}" class="btn btn-secondary btn-sm" exact>Edit Variants</router-link>
+                                            <router-link :to="{ name: 'add-variant', params: { id: product.id }}" class="btn btn-default btn-sm mt-2" exact>Add Variants</router-link>
                                         </td>
                                         <td class="text-center">
                                             <router-link :to="{ name: 'product', params: { id: product.id }}" class="btn btn-primary btn-sm" exact><i class="far fa-edit"></i></router-link>

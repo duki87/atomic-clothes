@@ -9,6 +9,7 @@ import { Form, HasError, AlertError } from 'vform';
 import moment from 'moment';
 import VueProgressBar from 'vue-progressbar';
 import Swal from 'sweetalert2';
+import VueDraggable from 'vue-draggable';
 
 global.bsCustomFileInput = bsCustomFileInput;
  
@@ -26,6 +27,7 @@ let routes = [
       //children: [{path: ':url', component: require('./components/ProductComponent.vue').default}]  
     },
     { path: '/admin/products/:id', name: 'product', component: require('./components/ProductComponent.vue').default },
+    { path: '/admin/products/:id/add-variant', name: 'add-variant', component: require('./components/AddVariantComponent.vue').default },
     { path: '/admin/products/:id/variants', name: 'product-variants', component: require('./components/VariantComponent.vue').default },
     { path: '/admin/add-product', component: require('./components/AddProductComponent.vue').default  },
     { path: '/admin/users', component: require('./components/UsersComponent.vue')  },
@@ -35,6 +37,9 @@ const router = new VueRouter({
     mode: 'history',
     routes
 });
+
+//Vue Draggable Setup
+Vue.use(VueDraggable);
 
 //sweetalert setup
 window.Swal = Swal;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2019 at 11:28 PM
+-- Generation Time: Dec 26, 2019 at 04:18 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -105,7 +105,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2019_12_03_201632_add_discount_to_products', 5),
 (8, '2019_12_12_125412_add_code_to_products_table', 6),
 (9, '2019_12_12_142549_add_product_id_to_images_table', 7),
-(10, '2019_12_17_133051_add_status_to_products_table', 8);
+(10, '2019_12_17_133051_add_status_to_products_table', 8),
+(11, '2019_12_26_135218_alter_variants_table_columns', 9);
 
 -- --------------------------------------------------------
 
@@ -173,9 +174,9 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `variant_id`, `image`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 'UME1xJpq1N7DRQkj3obtQMVC84blRVvx.jpg', '2019-12-17 20:53:29', '2019-12-17 20:53:29'),
-(2, 1, NULL, 'nzFGvzcNV4u5nrj9MnEU3U9Gj8v9w2VR.jpg', '2019-12-17 20:53:29', '2019-12-17 20:53:29'),
-(3, 1, NULL, 'EO9fICuSRwZiGvfGQEGld3T9I0N1iY36.jpg', '2019-12-17 20:53:30', '2019-12-17 20:53:30');
+(1, 1, 1, 'UME1xJpq1N7DRQkj3obtQMVC84blRVvx.jpg', '2019-12-17 20:53:29', '2019-12-26 12:54:25'),
+(2, 1, 3, 'nzFGvzcNV4u5nrj9MnEU3U9Gj8v9w2VR.jpg', '2019-12-17 20:53:29', '2019-12-26 14:18:16'),
+(3, 1, 2, 'EO9fICuSRwZiGvfGQEGld3T9I0N1iY36.jpg', '2019-12-17 20:53:30', '2019-12-26 14:06:33');
 
 -- --------------------------------------------------------
 
@@ -187,13 +188,22 @@ CREATE TABLE `product_variants` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` int(11) NOT NULL,
   `sku` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `size` int(11) NOT NULL,
-  `color` int(11) NOT NULL,
+  `size` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `color` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `stock` int(11) NOT NULL,
   `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_variants`
+--
+
+INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `size`, `color`, `stock`, `tags`, `created_at`, `updated_at`) VALUES
+(1, 1, 'PV01', 'XL', 'Red', 1000, '', '2019-12-26 12:54:25', '2019-12-26 12:54:25'),
+(2, 1, 'PV02', 'XL', 'Blue', 500, '', '2019-12-26 14:06:32', '2019-12-26 14:06:32'),
+(3, 1, 'PV03', 'XS', 'Black', 200, '[\"black-xs\"]', '2019-12-26 14:18:16', '2019-12-26 14:18:16');
 
 -- --------------------------------------------------------
 
@@ -286,7 +296,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `products`
 --
@@ -296,12 +306,12 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `users`
 --

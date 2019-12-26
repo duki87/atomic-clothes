@@ -26,7 +26,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResources([   
     'category' => 'API\CategoryController',       
     'brand' => 'API\BrandController',
-    'product' => 'API\ProductController'
+    'product' => 'API\ProductController',
+    'variant' => 'API\ProductVariantController',
 ]);
 
 //Other category routes
