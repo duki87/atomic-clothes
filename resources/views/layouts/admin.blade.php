@@ -16,14 +16,12 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
 <body>
-    <div id="app">
+  <div id="app">
       @include('parts.admin.navbar')
 
         @if(Session::has('alert_message'))
@@ -38,12 +36,10 @@
         @endif
         <main class="py-4">
             <!--Main Content-->
-            <div class="container">
-                <router-view></router-view>
-                <vue-progress-bar></vue-progress-bar>
-            </div>
             @yield('content')
         </main>
     </div>
-</body>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+  </body>
 </html>

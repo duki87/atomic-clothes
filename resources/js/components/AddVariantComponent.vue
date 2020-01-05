@@ -32,14 +32,7 @@
                                     <div class="input-group">
                                         <select v-if="!describe_color" class="browser-default custom-select" v-model="form.color" name="color" id="color" :class="{'is-invalid': form.errors.has('color')}">
                                             <option value="">Select Color</option>
-                                            <option value="Red">Red</option>
-                                            <option value="Blue">Blue</option>
-                                            <option value="Green">Green</option>
-                                            <option value="Pink">Pink</option>
-                                            <option value="Purple">Purple</option>
-                                            <option value="White">White</option>
-                                            <option value="Black">Black</option>
-                                            <option value="Grey">Grey</option>
+                                            <option v-for="color in colorsList" v-bind:value="color">{{color}}</option>
                                         </select>
                                         <input v-if="describe_color" type="text" class="form-control" v-model="form.color" id="color" placeholder="Describe Colors">
                                         <div class="input-group-append">
@@ -133,6 +126,7 @@
                     variant_images: []
                 }),
                 describe_color: false,
+                colorsList: ['Red', 'Blue', 'Green', 'Pink', 'Purple', 'White', 'Black', 'Grey'],
                 formErrors: {},
                 product: {},
                 product_tag: '',

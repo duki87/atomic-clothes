@@ -7,15 +7,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{Route::currentRouteName() == 'admin.dashboard' ? 'active' : ''}}">
-              <a class="nav-link" href="{{route('admin.dashboard')}}">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
+
             @if(Auth::user()->isSuperAdmin())
-            <li class="nav-item {{Route::currentRouteName() == 'admin.users.manage' ? 'active' : ''}}">
-            <a class="nav-link" href="{{route('admin.users.manage')}}">Manage Users</a>
-            </li>
+
             @endif
             <li class="nav-item">
               <router-link to="/admin/categories" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Manage Categories</router-link>

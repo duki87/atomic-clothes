@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     use ImagesTrait, ManualPaginationTrait;
 
-    public function index()
+    public function index($status = null)
     {
         $products = Product::orderBy('created_at', 'desc')->with('variants')->get();
         $products->transform(function($product) {

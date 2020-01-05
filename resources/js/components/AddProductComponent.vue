@@ -27,7 +27,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="title">Product Discount (%)</label>
+                                    <label for="title">Product Discount</label>
                                     <input v-model="form.discount" type="text" @keypress="validateNumbers"  class="form-control" id="discount" placeholder="Product Discount">
                                 </div>
                                 <div class="col-md-4">

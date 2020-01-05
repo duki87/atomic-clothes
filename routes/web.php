@@ -31,5 +31,15 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard')->middleware('role:admin|superadmin');
         Route::get('/manage-users', 'AdminController@users')->name('admin.users.manage')->middleware('role:superadmin|');
         Route::get('{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']);
+        //Route::get('/{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']);
+/*         Route::get('/{any}', 'AdminController@index')->where('any', '.*')->middleware('role:admin|superadmin');
+        Route::get('/dashboard', 'AdminController@index')->name('admin.dashboard')->middleware('role:admin|superadmin');
+        Route::get('/manage-users', 'AdminController@users')->name('admin.users.manage')->middleware('role:superadmin|'); */
+/*         Route::get('/', function() {
+            return redirect('admin/dashboard');
+        });
+        Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard')->middleware('role:admin|superadmin');
+        Route::get('/manage-users', 'AdminController@users')->name('admin.users.manage')->middleware('role:superadmin|');
+        Route::get('/{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']); */
     });
 });

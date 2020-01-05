@@ -7,7 +7,18 @@
                     <div class="card-header bg-secondary text-white">Products List</div>                           
                     <div class="card-body">
                         <button type="button" class="btn btn-secondary">Add Product</button>
-                        <h3 class="mt-2">Manage Variants</h3>
+                        <br>
+                        <h3 class="mt-2 d-inline">Manage Products</h3>
+                        <!-- Basi   c dropdown -->
+                        <button class="btn btn-default btn-sm dropdown-toggle mr-4 d-inline float-right" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Basic dropdown</button>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item">Active products</a>
+                            <a class="dropdown-item" href="#">Inactive products</a>
+                            <a class="dropdown-item" href="#">All Products</a>
+                        </div>
+                        <!-- Basic dropdown -->
                         <hr>
                         <!-- table with brands -->
                         <div class="table-responsive">
