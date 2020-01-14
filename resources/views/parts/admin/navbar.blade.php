@@ -21,9 +21,9 @@
               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">Manage Products
               </a>
-              <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                <router-link to="/admin/products" class="dropdown-item" tag="a" class="nav-link" active-class="active" exact>All Products</router-link>
-                <router-link to="/admin/add-product" class="dropdown-item" tag="a" class="nav-link" active-class="active" exact>Add Product</router-link>
+              <div class="dropdown-menu dropdown-default custom-navbar" aria-labelledby="navbarDropdownMenuLink-333">
+                <router-link to="/admin/products" class="dropdown-item custom-dropdown-item" tag="a" active-class="custom-dropdown-item-active" exact>All Products</router-link>
+                <router-link to="/admin/add-product" class="dropdown-item custom-dropdown-item" tag="a" active-class="custom-dropdown-item-active" exact>Add Product</router-link>
               </div>
             </li>
           </ul>

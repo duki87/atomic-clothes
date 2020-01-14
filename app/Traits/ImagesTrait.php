@@ -27,7 +27,7 @@
     public function uploadProductImages(Request $request)
     {
         $this->validate($request, [
-            'images.*' => 'mimes:jpeg,png,jpg|max:5000'
+            'images.*' => 'mimes:jpeg,png,jpg|max:10240'
         ]);
         $images = [];
         if($request->has('directory')) {
@@ -39,6 +39,7 @@
             $imageName = self::uploadConstraintImage($image, 1024, 'jpg', 'products/'.$directory);           
             $productImage = new ProductImages([
                 'product_id' => $request->product_id,
+                'variant_id' => null,
                 'image'      => $imageName
             ]);
             if($productImage->save()) {

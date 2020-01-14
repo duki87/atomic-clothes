@@ -25,10 +25,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home')->middleware('role:user|');
     //Admin routes
     Route::group(['prefix' => 'admin'], function() {
-        Route::get('/', function() {
-            return redirect('admin/dashboard');
-        });
-        Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard')->middleware('role:admin|superadmin');
+        Route::get('/', 'AdminController@dashboard')->name('admin.dashboard')->middleware('role:admin|superadmin');
         Route::get('/manage-users', 'AdminController@users')->name('admin.users.manage')->middleware('role:superadmin|');
         Route::get('{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']);
         //Route::get('/{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']);

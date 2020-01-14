@@ -19,7 +19,7 @@ class ProductController extends Controller
 
     public function index($status = null)
     {
-        $products = Product::orderBy('created_at', 'desc')->with('variants')->get();
+        $products = Product::where(['status' => 1])->orderBy('created_at', 'desc')->with('variants')->get();
         $products->transform(function($product) {
             $product->mainCatTitle = Category::where(['id' => $product->main_category_id])->first()['title'];
             $product->subCatTitle = Category::where(['id' => $product->sub_category_id])->first()['title'];

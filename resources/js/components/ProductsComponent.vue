@@ -45,7 +45,7 @@
                                             <img v-if="product.cover_image !== 'Product cover image'" :src="'/images/products/' + product.image_folder + '/' + product.cover_image" style="width:50px" alt="">
                                         </td>
                                         <td class="text-center align-middle">
-                                            <a v-for="(tag, index) in product.tags" class="badge badge-default d-inline p-2 ml-2">
+                                            <a v-for="(tag, index) in product.tags"  :key="index" class="badge badge-default d-inline p-2 ml-2">
                                                 {{tag}}
                                             </a>
                                         </td>
@@ -158,7 +158,7 @@
             this.loadProducts();
             Fire.$on('AfterCreate', () => {
                 this.loadProducts();
-            });
+            });            
         },
         mounted() {
             console.log('Component mounted.')

@@ -7,8 +7,8 @@
                     <div class="card-header bg-secondary text-white">Add Product</div> 
                     <form @submit.prevent="updateProduct">                          
                         <div class="card-body">
-                            <button type="button" class="btn btn-secondary">Add Variant</button>
-                            <button type="button" class="btn btn-danger">Delete Product</button>
+<!--                             <button type="button" class="btn btn-secondary">Add Variant</button>
+                            <button type="button" class="btn btn-danger">Delete Product</button> -->
                             <h3 class="mt-2">Enter Product Data</h3>
                             <hr>                                  
                             <div class="form-row">
@@ -16,14 +16,14 @@
                                     <label for="title">Product Title</label>
                                     <input v-model="form.title" :class="{'is-invalid': form.errors.has('title')}" type="text" class="form-control" id="title" placeholder="Product Title">
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.title">{{err}}</span>
+                                        <span v-for="err in formErrors.title" :key="err">{{err}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="title">Product Price</label>
                                     <input type="text" v-model="form.price" :class="{'is-invalid': form.errors.has('price')}" @keypress="validateNumbers" class="form-control" id="price" placeholder="Product Price">
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.price">{{err}}</span>
+                                        <span v-for="err in formErrors.price" :key="err">{{err}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -34,10 +34,10 @@
                                     <label for="title">Select Brand</label>
                                     <select v-model="form.brand_id" name="brand_id" id="brand_id" :class="{'is-invalid': form.errors.has('brand_id')}" class="custom-select browser-default">
                                         <option value="">Select Brand</option>
-                                        <option v-for="[key, value] of Object.entries(brands)" v-bind:value="value" v-bind:selected="value == form.brand_id">{{key}}</option>
+                                        <option v-for="[key, value] of Object.entries(brands)" v-bind:value="value" v-bind:selected="value == form.brand_id" :key="key">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.brand_id">{{err}}</span>
+                                        <span v-for="err in formErrors.brand_id"  :key="err">{{err}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -46,30 +46,30 @@
                                     <label for="title">Select Main Category</label>
                                     <select @change="loadSubCategories" v-model="form.main_category_id" name="main_category_id" id="main_category_id" :class="{'is-invalid': form.errors.has('main_category_id')}" class="custom-select browser-default">
                                         <option value="" selected>Select Main Category</option>
-                                        <option v-for="[key, value] of Object.entries(mains)" v-bind:value="value" v-bind:selected="value == form.main_category_id">{{key}}</option>
+                                        <option v-for="[key, value] of Object.entries(mains)" v-bind:value="value" v-bind:selected="value == form.main_category_id"  :key="key">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.main_category_id">{{err}}</span>
+                                        <span v-for="err in formErrors.main_category_id"  :key="err">{{err}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="title">Select Sub Category</label>
                                     <select @change="loadCategories" v-model="form.sub_category_id" name="sub_category_id" id="sub_category_id" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('sub_category_id')}">
                                         <option value="">Select Sub Category</option>
-                                        <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" v-bind:selected="value == form.sub_category_id">{{key}}</option>
+                                        <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" v-bind:selected="value == form.sub_category_id"  :key="key">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.sub_category_id">{{err}}</span>
+                                        <span v-for="err in formErrors.sub_category_id"  :key="err">{{err}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="title">Select Category</label>
                                     <select v-model="form.category_id" name="category_id" id="category_id" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('category_id')}">
                                         <option value="">Select Sub Category</option>
-                                        <option v-for="[key, value] of Object.entries(categories)" v-bind:value="value" v-bind:selected="value == form.category_id">{{key}}</option>
+                                        <option v-for="[key, value] of Object.entries(categories)" v-bind:value="value" v-bind:selected="value == form.category_id"  :key="key">{{key}}</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.category_id">{{err}}</span>
+                                        <span v-for="err in formErrors.category_id"  :key="err">{{err}}</span>
                                     </div>
                                 </div>
                             </div>     
@@ -86,7 +86,7 @@
                                 </div>
                             </div>          
                             <div class="p-2" :class="[form.tags.length > 0 ? borderClass : '']">
-                                <a v-for="(tag, index) in form.tags" 
+                                <a v-for="(tag, index) in form.tags"  :key="index" 
                                 @click="removeTag(index)" @mouseover="hoverBtn = index" @mouseout="hoverBtn = undefined" 
                                 :class="[isHovering(index) ? 'badge badge-danger' : 'badge badge-default']" class=" d-inline p-2 ml-2">
                                     {{tag}}
@@ -99,7 +99,7 @@
                                     <button @click="$refs.fileInput.click()" class="btn btn-md btn-secondary m-0 px-3" type="button" title="Upload Image"><i class="fas fa-upload"></i></button>
                                 </div>
                                 <div class="invalid-feedback">
-                                    <span v-for="(err, index) in coverErrors">{{err}}</span>
+                                    <span v-for="(err, index) in coverErrors"  :key="index">{{err}}</span>
                                 </div>
                             </div>
                             <div class="input-group d-none">
@@ -113,7 +113,7 @@
                                 </div>
                             </div> 
                             <div v-if="images.length > 0" class="p-2 d-flex justify-content-center" :class="[images.length > 0 ? borderClass : '']">
-                                <div style="position:relative; width:33%; height:200px" class="ml-2" v-for="(imgObj, index) in images" :class="{'cover-image': form.cover_image == imgObj.name}">
+                                <div style="position:relative; width:33%; height:200px" class="ml-2" v-for="(imgObj, index) in images"  :key="index" :class="{'cover-image': form.cover_image == imgObj.name}">
                                     <img @click="selectCover" alt="thumbnail" class="img-thumbnail" :src="'/images/products/' + form.image_folder + '/' + imgObj.name" :data-imgname="imgObj.name" style="object-fit:cover;width:100%;height:100%">
                                     <button type="button" @click.prevent="deleteImage(imgObj)" :data-imgId="imgObj.id" class="btn btn-danger px-3" style="position:absolute;right:5px;top:5px;"><i class="fas fa-times"></i></button>
                                 </div>                               
@@ -145,7 +145,8 @@
                     discount: '',
                     image_folder: '',
                     cover_image: '',
-                    tags: []
+                    tags: [],
+                    status: 0
                 }),
                 product_tag: '',
                 borderClass: 'border border-secondary',
@@ -323,7 +324,7 @@
                 .catch((error) => {
                    Toast.fire({
                         icon: 'error',
-                        title: 'Allowed file types are .jpg, .png, .jpeg.'
+                        title: 'Allowed file types are .jpg, .png, .jpeg. Maximum file size is 10 Mb.'
                     });  
                     this.$Progress.fail();                
                 })
@@ -368,14 +369,32 @@
             cancelProgress() {
                 this.$Progress.finish();
             },
+            deleteProduct() {
+                this.form.delete('/api/product/'+this.form.id)
+                .then(() => {
+                    console.log('product deleted')
+                }).catch(
+                    (err) => {
+                        console.log(err)
+                    }
+                );
+            },
+            onClose() {
+                alert('closing...')
+            }
         },
         created() {
             this.createProduct();
             this.loadMainCategories();            
             this.loadBrands();
         },
-        mounted() {
-            console.log('Component mounted.')
+        beforeDestroy() {
+            if(this.form.status == 0) {
+                this.deleteProduct();
+            }    
+        },
+        mounted() { 
+            console.log('Component mounted.');
         }
     }
 </script>
