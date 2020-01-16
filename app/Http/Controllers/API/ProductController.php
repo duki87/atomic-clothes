@@ -12,6 +12,7 @@ use App\Traits\ManualPaginationTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\ProductVariant;
 
 class ProductController extends Controller
 {
@@ -42,7 +43,7 @@ class ProductController extends Controller
             'price' => 0.00,
             'discount' => 0,
             'image_folder'  => $directory,
-            'cover_image' => 'Product cover image',
+            'cover_image' => 'not_selected',
             'main_category_id'  =>  0,
             'sub_category_id'  =>  0,
             'category_id'  =>  0,
@@ -78,7 +79,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'discount' => $request->discount,
             'image_folder'  => $request->image_folder,
-            'cover_image' => $request->cover_image,
+            'cover_image' => isset($request->cover_image) ? $request->cover_image : 'not_selected',
             'main_category_id'  =>  $request->main_category_id,
             'sub_category_id'  =>  $request->sub_category_id,
             'category_id'  =>  $request->category_id,
@@ -88,7 +89,7 @@ class ProductController extends Controller
             'status' => 1
         ]);
         if($update) {
-            return ['message' => 'success'];
+            return ['message' => 'success', 'variant' => $update];
         }
         return ['message' => 'failed']; 
     }
@@ -96,6 +97,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::where(['id' => $id])->with('variants')->first();
+        foreach($product->variants as $variant) {
+            $this->destroyVariantImages($variant['id']);  
+            ProductVariant::where(['id' => $variant['id']])->delete();
+        }
         $this->destroyProductImages($id);  
         Storage::disk('images')->deleteDirectory('products/'.$product->image_folder);
         $product->delete();
@@ -103,12 +108,7 @@ class ProductController extends Controller
 
     private function generateCode() 
     {
-        $lastCode = Product::orderBy('created_at', 'desc')->first()['code'];
-        if($lastCode == null) {
-            $lastCode = 0;
-        }
-        (int)$lastCode++;
-        $lastCode = sprintf("%06s", $lastCode);
-        return (string)$lastCode;
+        $randomNumbers = strtoupper(Str::random(4)) . sprintf("%06s", mt_rand(10,100000));
+        return $randomNumbers;
     }
 }

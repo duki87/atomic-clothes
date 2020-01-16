@@ -6,19 +6,11 @@
                 <div class="card">
                     <div class="card-header bg-secondary text-white">Products List</div>                           
                     <div class="card-body">
-                        <button type="button" class="btn btn-secondary">Add Product</button>
+                        <router-link to="/admin/add-product" class="btn btn-secondary" tag="a">
+                            Add Product
+                        </router-link>
                         <br>
                         <h3 class="mt-2 d-inline">Manage Products</h3>
-                        <!-- Basi   c dropdown -->
-                        <button class="btn btn-default btn-sm dropdown-toggle mr-4 d-inline float-right" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Basic dropdown</button>
-
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item">Active products</a>
-                            <a class="dropdown-item" href="#">Inactive products</a>
-                            <a class="dropdown-item" href="#">All Products</a>
-                        </div>
-                        <!-- Basic dropdown -->
                         <hr>
                         <!-- table with brands -->
                         <div class="table-responsive">
@@ -42,7 +34,7 @@
                                         <td class="text-center">{{product.subCatTitle}}</td>
                                         <td class="text-center">{{product.catTitle}}</td>
                                         <td class="text-center">
-                                            <img v-if="product.cover_image !== 'Product cover image'" :src="'/images/products/' + product.image_folder + '/' + product.cover_image" style="width:50px" alt="">
+                                            <img v-if="product.cover_image !== 'not_selected'" :src="'/images/products/' + product.image_folder + '/' + product.cover_image" style="width:50px" alt="">
                                         </td>
                                         <td class="text-center align-middle">
                                             <a v-for="(tag, index) in product.tags"  :key="index" class="badge badge-default d-inline p-2 ml-2">

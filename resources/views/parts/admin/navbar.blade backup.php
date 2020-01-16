@@ -32,6 +32,9 @@
                 <router-link to="/admin/add-product" class="dropdown-item" tag="a" class="nav-link" active-class="active" exact>Add Product</router-link>
               </div>
             </li>
+            <li class="nav-item">
+              <router-link to="/admin/passport" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Passport</router-link>
+            </li>
           </ul>
           <ul class="navbar-nav ml-auto nav-flex-icons">
             <li class="nav-item">

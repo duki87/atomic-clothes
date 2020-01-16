@@ -16,9 +16,11 @@ class ProductVariantController extends Controller
 
     public function index()
     {
-        $variants = ProductVariant::orderBy('created_at', 'desc')->with('variant_images')->with('product')->get();
+        $variants = ProductVariant::orderBy('created_at', 'desc')
+            ->with('variant_images')
+            ->with('product')->get();
         $variants->transform(function($variant) {
-            $variant->product_name = Product::where(['id' => $variant->product_id])->first()['title'];
+            //$variant->product_name = Product::where(['id' => $variant->product_id])->first()['title'];
             $variant->tags = $variant->tags ? json_decode($variant->tags) : [];
             return $variant;
         });
@@ -112,12 +114,27 @@ class ProductVariantController extends Controller
     {
         $variant = ProductVariant::where(['id' => $id])->with('variant_images')->first();
         $variant_images = $variant->variant_images;
-        foreach($variant_images as $image) {
+        $this->destroyVariantImages($variant->id);
+/*         foreach($variant_images as $image) {
             ProductImages::where(['id' => $image->id])->delete();
-        }
+        } */
         if($variant->delete()) {
             return ['message' => 'success'];
         }
         return ['message' => 'failed'];
+    }
+
+    public function getVariantsByProductId($product_id)
+    {
+        $variants = ProductVariant::where(['product_id' => $product_id])
+            ->orderBy('created_at', 'desc')
+            ->with('variant_images')
+            ->with('product')->get();
+        $variants->transform(function($variant) {
+            $variant->tags = $variant->tags ? json_decode($variant->tags) : [];
+            return $variant;
+        });
+        $variants = self::paginate($variants, $variants->count(), 5);
+        return ['variants' => $variants];
     }
 }

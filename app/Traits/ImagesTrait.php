@@ -7,6 +7,7 @@
   use Illuminate\Support\Facades\Storage;
   use App\Product;
   use App\ProductImages;
+  use App\ProductVariant;
 
   trait ImagesTrait
   {
@@ -67,6 +68,16 @@
         if($product->product_images) {
             foreach($product->product_images as $image) {
                 self::deleteImage('products/'.$product->image_folder, $image['image']);
+                ProductImages::where(['id' => $image['id']])->delete();
+            }
+        }
+    }
+
+    public function destroyVariantImages($id)
+    {
+        $variant = ProductVariant::where(['id' => $id])->with('variant_images')->first();
+        if($variant->variant_images) {
+            foreach($variant->variant_images as $image) {
                 ProductImages::where(['id' => $image['id']])->delete();
             }
         }

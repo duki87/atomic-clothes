@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 26, 2019 at 04:18 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.8
+-- Generation Time: Jan 16, 2020 at 10:42 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `brands` (
   `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `website` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -45,7 +45,8 @@ CREATE TABLE `brands` (
 
 INSERT INTO `brands` (`id`, `title`, `description`, `logo`, `website`, `tags`, `created_at`, `updated_at`) VALUES
 (1, 'Atomic', 'Atomic is our primary brand.', 'ukaVONUHw4XWHTuvVS8Pg2bbhxXb7uq3.png', 'http://www.atomic.com', '[\"atomic\"]', '2019-11-26 18:10:08', '2019-11-26 18:10:08'),
-(2, 'Core', 'Core is a new brand which offers casual clothing.', 's2MC7Q27EWHnzi5Nvy3iiaxj3WKUmVOU.png', 'http://www.core-clothing.com', '[\"core\"]', '2019-11-26 18:35:13', '2019-11-26 18:35:13');
+(2, 'Core', 'Core is a new brand which offers casual clothing.', 's2MC7Q27EWHnzi5Nvy3iiaxj3WKUmVOU.png', 'http://www.core-clothing.com', '[\"core\"]', '2019-11-26 18:35:13', '2019-11-26 18:35:13'),
+(3, 'Proto', 'Proto is a new brand', 'yhHffY7rihunpd36BeLvTvYhEib0HTRL.png', 'http://www.proto.com', '[\"proto\"]', '2020-01-15 21:21:54', '2020-01-15 21:21:54');
 
 -- --------------------------------------------------------
 
@@ -55,8 +56,8 @@ INSERT INTO `brands` (`id`, `title`, `description`, `logo`, `website`, `tags`, `
 
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
-  `main` int(11) NOT NULL DEFAULT '0',
-  `sub` int(11) NOT NULL DEFAULT '0',
+  `main` int(11) NOT NULL DEFAULT 0,
+  `sub` int(11) NOT NULL DEFAULT 0,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -77,7 +78,11 @@ INSERT INTO `categories` (`id`, `main`, `sub`, `title`, `tags`, `created_at`, `u
 (7, 2, 6, 'Long Sleeves', '[\"women\",\"shirts\",\"long-sleeve\"]', '2019-11-26 18:00:12', '2019-11-26 18:00:12'),
 (8, 1, 0, 'T-Shirts', '[\"t-shirts\",\"men\"]', '2019-12-03 19:02:23', '2019-12-03 19:02:23'),
 (9, 1, 8, 'V-Neck', '[\"t-shirts\",\"men\",\"v-neck\"]', '2019-12-03 19:05:13', '2019-12-03 19:05:13'),
-(10, 1, 4, 'Short Sleeve', '[\"men\",\"shirts\",\"short-sleeve\"]', '2019-12-03 19:52:45', '2019-12-03 19:52:45');
+(10, 1, 4, 'Short Sleeve', '[\"men\",\"shirts\",\"short-sleeve\"]', '2019-12-03 19:52:45', '2019-12-03 19:52:45'),
+(11, 2, 0, 'Shirts', '[\"women-shirts\"]', '2020-01-06 10:08:23', '2020-01-06 10:08:23'),
+(12, 2, 11, 'Short Sleeve', '[\"women-short-sleeve-shirts\"]', '2020-01-06 10:08:49', '2020-01-06 10:08:49'),
+(13, 2, 0, 'T-Shirts', '[\"women\",\"t-shirts\"]', '2020-01-16 18:53:14', '2020-01-16 18:53:14'),
+(14, 2, 13, 'Classic', '[\"classic\"]', '2020-01-16 18:53:31', '2020-01-16 18:53:31');
 
 -- --------------------------------------------------------
 
@@ -106,7 +111,107 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2019_12_12_125412_add_code_to_products_table', 6),
 (9, '2019_12_12_142549_add_product_id_to_images_table', 7),
 (10, '2019_12_17_133051_add_status_to_products_table', 8),
-(11, '2019_12_26_135218_alter_variants_table_columns', 9);
+(11, '2019_12_26_135218_alter_variants_table_columns', 9),
+(12, '2016_06_01_000001_create_oauth_auth_codes_table', 10),
+(13, '2016_06_01_000002_create_oauth_access_tokens_table', 10),
+(14, '2016_06_01_000003_create_oauth_refresh_tokens_table', 10),
+(15, '2016_06_01_000004_create_oauth_clients_table', 10),
+(16, '2016_06_01_000005_create_oauth_personal_access_clients_table', 10),
+(17, '2019_12_31_145019_alter_product_images_table_make_product_id_nullable', 11),
+(18, '2019_12_31_154844_alter_products_table_chande_discount_type', 11);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_access_tokens`
+--
+
+CREATE TABLE `oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_auth_codes`
+--
+
+CREATE TABLE `oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_clients`
+--
+
+CREATE TABLE `oauth_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_clients`
+--
+
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Laravel Personal Access Client', 'bEMao5yHMhlfbb1JxahM2Lt1vo71Pba7GB0KS2h0', 'http://localhost', 1, 0, 0, '2020-01-15 14:32:58', '2020-01-15 14:32:58'),
+(2, NULL, 'Laravel Password Grant Client', 'RSXfutimPXLF6ZBcZ3qan5nCJmKw9UH4tP8zyo3f', 'http://localhost', 0, 1, 0, '2020-01-15 14:32:58', '2020-01-15 14:32:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_personal_access_clients`
+--
+
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_personal_access_clients`
+--
+
+INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2020-01-15 14:32:58', '2020-01-15 14:32:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -136,11 +241,11 @@ CREATE TABLE `products` (
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double(8,2) NOT NULL,
-  `discount` int(11) DEFAULT NULL,
+  `discount` double DEFAULT NULL,
   `image_folder` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `cover_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -150,9 +255,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_id`, `brand_id`, `code`, `title`, `description`, `price`, `discount`, `image_folder`, `cover_image`, `tags`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 8, 9, 2, '000003', 'Product test 1', 'Test product 1 this is a nice tshirt buy this shit', 19.99, 23, '17122019215219-5yjtfzaixrhhrsdi', 'UME1xJpq1N7DRQkj3obtQMVC84blRVvx.jpg', '[\"product-1\"]', 1, '2019-12-17 20:52:19', '2019-12-17 20:53:53'),
-(6, 0, 0, 0, 0, '000004', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '17122019220958-lpydjs8j6umoujpw', 'Product cover image', '[\"product\",\"tags\"]', 0, '2019-12-17 21:09:58', '2019-12-17 21:09:58'),
-(16, 0, 0, 0, 0, '000005', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '17122019222808-r7e0psjewsnawtkv', 'Product cover image', '[\"product\",\"tags\"]', 0, '2019-12-17 21:28:09', '2019-12-17 21:28:09');
+(39, 1, 8, 9, 2, 'YMRS094451', 'Men T-Shirt M-113', 'Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113', 20.99, NULL, '16012020190353-0raywsr8qmuh6fve', 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '[\"men-t-shirt-m-113\"]', 1, '2020-01-16 18:03:53', '2020-01-16 18:04:41'),
+(40, 1, 4, 5, 1, 'YEC2092441', 'Men Shirt Classic A-235', 'Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235', 25.99, NULL, '16012020194556-c97adnlgjozezxfz', '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '', 1, '2020-01-16 18:45:56', '2020-01-16 18:47:14'),
+(41, 2, 13, 14, 2, 'QIDK046902', 'Women T-Shirt Y-12', 'Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12', 14.99, 11.99, '16012020194959-zgiciiayj3doqxzt', 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '', 1, '2020-01-16 18:49:59', '2020-01-16 18:54:16');
 
 -- --------------------------------------------------------
 
@@ -162,7 +267,7 @@ INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_i
 
 CREATE TABLE `product_images` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
   `variant_id` int(11) DEFAULT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -174,9 +279,72 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `variant_id`, `image`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'UME1xJpq1N7DRQkj3obtQMVC84blRVvx.jpg', '2019-12-17 20:53:29', '2019-12-26 12:54:25'),
-(2, 1, 3, 'nzFGvzcNV4u5nrj9MnEU3U9Gj8v9w2VR.jpg', '2019-12-17 20:53:29', '2019-12-26 14:18:16'),
-(3, 1, 2, 'EO9fICuSRwZiGvfGQEGld3T9I0N1iY36.jpg', '2019-12-17 20:53:30', '2019-12-26 14:06:33');
+(15, 39, NULL, 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '2020-01-16 18:04:37', '2020-01-16 18:04:37'),
+(16, 39, NULL, 'aR5lcLImOdGJFTpuryzn7uH7evuzjDhG.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
+(17, 39, NULL, 'DTLeL4ltOYH1BfwOhG9se3pMjnso80pV.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
+(18, 39, NULL, 'qi1lwB5HugXxCtIDCFztX0iejHxWD5rZ.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
+(19, 39, NULL, 'pbcbE2I2I13xCuGuUbzjYzefatEU5PSp.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
+(20, 39, NULL, 'nF0F4Pq4yiOIdkaCCFpT7lolDxhLItmg.jpg', '2020-01-16 18:04:39', '2020-01-16 18:04:39'),
+(21, 39, NULL, '3TEw2zWgg9KTb4BWNwtpvDbBL39lnWnN.jpg', '2020-01-16 18:04:39', '2020-01-16 18:04:39'),
+(22, NULL, 12, 'qi1lwB5HugXxCtIDCFztX0iejHxWD5rZ.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
+(23, NULL, 12, 'pbcbE2I2I13xCuGuUbzjYzefatEU5PSp.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
+(24, NULL, 12, 'nF0F4Pq4yiOIdkaCCFpT7lolDxhLItmg.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
+(25, NULL, 12, '3TEw2zWgg9KTb4BWNwtpvDbBL39lnWnN.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
+(26, NULL, 13, 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
+(27, NULL, 13, 'aR5lcLImOdGJFTpuryzn7uH7evuzjDhG.jpg', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
+(28, NULL, 13, 'DTLeL4ltOYH1BfwOhG9se3pMjnso80pV.jpg', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
+(29, 40, NULL, '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '2020-01-16 18:46:08', '2020-01-16 18:46:08'),
+(30, 40, NULL, 'oE6T6HjLQ7rZJ205ydpQZaAApgB4CToW.jpg', '2020-01-16 18:46:08', '2020-01-16 18:46:08'),
+(31, 40, NULL, 'zUGNSf5PmveHw0RW9qblaz06YPxi2SmN.jpg', '2020-01-16 18:46:08', '2020-01-16 18:46:08'),
+(32, 40, NULL, 'yOBS5p5U6bNzajXP0NFHtHkK8gv0SIle.jpg', '2020-01-16 18:46:09', '2020-01-16 18:46:09'),
+(33, 40, NULL, 'lyBzgZQXn6i82UkfFM4Zfi7Vsutb16m6.jpg', '2020-01-16 18:46:09', '2020-01-16 18:46:09'),
+(34, 40, NULL, 'uDYXb5NoDxlHxpMfS65kjHExyugu7X2Y.jpg', '2020-01-16 18:46:09', '2020-01-16 18:46:09'),
+(35, NULL, 14, '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '2020-01-16 18:47:52', '2020-01-16 18:47:52'),
+(36, NULL, 14, 'oE6T6HjLQ7rZJ205ydpQZaAApgB4CToW.jpg', '2020-01-16 18:47:52', '2020-01-16 18:47:52'),
+(37, NULL, 15, '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '2020-01-16 18:48:21', '2020-01-16 18:48:21'),
+(38, NULL, 15, 'oE6T6HjLQ7rZJ205ydpQZaAApgB4CToW.jpg', '2020-01-16 18:48:21', '2020-01-16 18:48:21'),
+(39, NULL, 16, 'lyBzgZQXn6i82UkfFM4Zfi7Vsutb16m6.jpg', '2020-01-16 18:49:19', '2020-01-16 18:49:19'),
+(40, NULL, 16, 'uDYXb5NoDxlHxpMfS65kjHExyugu7X2Y.jpg', '2020-01-16 18:49:19', '2020-01-16 18:49:19'),
+(41, NULL, 17, 'uDYXb5NoDxlHxpMfS65kjHExyugu7X2Y.jpg', '2020-01-16 18:49:41', '2020-01-16 18:49:41'),
+(42, NULL, 17, 'lyBzgZQXn6i82UkfFM4Zfi7Vsutb16m6.jpg', '2020-01-16 18:49:41', '2020-01-16 18:49:41'),
+(52, 41, NULL, 'ZLGlXIMZFe94fwgaM6FFiPvNoEMvp1KH.jpg', '2020-01-16 18:50:43', '2020-01-16 18:50:43'),
+(53, 41, NULL, 'yRMi8uJZbFYxEoUe2UimmPT29eS7mOQX.jpg', '2020-01-16 18:50:43', '2020-01-16 18:50:43'),
+(54, 41, NULL, 'ApEIgKMDhIIHfCZmHHg4ovS4Oxbkauyo.jpg', '2020-01-16 18:50:44', '2020-01-16 18:50:44'),
+(55, 41, NULL, 'SLTYHY348oEYHkiHCtNxE0b5YNwi0kdG.jpg', '2020-01-16 18:50:44', '2020-01-16 18:50:44'),
+(56, 41, NULL, '8m24M2OR4NBmB4ECRarz3W5kAbuhqoyr.jpg', '2020-01-16 18:50:45', '2020-01-16 18:50:45'),
+(57, 41, NULL, 'jjuMnkY4VltA7fXQjgZysBCB3ssf3yUE.jpg', '2020-01-16 18:50:45', '2020-01-16 18:50:45'),
+(58, 41, NULL, '22MPdyV1jjydA7TezsYMpPGAnox0uhIJ.jpg', '2020-01-16 18:50:45', '2020-01-16 18:50:45'),
+(59, 41, NULL, 'dof7iswv3cLMWc4lKkMSSvUCP447C17k.jpg', '2020-01-16 18:50:45', '2020-01-16 18:50:45'),
+(60, 41, NULL, '47SeeKDfvoG3wkrbJd5MSH1ZahnXEdfV.jpg', '2020-01-16 18:50:46', '2020-01-16 18:50:46'),
+(61, 41, NULL, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 18:50:46', '2020-01-16 18:50:46'),
+(62, 41, NULL, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 18:50:46', '2020-01-16 18:50:46'),
+(63, 41, NULL, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 18:50:47', '2020-01-16 18:50:47'),
+(64, 41, NULL, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 18:50:47', '2020-01-16 18:50:47'),
+(65, NULL, 18, 'ZLGlXIMZFe94fwgaM6FFiPvNoEMvp1KH.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
+(66, NULL, 18, 'yRMi8uJZbFYxEoUe2UimmPT29eS7mOQX.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
+(67, NULL, 18, 'ApEIgKMDhIIHfCZmHHg4ovS4Oxbkauyo.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
+(68, NULL, 18, 'SLTYHY348oEYHkiHCtNxE0b5YNwi0kdG.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
+(69, NULL, 19, 'ZLGlXIMZFe94fwgaM6FFiPvNoEMvp1KH.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
+(70, NULL, 19, 'yRMi8uJZbFYxEoUe2UimmPT29eS7mOQX.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
+(71, NULL, 19, 'ApEIgKMDhIIHfCZmHHg4ovS4Oxbkauyo.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
+(72, NULL, 19, 'SLTYHY348oEYHkiHCtNxE0b5YNwi0kdG.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
+(73, NULL, 20, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
+(74, NULL, 20, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
+(75, NULL, 20, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
+(76, NULL, 20, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
+(77, NULL, 21, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
+(78, NULL, 21, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
+(79, NULL, 21, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
+(80, NULL, 21, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
+(81, NULL, 22, '8m24M2OR4NBmB4ECRarz3W5kAbuhqoyr.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
+(82, NULL, 22, 'jjuMnkY4VltA7fXQjgZysBCB3ssf3yUE.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
+(83, NULL, 22, '22MPdyV1jjydA7TezsYMpPGAnox0uhIJ.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
+(84, NULL, 22, 'dof7iswv3cLMWc4lKkMSSvUCP447C17k.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
+(85, NULL, 22, '47SeeKDfvoG3wkrbJd5MSH1ZahnXEdfV.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
+(86, NULL, 23, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
+(87, NULL, 23, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
+(88, NULL, 23, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
+(89, NULL, 23, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01');
 
 -- --------------------------------------------------------
 
@@ -201,9 +369,18 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `size`, `color`, `stock`, `tags`, `created_at`, `updated_at`) VALUES
-(1, 1, 'PV01', 'XL', 'Red', 1000, '', '2019-12-26 12:54:25', '2019-12-26 12:54:25'),
-(2, 1, 'PV02', 'XL', 'Blue', 500, '', '2019-12-26 14:06:32', '2019-12-26 14:06:32'),
-(3, 1, 'PV03', 'XS', 'Black', 200, '[\"black-xs\"]', '2019-12-26 14:18:16', '2019-12-26 14:18:16');
+(12, 39, 'MRD', 'M', 'Red', 100, '[\"m\",\"red\"]', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
+(13, 39, 'MBK', 'M', 'Black', 200, '[\"m\",\"black\"]', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
+(14, 40, 'LRD', 'L', 'Red', 200, '', '2020-01-16 18:47:52', '2020-01-16 18:47:52'),
+(15, 40, 'MRD', 'M', 'Red', 200, '', '2020-01-16 18:48:21', '2020-01-16 18:48:21'),
+(16, 40, 'LBK', 'L', 'Black', 200, '', '2020-01-16 18:49:19', '2020-01-16 18:49:19'),
+(17, 40, 'MBK', 'M', 'Black', 200, '', '2020-01-16 18:49:41', '2020-01-16 18:49:41'),
+(18, 41, 'SPK', 'S', 'Pink', 200, '', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
+(19, 41, 'MPK', 'M', 'Pink', 30, '', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
+(20, 41, 'LWH', 'L', 'White', 50, '', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
+(21, 41, 'XLWH', 'XL', 'White', 100, '', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
+(22, 41, 'LPR', 'L', 'Purple', 150, '', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
+(23, 41, 'XSWH', 'XS', 'White', 345, '', '2020-01-16 20:29:00', '2020-01-16 20:29:00');
 
 -- --------------------------------------------------------
 
@@ -255,6 +432,40 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_personal_access_clients_client_id_index` (`client_id`);
+
+--
+-- Indexes for table `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -286,37 +497,56 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+
 --
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;COMMIT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

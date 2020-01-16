@@ -6,7 +6,10 @@
                 <div class="card">
                     <div class="card-header bg-secondary text-white">Product Variants</div>                           
                     <div class="card-body">
-                        <button type="button" class="btn btn-secondary">Back to Products</button>
+                        <router-link :to="{ name: 'add-variant', params: { id: product_id }}" class="btn btn-secondary" tag="a">
+                            Add Another Variant
+                        </router-link>
+                        <button type="button" class="btn btn-default">Back to Products</button>
                         <h3 class="mt-2">Variant List for Products</h3>
                         <hr>
                         <!-- table with brands -->
@@ -90,12 +93,13 @@
                 }),
                 variants: {},
                 variant_images: [],
-                image_folder: ''
+                image_folder: '',
+                product_id: ''
             }
         },
         methods: {
             loadVariants() {
-                axios.get('/api/variant').then(
+                axios.get('/api/getVariantsByProductId/'+this.product_id).then(
                 ({ data }) => {
                     this.variants = data.variants;
                     }
@@ -147,7 +151,7 @@
             },
             getPage(page = 1) {
                 this.currentPage = page;
-                axios.get('/api/variant?page=' + page)
+                axios.get('/api/getVariantsByProductId/'+this.product_id+'?page=' + page)
                     .then(response => {
                         this.variants = response.data.variants;
                     }
@@ -163,6 +167,7 @@
             }
         },
         created() {        
+            this.product_id = this.$router.history.current.params.id;
             this.loadVariants();
             Fire.$on('AfterCreate', () => {
                 this.loadVariants();

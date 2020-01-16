@@ -80,7 +80,7 @@
                             </div>   
                             <div class="md-form input-group mb-3">
                                 <input type="text" v-model="product_tag" @keyup.enter="addTag" class="form-control" 
-                                id="add_tags" placeholder="Add Category Tag and Press Enter">
+                                id="add_tags" placeholder="Add Product Tag and Press Enter">
                                 <div class="input-group-append">
                                     <button @click="addTag" class="btn btn-md btn-secondary m-0 px-3" type="button" >Add</button>
                                 </div>
@@ -135,6 +135,7 @@
         data() {
             return {
                 form: new Form({
+                    id: 0,
                     main_category_id: '',
                     sub_category_id: '',
                     category_id: '',
@@ -189,6 +190,7 @@
                 this.form.put('/api/product/'+this.form.id)
                 .then((res) => {
                     this.$Progress.finish(); 
+                    this.form.status = 1;
                     this.$router.push({ name: 'product-variants', params: { id: this.form.id }});
                 })
                 .catch(
@@ -389,9 +391,9 @@
             this.loadBrands();
         },
         beforeDestroy() {
-            if(this.form.status == 0) {
+            if(this.form.status == 0) {         
                 this.deleteProduct();
-            }    
+            } 
         },
         mounted() { 
             console.log('Component mounted.');
