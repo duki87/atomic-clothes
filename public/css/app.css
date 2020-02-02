@@ -1,4 +1,4 @@
-@import url(https://use.fontawesome.com/releases/v5.8.2/css/all.css);@charset "UTF-8";
+@import url(https://use.fontawesome.com/releases/v5.8.2/css/all.css);.view,body,html{height:100%}.carousel{height:50%}.carousel .carousel-inner,.carousel .carousel-inner .active,.carousel .carousel-inner .carousel-item{height:100%}@media (max-width:776px){.carousel{height:100%}}.page-footer{background-color:#929FBA}@charset "UTF-8";
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -23322,5 +23322,14 @@ ul.stepper li.completed a .label {
 .custom-dropdown-item-active {
   background-color: white !important;
   color: #2bbbad !important;
+}
+
+.close-button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  max-width: 10px;
+  max-height: 10px;
+  color: red;
 }
 

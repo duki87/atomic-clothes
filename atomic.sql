@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2020 at 10:42 PM
+-- Generation Time: Feb 02, 2020 at 11:39 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `atomic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin',
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `name`, `username`, `role`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Dusan Marinkovic', 'duki87', 'admin', 'duki@gmail.com', NULL, '$2y$10$PRWEfGNk5yL79/HkGikVx.4hvNFUBAhDrdpa/VhKbGt23GMBY7iKC', NULL, '2020-02-02 19:13:44', '2020-02-02 19:13:44');
 
 -- --------------------------------------------------------
 
@@ -118,7 +144,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (15, '2016_06_01_000004_create_oauth_clients_table', 10),
 (16, '2016_06_01_000005_create_oauth_personal_access_clients_table', 10),
 (17, '2019_12_31_145019_alter_product_images_table_make_product_id_nullable', 11),
-(18, '2019_12_31_154844_alter_products_table_chande_discount_type', 11);
+(18, '2019_12_31_154844_alter_products_table_chande_discount_type', 11),
+(19, '2020_02_02_191145_create_admins_table', 12);
 
 -- --------------------------------------------------------
 
@@ -257,7 +284,24 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_id`, `brand_id`, `code`, `title`, `description`, `price`, `discount`, `image_folder`, `cover_image`, `tags`, `status`, `created_at`, `updated_at`) VALUES
 (39, 1, 8, 9, 2, 'YMRS094451', 'Men T-Shirt M-113', 'Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113', 20.99, NULL, '16012020190353-0raywsr8qmuh6fve', 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '[\"men-t-shirt-m-113\"]', 1, '2020-01-16 18:03:53', '2020-01-16 18:04:41'),
 (40, 1, 4, 5, 1, 'YEC2092441', 'Men Shirt Classic A-235', 'Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235', 25.99, NULL, '16012020194556-c97adnlgjozezxfz', '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '', 1, '2020-01-16 18:45:56', '2020-01-16 18:47:14'),
-(41, 2, 13, 14, 2, 'QIDK046902', 'Women T-Shirt Y-12', 'Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12', 14.99, 11.99, '16012020194959-zgiciiayj3doqxzt', 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '', 1, '2020-01-16 18:49:59', '2020-01-16 18:54:16');
+(41, 2, 13, 14, 2, 'QIDK046902', 'Women T-Shirt Y-12', 'Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12', 14.99, 11.99, '16012020194959-zgiciiayj3doqxzt', 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '', 1, '2020-01-16 18:49:59', '2020-01-16 18:54:16'),
+(44, 0, 0, 0, 0, '32GS002453', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020144939-kawtgggfpf80zr0g', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:49:39', '2020-01-23 13:49:39'),
+(45, 0, 0, 0, 0, '3EN8079769', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145823-5mgiq3iyuflwyn9v', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:58:23', '2020-01-23 13:58:23'),
+(46, 0, 0, 0, 0, 'F0SN043107', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145859-i1kfyhmrwx9ovx0b', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:58:59', '2020-01-23 13:58:59'),
+(47, 0, 0, 0, 0, 'MNWU080447', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145930-santjcrv5v7mh5r0', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:59:30', '2020-01-23 13:59:30'),
+(48, 0, 0, 0, 0, 'QVOR080029', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145954-byhaadnzuop6amsh', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:59:54', '2020-01-23 13:59:54'),
+(49, 0, 0, 0, 0, 'HAL5054490', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020151455-mc8modnmegq2gatn', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:14:55', '2020-01-23 14:14:55'),
+(50, 0, 0, 0, 0, 'HECP015223', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020151605-olc6yhwfmyzcgsk6', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:16:05', '2020-01-23 14:16:05'),
+(51, 0, 0, 0, 0, 'XOMD058602', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020151724-cpjtql4emgxvx9tx', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:17:24', '2020-01-23 14:17:24'),
+(52, 0, 0, 0, 0, '4AIW020872', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020152135-i6az03kmpwy9zxbb', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:21:35', '2020-01-23 14:21:35'),
+(53, 0, 0, 0, 0, 'XGAL037702', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020153636-8boab8cufvgukgti', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:36:36', '2020-01-23 14:36:36'),
+(54, 0, 0, 0, 0, 'YQM8047613', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020153718-cm3tehcwybp5ywob', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:37:18', '2020-01-23 14:37:18'),
+(55, 0, 0, 0, 0, 'OYWE074981', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154038-pmrqdv18wtzdu8o6', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:40:38', '2020-01-23 14:40:38'),
+(56, 0, 0, 0, 0, 'PHN5078021', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154156-e4pktqtyuytofpes', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:41:56', '2020-01-23 14:41:56'),
+(57, 0, 0, 0, 0, '4ZDE027951', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154544-vk5e4ix8odi58ilv', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:45:44', '2020-01-23 14:45:44'),
+(58, 0, 0, 0, 0, 'ORZQ066008', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154639-ahg6i19grt2m2em0', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:46:39', '2020-01-23 14:46:39'),
+(59, 0, 0, 0, 0, 'RKYX041175', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154907-mhcoigltvmzsmx61', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:49:07', '2020-01-23 14:49:07'),
+(60, 0, 0, 0, 0, 'WDVS062618', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020155022-81mo3n6lzqih9cyp', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:50:22', '2020-01-23 14:50:22');
 
 -- --------------------------------------------------------
 
@@ -344,7 +388,23 @@ INSERT INTO `product_images` (`id`, `product_id`, `variant_id`, `image`, `create
 (86, NULL, 23, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
 (87, NULL, 23, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
 (88, NULL, 23, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
-(89, NULL, 23, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01');
+(89, NULL, 23, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
+(100, 46, NULL, 'ckaeIGFbOpGpqUsiCQuCVGEhctHtLmuW.jpg', '2020-01-23 13:59:04', '2020-01-23 13:59:04'),
+(101, 46, NULL, 'FmHtUOFNA68kDAj6bd9MYN85B1OoieOm.jpg', '2020-01-23 13:59:04', '2020-01-23 13:59:04'),
+(144, 54, NULL, 'idTLx459JRTYTE15zrvphWDQxC93f90n.jpg', '2020-01-23 14:37:23', '2020-01-23 14:37:23'),
+(145, 54, NULL, 'T2C4ItadQvskjfOJ2qERoLCib1rbDoJU.jpg', '2020-01-23 14:37:23', '2020-01-23 14:37:23'),
+(146, 54, NULL, 'PNdtJhuhzAhWDtzI4ZkZ8sLIkyte1npG.jpg', '2020-01-23 14:37:23', '2020-01-23 14:37:23'),
+(147, 54, NULL, 'y0YeB0DjEnH5GQxi3ZOM2b6efIljRpSV.jpg', '2020-01-23 14:37:24', '2020-01-23 14:37:24'),
+(148, 54, NULL, 'SsM7A0NrGFNdS2PyA63XGj2qonKe9Ak2.jpg', '2020-01-23 14:37:24', '2020-01-23 14:37:24'),
+(149, 54, NULL, 'xPHrZLgpnt8tzDWGz056bwQYXosKH0p5.jpg', '2020-01-23 14:37:24', '2020-01-23 14:37:24'),
+(150, 54, NULL, 'GgctoYbU0NRZuwjfuz8ikeOSkflOTuaU.jpg', '2020-01-23 14:37:25', '2020-01-23 14:37:25'),
+(165, 57, NULL, 'PK9XLxLzSqyEL127MIvcUtvbhDQi3sIi.jpg', '2020-01-23 14:45:51', '2020-01-23 14:45:51'),
+(166, 57, NULL, 'UnyWEyyiNGF55CsmiMST2DZlqpPoAT5Q.jpg', '2020-01-23 14:45:51', '2020-01-23 14:45:51'),
+(167, 57, NULL, 'eQQJBVXLhJVhdhgdeB8zAy3sRsiCAnmT.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
+(168, 57, NULL, 'Na9zjgRaH9XGBjP8rbkb1fuK3zrEKDSn.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
+(169, 57, NULL, '2wAr1jgUZ5LEtC19bVbcI6N5Nhi1AV7y.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
+(170, 57, NULL, 'zMhFU7qfYPB9sd7mBSqSL1wElEdTW6pf.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
+(171, 57, NULL, 'an4qKjnirQl3Vop6rAxg8wFE9IiO95aB.jpg', '2020-01-23 14:45:53', '2020-01-23 14:45:53');
 
 -- --------------------------------------------------------
 
@@ -406,12 +466,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `role`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Dusan', 'duki87', 'superadmin', 'duki@gmail.com', NULL, '$2y$10$w6il4TqeR5rZVZwfPi/37uoYNUhqiokw6J0kpFoITD2jI7sDyEV8i', NULL, '2019-11-10 19:05:05', '2019-11-10 19:05:05'),
+(1, 'Dusan', 'duki87', 'user', 'dusan@gmail.com', NULL, '$2y$10$w6il4TqeR5rZVZwfPi/37uoYNUhqiokw6J0kpFoITD2jI7sDyEV8i', NULL, '2019-11-10 19:05:05', '2019-11-10 19:05:05'),
 (2, 'Gigi', 'gigi', 'user', 'gigi@gmail.com', NULL, '$2y$10$nLfgh0sXq1n1K0d1/R1sDuiJwKmjhu2EFpfFXJuqKMOqEydm62Gbu', NULL, '2019-11-12 14:32:38', '2019-11-12 14:32:38');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
 -- Indexes for table `brands`
@@ -494,6 +561,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
@@ -509,7 +582,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `oauth_clients`
@@ -527,13 +600,13 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
 
 --
 -- AUTO_INCREMENT for table `product_variants`

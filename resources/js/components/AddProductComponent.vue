@@ -112,10 +112,10 @@
                                     <label class="custom-file-label" for="image">Choose Files</label>
                                 </div>
                             </div> 
-                            <div v-if="images.length > 0" class="p-2 d-flex justify-content-center" :class="[images.length > 0 ? borderClass : '']">
-                                <div style="position:relative; width:33%; height:200px" class="ml-2" v-for="(imgObj, index) in images"  :key="index" :class="{'cover-image': form.cover_image == imgObj.name}">
-                                    <img @click="selectCover" alt="thumbnail" class="img-thumbnail" :src="'/images/products/' + form.image_folder + '/' + imgObj.name" :data-imgname="imgObj.name" style="object-fit:cover;width:100%;height:100%">
-                                    <button type="button" @click.prevent="deleteImage(imgObj)" :data-imgId="imgObj.id" class="btn btn-danger px-3" style="position:absolute;right:5px;top:5px;"><i class="fas fa-times"></i></button>
+                            <div v-if="images.length > 0" class="p-2 d-flex justify-content-around" style="display: flex;flex-wrap: wrap; padding-left: 0;" :class="[images.length > 0 ? borderClass : '']">
+                                <div style="position:relative; width:20%; max-height:200px;" class="ml-2 mt-2" v-for="(imgObj, index) in images"  :key="index" :class="{'cover-image': form.cover_image == imgObj.name}">
+                                    <img @click="selectCover" alt="thumbnail" class="img-thumbnail" :src="'/images/products/' + form.image_folder + '/' + imgObj.name" :data-imgname="imgObj.name" style="object-fit:cover;width:100%;height:100%;">
+                                    <button type="button" @click.prevent="deleteImage(imgObj)" :data-imgId="imgObj.id" class="close close-button" style="color: red"><span aria-hidden="true">&times;</span></button>
                                 </div>                               
                             </div> 
                         </div>   

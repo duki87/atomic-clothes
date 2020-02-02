@@ -11,6 +11,7 @@ import VueProgressBar from 'vue-progressbar';
 import Swal from 'sweetalert2';
 import VueDraggable from 'vue-draggable';
 import routes from './routes';
+import VueWow from 'vue-wow'
 
 global.bsCustomFileInput = bsCustomFileInput;
  
@@ -18,6 +19,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.Form = Form;
+
+//Mount wow js
+Vue.use(VueWow)
 
 //Router setup
 Vue.use(VueRouter);
