@@ -285,7 +285,7 @@
              * Get all of the OAuth clients for the user.
              */
             getClients() {
-                axios.get('/oauth/clients')
+                axios.get('/admin/oauth/clients')
                         .then(response => {
                             this.clients = response.data;
                         });

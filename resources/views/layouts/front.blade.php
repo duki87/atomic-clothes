@@ -50,21 +50,25 @@
     </head>
 
     <body>
-        @component('components.navbar')
-        @endcomponent
-        @component('components.carousel')
-        @endcomponent
-          <!--Main layout-->
-        <main>
-            @yield('content')
-        </main>
-        <!--Main layout-->
-        @component('components.footer')
-        @endcomponent
+        <div id="app">
+            @component('components.navbar')
+            @endcomponent
+            <!--Main layout-->
+            <main>
+                @component('components.carousel')
+                @endcomponent
+                @yield('content')
+            </main>
+            <!--Main layout-->
+            @component('components.footer')
+            @endcomponent
+        </div>
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
         <!-- Initializations -->
         <script type="text/javascript">
             // Animations initialization
-            new WOW().init();
+            //new WOW().init();
 
         </script>
     </body>

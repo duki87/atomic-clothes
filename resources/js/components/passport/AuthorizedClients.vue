@@ -87,8 +87,9 @@
              * Get all of the authorized tokens for the user.
              */
             getTokens() {
-                axios.get('/oauth/tokens')
+                axios.get('/admin/oauth/tokens')
                         .then(response => {
+                            console.log(response)
                             this.tokens = response.data;
                         });
             },
@@ -97,7 +98,7 @@
              * Revoke the given token.
              */
             revoke(token) {
-                axios.delete('/oauth/tokens/' + token.id)
+                axios.delete('/admin/oauth/tokens/' + token.id)
                         .then(response => {
                             this.getTokens();
                         });

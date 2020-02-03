@@ -4,7 +4,7 @@
 
             <!-- Brand -->
             <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
-            <strong class="blue-text">MDB</strong>
+            <strong class="blue-text">ATOMIC</strong>
             </a>
 
             <!-- Collapse -->
@@ -19,20 +19,23 @@
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link waves-effect" href="#">Home
+                    <a class="nav-link waves-effect" href="/">Home
                         <span class="sr-only">(current)</span>
-                </a>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">About MDB</a>
+                    <router-link :to="{ name: 'collections', params: { collection: 'men' }}" class="nav-link waves-effect" tag="a">
+                        Men
+                    </router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
-                        target="_blank">Free download</a>
+                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/">For Women</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Free
-                        tutorials</a>
+                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/">For Children</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/">Stores</a>
                 </li>
             </ul>
 
@@ -48,13 +51,13 @@
                 </li>
                 @endif
                 <li class="nav-item">
-                    <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_blank">
+                    <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect">
                         <i class="fab fa-facebook-f"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect" target="_blank">
-                        <i class="fab fa-twitter"></i>
+                    <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect">
+                        <i class="fab fa-google"></i>
                     </a>
                 </li>
                 @guest

@@ -22,7 +22,8 @@
 </head>
 <body>
   <div id="app">
-      @include('parts.admin.navbar')
+      @component('components.admin.navbar')
+      @endcomponent
 
         @if(Session::has('alert_message'))
           <div class="container mt-2">

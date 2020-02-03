@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('index');
-})->name('index');
+})->name('index'); */
 
 Auth::routes();
 
@@ -29,7 +29,8 @@ Route::group(['prefix' => 'admin'], function() {
     Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
     Route::get('/', 'AdminController@dashboard')->name('admin.dashboard')->middleware('role:admin|superadmin');
     Route::get('/manage-users', 'AdminController@users')->name('admin.users.manage')->middleware('role:superadmin|');
-    Route::get('{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']);
+    //Route::get('{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']);
+    Route::get('/{any}', 'AdminController@dashboard')->where('any', '.*');
 });
 
 //User protected routes
@@ -37,3 +38,6 @@ Route::group(['middleware' => 'auth'], function() {
     //User (Customer) routes
     Route::get('/home', 'HomeController@index')->name('home')->middleware('role:user|');
 });
+
+//Match any other route 
+Route::get('/{any}', 'IndexController@index')->where('any', '.*');
