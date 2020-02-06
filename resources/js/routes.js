@@ -1,7 +1,14 @@
 const routes = [
     //front routes
-    { path: '/', component: require('./components/front/IndexComponent.vue').default  },
-    { path: '/collections/:collection', name: 'collections', component: require('./components/front/CollectionComponent.vue').default  },
+    { path: '/', name: 'index', component: require('./components/front/IndexComponent.vue').default  },
+    { path: '/collections/:collection', name: 'collections', component: require('./components/front/CollectionComponent.vue').default,
+      children: [
+        { path: ':category', name: 'front-category', component: require('./components/front/FrontCategoryComponent.vue').default  },
+        //{ path: ':subCategory', name: 'front-subCategory', component: require('./components/front/FrontSubCategoryComponent.vue').default  },
+      ]  
+    },
+    { path: '/products/:product', name: 'front-product', component: require('./components/front/ProductsComponent.vue').default},
+    { path: '/stores', name: 'store', component: require('./components/front/StoreComponent.vue').default },
     //admin routes
     { path: '/admin', component: require('./components/admin/DashboardComponent.vue').default  },
     { path: '/admin/categories', component: require('./components/admin/CategoryComponent.vue').default  },

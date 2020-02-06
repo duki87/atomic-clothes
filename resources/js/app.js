@@ -77,7 +77,9 @@ const options = {
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+//Components
 Vue.component('example-component', require('./components/admin/ExampleComponent.vue').default);
+Vue.component('carousel', require('./components/front/CarouselComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

@@ -1,12 +1,12 @@
 <template>
-    <div class="container">
+    <div class="container">  
         Welcome!
     </div>
 </template>
 
 <script>
     export default {
-        mounted() {
+        mounted() {     
             console.log('Component mounted.')
         }
     }

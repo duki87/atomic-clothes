@@ -18,24 +18,30 @@
 
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link waves-effect" href="/">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <router-link :to="{ name: 'collections', params: { collection: 'men' }}" class="nav-link waves-effect" tag="a">
-                        Men
+                <li class="nav-item" :class="{ 'active': $route.name === 'index' }">
+                    <router-link to="/" class="nav-link waves-effect" tag="a" active-class="active" exact>
+                        Home
                     </router-link>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/">For Women</a>
+                <li class="nav-item" :class="{ 'active': $route.path === '/collections/men' }">
+                    <router-link :to="{ name: 'collections', params: { collection: 'men' }}" class="nav-link waves-effect" tag="a" active-class="active" exact>
+                        For Men
+                    </router-link>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/">For Children</a>
+                <li class="nav-item" :class="{ 'active': $route.path === '/collections/women' }">
+                    <router-link :to="{ name: 'collections', params: { collection: 'women' }}" class="nav-link waves-effect" tag="a" active-class="active" exact>
+                        For Women
+                    </router-link>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/">Stores</a>
+                <li class="nav-item" :class="{ 'active': $route.path === '/collections/children' }">
+                    <router-link :to="{ name: 'collections', params: { collection: 'children' }}" class="nav-link waves-effect" tag="a" active-class="active" exact>
+                        Children
+                    </router-link>
+                </li>
+                <li class="nav-item" :class="{ 'active': $route.name === 'stores' }">
+                    <router-link to="/stores" class="nav-link waves-effect" tag="a" active-class="active" exact>
+                        Stores
+                    </router-link>
                 </li>
             </ul>
 

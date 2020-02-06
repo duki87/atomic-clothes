@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2020 at 11:39 PM
+-- Generation Time: Feb 06, 2020 at 07:22 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -84,6 +84,7 @@ CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
   `main` int(11) NOT NULL DEFAULT 0,
   `sub` int(11) NOT NULL DEFAULT 0,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -94,21 +95,23 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `main`, `sub`, `title`, `tags`, `created_at`, `updated_at`) VALUES
-(1, 0, 0, 'Men', '[\"men\"]', '2019-11-26 17:57:59', '2019-11-26 17:57:59'),
-(2, 0, 0, 'Women', '[\"women\"]', '2019-11-26 17:58:11', '2019-11-26 17:58:11'),
-(3, 0, 0, 'Children', '[\"children\"]', '2019-11-26 17:58:27', '2019-11-26 17:58:27'),
-(4, 1, 0, 'Shirts', '[\"shirts\",\"men\"]', '2019-11-26 17:58:54', '2019-11-26 17:58:54'),
-(5, 1, 4, 'Long Sleeve', '[\"men\",\"shirts\",\"long-sleeve\"]', '2019-11-26 17:59:21', '2019-11-26 17:59:21'),
-(6, 2, 0, 'Shirts', '[\"women\",\"shirts\"]', '2019-11-26 17:59:43', '2019-11-26 17:59:43'),
-(7, 2, 6, 'Long Sleeves', '[\"women\",\"shirts\",\"long-sleeve\"]', '2019-11-26 18:00:12', '2019-11-26 18:00:12'),
-(8, 1, 0, 'T-Shirts', '[\"t-shirts\",\"men\"]', '2019-12-03 19:02:23', '2019-12-03 19:02:23'),
-(9, 1, 8, 'V-Neck', '[\"t-shirts\",\"men\",\"v-neck\"]', '2019-12-03 19:05:13', '2019-12-03 19:05:13'),
-(10, 1, 4, 'Short Sleeve', '[\"men\",\"shirts\",\"short-sleeve\"]', '2019-12-03 19:52:45', '2019-12-03 19:52:45'),
-(11, 2, 0, 'Shirts', '[\"women-shirts\"]', '2020-01-06 10:08:23', '2020-01-06 10:08:23'),
-(12, 2, 11, 'Short Sleeve', '[\"women-short-sleeve-shirts\"]', '2020-01-06 10:08:49', '2020-01-06 10:08:49'),
-(13, 2, 0, 'T-Shirts', '[\"women\",\"t-shirts\"]', '2020-01-16 18:53:14', '2020-01-16 18:53:14'),
-(14, 2, 13, 'Classic', '[\"classic\"]', '2020-01-16 18:53:31', '2020-01-16 18:53:31');
+INSERT INTO `categories` (`id`, `main`, `sub`, `url`, `title`, `tags`, `created_at`, `updated_at`) VALUES
+(1, 0, 0, 'men', 'Men', '[\"men\"]', '2019-11-26 17:57:59', '2019-11-26 17:57:59'),
+(2, 0, 0, 'women', 'Women', '[\"women\"]', '2019-11-26 17:58:11', '2019-11-26 17:58:11'),
+(3, 0, 0, 'children', 'Children', '[\"children\"]', '2019-11-26 17:58:27', '2019-11-26 17:58:27'),
+(4, 1, 0, 'shirts', 'Shirts', '[\"shirts\",\"men\"]', '2019-11-26 17:58:54', '2019-11-26 17:58:54'),
+(5, 1, 4, 'long-sleeve', 'Long Sleeve', '[\"men\",\"shirts\",\"long-sleeve\"]', '2019-11-26 17:59:21', '2019-11-26 17:59:21'),
+(6, 2, 0, 'shirts', 'Shirts', '[\"women\",\"shirts\"]', '2019-11-26 17:59:43', '2019-11-26 17:59:43'),
+(7, 2, 6, 'long-sleeves', 'Long Sleeves', '[\"women\",\"shirts\",\"long-sleeve\"]', '2019-11-26 18:00:12', '2019-11-26 18:00:12'),
+(8, 1, 0, 't-shirt', 'T-Shirts', '[\"t-shirts\",\"men\"]', '2019-12-03 19:02:23', '2019-12-03 19:02:23'),
+(9, 1, 8, 'v-neck', 'V-Neck', '[\"t-shirts\",\"men\",\"v-neck\"]', '2019-12-03 19:05:13', '2019-12-03 19:05:13'),
+(10, 1, 4, 'short-sleeve', 'Short Sleeve', '[\"men\",\"shirts\",\"short-sleeve\"]', '2019-12-03 19:52:45', '2019-12-03 19:52:45'),
+(11, 2, 0, 'shirts', 'Shirts', '[\"women-shirts\"]', '2020-01-06 10:08:23', '2020-01-06 10:08:23'),
+(12, 2, 11, 'short-sleeve', 'Short Sleeve', '[\"women-short-sleeve-shirts\"]', '2020-01-06 10:08:49', '2020-01-06 10:08:49'),
+(13, 2, 0, 't-shirts', 'T-Shirts', '[\"women\",\"t-shirts\"]', '2020-01-16 18:53:14', '2020-01-16 18:53:14'),
+(14, 2, 13, 'classic', 'Classic', '[\"classic\"]', '2020-01-16 18:53:31', '2020-01-16 18:53:31'),
+(15, 1, 0, 'pants', 'Pants', '', '2020-02-05 18:04:13', '2020-02-05 18:04:13'),
+(16, 1, 15, 'long-pants', 'Long Pants', '[\"long-pants\"]', '2020-02-05 18:09:49', '2020-02-05 18:09:49');
 
 -- --------------------------------------------------------
 
@@ -145,7 +148,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (16, '2016_06_01_000005_create_oauth_personal_access_clients_table', 10),
 (17, '2019_12_31_145019_alter_product_images_table_make_product_id_nullable', 11),
 (18, '2019_12_31_154844_alter_products_table_chande_discount_type', 11),
-(19, '2020_02_02_191145_create_admins_table', 12);
+(19, '2020_02_02_191145_create_admins_table', 12),
+(20, '2020_02_05_182503_alter_category_table_add_url', 13);
 
 -- --------------------------------------------------------
 
@@ -199,14 +203,6 @@ CREATE TABLE `oauth_clients` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `oauth_clients`
---
-
-INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Laravel Personal Access Client', 'bEMao5yHMhlfbb1JxahM2Lt1vo71Pba7GB0KS2h0', 'http://localhost', 1, 0, 0, '2020-01-15 14:32:58', '2020-01-15 14:32:58'),
-(2, NULL, 'Laravel Password Grant Client', 'RSXfutimPXLF6ZBcZ3qan5nCJmKw9UH4tP8zyo3f', 'http://localhost', 0, 1, 0, '2020-01-15 14:32:58', '2020-01-15 14:32:58');
-
 -- --------------------------------------------------------
 
 --
@@ -219,13 +215,6 @@ CREATE TABLE `oauth_personal_access_clients` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `oauth_personal_access_clients`
---
-
-INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2020-01-15 14:32:58', '2020-01-15 14:32:58');
 
 -- --------------------------------------------------------
 
@@ -285,23 +274,7 @@ INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_i
 (39, 1, 8, 9, 2, 'YMRS094451', 'Men T-Shirt M-113', 'Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113', 20.99, NULL, '16012020190353-0raywsr8qmuh6fve', 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '[\"men-t-shirt-m-113\"]', 1, '2020-01-16 18:03:53', '2020-01-16 18:04:41'),
 (40, 1, 4, 5, 1, 'YEC2092441', 'Men Shirt Classic A-235', 'Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235', 25.99, NULL, '16012020194556-c97adnlgjozezxfz', '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '', 1, '2020-01-16 18:45:56', '2020-01-16 18:47:14'),
 (41, 2, 13, 14, 2, 'QIDK046902', 'Women T-Shirt Y-12', 'Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12', 14.99, 11.99, '16012020194959-zgiciiayj3doqxzt', 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '', 1, '2020-01-16 18:49:59', '2020-01-16 18:54:16'),
-(44, 0, 0, 0, 0, '32GS002453', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020144939-kawtgggfpf80zr0g', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:49:39', '2020-01-23 13:49:39'),
-(45, 0, 0, 0, 0, '3EN8079769', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145823-5mgiq3iyuflwyn9v', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:58:23', '2020-01-23 13:58:23'),
-(46, 0, 0, 0, 0, 'F0SN043107', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145859-i1kfyhmrwx9ovx0b', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:58:59', '2020-01-23 13:58:59'),
-(47, 0, 0, 0, 0, 'MNWU080447', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145930-santjcrv5v7mh5r0', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:59:30', '2020-01-23 13:59:30'),
-(48, 0, 0, 0, 0, 'QVOR080029', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020145954-byhaadnzuop6amsh', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 13:59:54', '2020-01-23 13:59:54'),
-(49, 0, 0, 0, 0, 'HAL5054490', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020151455-mc8modnmegq2gatn', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:14:55', '2020-01-23 14:14:55'),
-(50, 0, 0, 0, 0, 'HECP015223', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020151605-olc6yhwfmyzcgsk6', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:16:05', '2020-01-23 14:16:05'),
-(51, 0, 0, 0, 0, 'XOMD058602', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020151724-cpjtql4emgxvx9tx', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:17:24', '2020-01-23 14:17:24'),
-(52, 0, 0, 0, 0, '4AIW020872', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020152135-i6az03kmpwy9zxbb', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:21:35', '2020-01-23 14:21:35'),
-(53, 0, 0, 0, 0, 'XGAL037702', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020153636-8boab8cufvgukgti', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:36:36', '2020-01-23 14:36:36'),
-(54, 0, 0, 0, 0, 'YQM8047613', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020153718-cm3tehcwybp5ywob', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:37:18', '2020-01-23 14:37:18'),
-(55, 0, 0, 0, 0, 'OYWE074981', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154038-pmrqdv18wtzdu8o6', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:40:38', '2020-01-23 14:40:38'),
-(56, 0, 0, 0, 0, 'PHN5078021', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154156-e4pktqtyuytofpes', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:41:56', '2020-01-23 14:41:56'),
-(57, 0, 0, 0, 0, '4ZDE027951', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154544-vk5e4ix8odi58ilv', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:45:44', '2020-01-23 14:45:44'),
-(58, 0, 0, 0, 0, 'ORZQ066008', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154639-ahg6i19grt2m2em0', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:46:39', '2020-01-23 14:46:39'),
-(59, 0, 0, 0, 0, 'RKYX041175', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020154907-mhcoigltvmzsmx61', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:49:07', '2020-01-23 14:49:07'),
-(60, 0, 0, 0, 0, 'WDVS062618', 'Product title', 'Product description must have at least 20 characters', 0.00, 0, '23012020155022-81mo3n6lzqih9cyp', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-01-23 14:50:22', '2020-01-23 14:50:22');
+(71, 1, 15, 16, 2, '8JU2060610', 'Men Pants Core', 'fgh fghfsgh fjyrf nf ndgcbn fhjfhmj ghmgmgm', 29.99, 25.99, '06022020104234-iwdkjmwugjugrnft', 'lTtAExjEzZ3BbOi6DraFNOSRbDOKy9wQ.jpg', '[\"pants\",\"core\",\"men\"]', 1, '2020-02-06 09:42:35', '2020-02-06 09:44:05');
 
 -- --------------------------------------------------------
 
@@ -404,7 +377,15 @@ INSERT INTO `product_images` (`id`, `product_id`, `variant_id`, `image`, `create
 (168, 57, NULL, 'Na9zjgRaH9XGBjP8rbkb1fuK3zrEKDSn.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
 (169, 57, NULL, '2wAr1jgUZ5LEtC19bVbcI6N5Nhi1AV7y.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
 (170, 57, NULL, 'zMhFU7qfYPB9sd7mBSqSL1wElEdTW6pf.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
-(171, 57, NULL, 'an4qKjnirQl3Vop6rAxg8wFE9IiO95aB.jpg', '2020-01-23 14:45:53', '2020-01-23 14:45:53');
+(171, 57, NULL, 'an4qKjnirQl3Vop6rAxg8wFE9IiO95aB.jpg', '2020-01-23 14:45:53', '2020-01-23 14:45:53'),
+(183, NULL, 25, '3TEw2zWgg9KTb4BWNwtpvDbBL39lnWnN.jpg', '2020-02-03 12:11:04', '2020-02-03 12:11:04'),
+(184, NULL, 25, 'qi1lwB5HugXxCtIDCFztX0iejHxWD5rZ.jpg', '2020-02-03 12:11:04', '2020-02-03 12:11:04'),
+(185, NULL, 25, 'nF0F4Pq4yiOIdkaCCFpT7lolDxhLItmg.jpg', '2020-02-03 12:11:05', '2020-02-03 12:11:05'),
+(186, NULL, 25, 'pbcbE2I2I13xCuGuUbzjYzefatEU5PSp.jpg', '2020-02-03 12:11:05', '2020-02-03 12:11:05'),
+(187, 71, NULL, 'lTtAExjEzZ3BbOi6DraFNOSRbDOKy9wQ.jpg', '2020-02-06 09:43:49', '2020-02-06 09:43:49'),
+(188, 71, NULL, 'F021QZkxVmiFI9I6ggIODbgTAPtkvZOb.jpg', '2020-02-06 09:43:50', '2020-02-06 09:43:50'),
+(189, NULL, 26, 'lTtAExjEzZ3BbOi6DraFNOSRbDOKy9wQ.jpg', '2020-02-06 09:45:16', '2020-02-06 09:45:16'),
+(190, NULL, 26, 'F021QZkxVmiFI9I6ggIODbgTAPtkvZOb.jpg', '2020-02-06 09:45:16', '2020-02-06 09:45:16');
 
 -- --------------------------------------------------------
 
@@ -440,7 +421,9 @@ INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `size`, `color`, `sto
 (20, 41, 'LWH', 'L', 'White', 50, '', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
 (21, 41, 'XLWH', 'XL', 'White', 100, '', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
 (22, 41, 'LPR', 'L', 'Purple', 150, '', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
-(23, 41, 'XSWH', 'XS', 'White', 345, '', '2020-01-16 20:29:00', '2020-01-16 20:29:00');
+(23, 41, 'XSWH', 'XS', 'White', 345, '', '2020-01-16 20:29:00', '2020-01-16 20:29:00'),
+(25, 39, 'XLRD', 'XL', 'Red', 1000, '', '2020-02-03 12:11:04', '2020-02-03 12:11:04'),
+(26, 71, 'MBK', 'M', 'Black', 100, '', '2020-02-06 09:45:16', '2020-02-06 09:45:16');
 
 -- --------------------------------------------------------
 
@@ -576,13 +559,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `oauth_clients`
@@ -600,19 +583,19 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `users`

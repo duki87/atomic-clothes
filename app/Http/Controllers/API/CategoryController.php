@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Category;
 use App\Traits\ManualPaginationTrait;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-      //$this->middleware('auth:api');
+        $this->middleware('auth:api');
     }
 
     public function index()
@@ -43,6 +44,7 @@ class CategoryController extends Controller
             'title' => $request->title,
             'main'  =>  $request->main,
             'sub'  =>  $request->sub,
+            'url'  =>  str_replace(' ', '-', Str::lower($request->title)),
             'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : ''
         ]);
         if($category->save()) {
@@ -68,6 +70,7 @@ class CategoryController extends Controller
             'title' => $request->title,
             'main'  =>  $request->main,
             'sub'  =>  $request->sub,
+            'url'  =>  str_replace(' ', '-', Str::lower($request->title)),
             'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : ''
         ]);
         if($update) {

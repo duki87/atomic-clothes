@@ -46,3 +46,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('getVariantsByProductId/{product_id}', 'API\ProductVariantController@getVariantsByProductId');
 });
 
+//Front routes
+Route::get('getCollection/{collection}', 'API\FrontController@getCollection');
+Route::get('getProducts/{collection}/{category}', 'API\FrontController@getProducts');
+Route::get('getProduct/{product}', 'API\FrontController@getProduct');
