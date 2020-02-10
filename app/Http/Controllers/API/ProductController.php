@@ -37,8 +37,10 @@ class ProductController extends Controller
     {
         $directory = strtolower(Carbon::now()->format('dmYHis').'-'.Str::random(16));
         Storage::disk('images')->makeDirectory('products/'.$directory);
+        $code = $this->generateCode();
         $product = new Product([
             'title' => 'Product title',
+            'url' =>  'new_product-'.$code,
             'description' => 'Product description must have at least 20 characters',
             'price' => 0.00,
             'discount' => 0,
@@ -48,7 +50,7 @@ class ProductController extends Controller
             'sub_category_id'  =>  0,
             'category_id'  =>  0,
             'brand_id'  =>  0,
-            'code'  =>  $this->generateCode(),
+            'code'  =>  $code,
             'tags'  =>  json_encode(['product', 'tags']),
         ]);
         if($product->save()) {
@@ -58,7 +60,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::where(['id' => $id])->with('product_images')->first();
+        $product = Product::where(['id' => $id])->with('product_images', 'colors.color_variant_images')->first();
         return ['product' => $product];
     }
 
@@ -75,6 +77,7 @@ class ProductController extends Controller
         ]); 
         $update = Product::where(['id' => $id])->update([
             'title' => $request->title,
+            'url' =>  str_replace(' ', '-', Str::lower($request->title)),
             'description' => $request->description,
             'price' => $request->price,
             'discount' => $request->discount,
@@ -84,7 +87,7 @@ class ProductController extends Controller
             'sub_category_id'  =>  $request->sub_category_id,
             'category_id'  =>  $request->category_id,
             'brand_id'  =>  $request->brand_id,
-            'code'  =>  $this->generateCode(),
+            //'code'  =>  $this->generateCode(),
             'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : '',
             'status' => 1
         ]);

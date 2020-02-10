@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <!-- <router-view></router-view> -->
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -12,7 +11,7 @@
                             <h3 class="mt-2">Enter Product Variant Data</h3>
                             <hr>                                  
                             <div class="form-row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="sku">SKU</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -21,29 +20,20 @@
                                         <input v-model="form.sku" :class="{'is-invalid': form.errors.has('sku')}" type="text" class="form-control" id="sku" placeholder="SKU" aria-describedby="sku">
                                     </div>
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.sku">{{err}}</span>
+                                        <span v-for="(err, index) in formErrors.sku" :key="index">{{err}}</span>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <label for="color">
-                                        <span v-if="!describe_color">Choose Color from List</span>
-                                        <span v-if="describe_color">Describe Colors</span>
-                                    </label>
-                                    <div class="input-group">
-                                        <select v-if="!describe_color" class="browser-default custom-select" v-model="form.color" name="color" id="color" :class="{'is-invalid': form.errors.has('color')}">
-                                            <option value="">Select Color</option>
-                                            <option v-for="color in colorsList" v-bind:value="color">{{color}}</option>
-                                        </select>
-                                        <input v-if="describe_color" type="text" class="form-control" v-model="form.color" id="color" placeholder="Describe Colors">
-                                        <div class="input-group-append">
-                                            <button @click="changeColorInput" class="btn btn-md btn-secondary m-0 px-3 py-2 z-depth-0 waves-effect" type="button">
-                                                <span v-if="describe_color">Choose Color from List</span>
-                                                <span v-if="!describe_color">Describe Colors</span>
-                                            </button>
-                                        </div>
+                                <div class="col-md-3">
+                                    <label for="size">Select Color Variant</label>
+                                    <select @change="loadColorVariantImages" v-model="form.color_id" name="color_id" id="color_id" :class="{'is-invalid': form.errors.has('color_id')}" class="custom-select browser-default">
+                                        <option value="">Color</option>
+                                        <option v-for="(colorVariant, index) in product.colors" :key="index" :value="colorVariant.id">{{ colorVariant.color }}</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <span v-for="(err, index) in formErrors.color_id" :key="index">{{err}}</span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="size">Select Size</label>
                                     <select v-model="form.size" name="size" id="size" :class="{'is-invalid': form.errors.has('size')}" class="custom-select browser-default">
                                         <option value="">Select Size</option>
@@ -55,45 +45,36 @@
                                         <option value="XXL">XXL</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.size">{{err}}</span>
+                                        <span v-for="(err, index) in formErrors.size" :key="index">{{err}}</span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="title">Stock Quantity</label>
                                     <input type="text" v-model="form.stock" :class="{'is-invalid': form.errors.has('stock')}" @keypress="validateNumbers" class="form-control" id="stock" placeholder="Stock Quantity">
                                     <div class="invalid-feedback">
-                                        <span v-for="err in formErrors.stock">{{err}}</span>
+                                        <span v-for="(err, index) in formErrors.stock" :key="index">{{err}}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-row mt-2 d-flex justify-content-around" :class="[product_images.length < 1 ? 'd-none' : '']">
+                            <div class="form-row mt-2 d-flex justify-content-around" v-if="color_variant_images" :class="[color_variant_images.length == 0 ? 'd-none' : '']">
                                 <div class="col-md-12">
-                                    <p>Add Images To Product Variant</p>
+                                    <p>Images</p>
                                 </div>
                                 <div class="col-md-5 p-2" :class="borderClass">
-                                    <img style="cursor:pointer; object-fit:cover; position:relative; width:30%; height:100px" class="ml-2 img-thumbnail" v-for="(imgObj, index) in product_images" alt="thumbnail" @click="addToVariantsImg(index)" :src="'/images/products/' + image_folder + '/' + imgObj.image" :data-index="index">
-                                </div>
-                                <div class="col-md-5 p-2" :class="borderClass">
-                                    <img style="cursor:pointer; object-fit:cover; position:relative; width:30%; height:100px" class="ml-2 img-thumbnail" v-for="(imgObj, index) in variant_images" alt="thumbnail" @click="addToProductsImg(index)" :src="'/images/products/' + image_folder + '/' + imgObj.image" :data-index="index">
-                                </div>
-                            </div>
-
-                            <div class="md-form input-group mb-3">
-                                <div class="col-md-12">
-                                    <p>Or Upload More Images</p>
+                                    <img style="cursor:pointer; object-fit:cover; position:relative; width:30%; height:100px" class="ml-2 img-thumbnail" v-for="(imgObj, index) in color_variant_images" :key="index" alt="thumbnail" :src="'/images/products/' + image_folder + '/' + imgObj.image">
                                 </div>
                             </div>
 
                             <div class="md-form input-group mb-3">
                                 <input type="text" v-model="product_tag" @keyup.enter="addTag" class="form-control" 
-                                id="add_tags" placeholder="Add Category Tag and Press Enter">
+                                id="add_tags" placeholder="Add Tag and Press Enter">
                                 <div class="input-group-append">
                                     <button @click="addTag" class="btn btn-md btn-secondary m-0 px-3" type="button" >Add</button>
                                 </div>
                             </div>          
                             <div class="p-2" :class="[form.tags.length > 0 ? borderClass : '']">
-                                <a v-for="(tag, index) in form.tags" 
+                                <a v-for="(tag, index) in form.tags" :key="index" 
                                 @click="removeTag(index)" @mouseover="hoverBtn = index" @mouseout="hoverBtn = undefined" 
                                 :class="[isHovering(index) ? 'badge badge-danger' : 'badge badge-default']" class=" d-inline p-2 ml-2">
                                     {{tag}}
@@ -116,62 +97,45 @@
         data() {
             return {
                 form: new Form({
-                    product_id: '',
+                    product_id: Number,
                     sku: '',
-                    color: '',
-                    described_color: '',
+                    color_id: '',
                     size: '',
                     stock: 0,
-                    tags: [],
-                    variant_images: []
+                    tags: []
                 }),
-                describe_color: false,
-                colorsList: ['Red', 'Blue', 'Green', 'Pink', 'Purple', 'White', 'Black', 'Grey'],
                 formErrors: {},
                 product: {},
                 product_tag: '',
                 borderClass: 'border border-secondary',
                 hoverBtn: undefined,        
                 formErrors: {},
-                product_images: [],
-                variant_images: [],
-                image_folder: ''
+                color_variant_images: [],
             }          
         },
         methods: {
-            addToProductsImg(index) {
-                let imgObj = this.variant_images[index];
-                this.form.variant_images.splice(this.form.variant_images.indexOf(imgObj.id), 1);
-                this.product_images.push(imgObj);
-                this.variant_images.splice(index, 1);
-            },
-            addToVariantsImg(index) {
-                let imgObj = this.product_images[index];
-                this.form.variant_images.push(imgObj.id);
-                this.variant_images.push(imgObj);
-                this.product_images.splice(index, 1);
-            },
-            changeColorInput() {
-                if(this.describe_color == false) {
-                    this.describe_color = true;
-                    this.form.color = '';
-                } else {
-                    this.describe_color = false;
-                    this.form.color = '';
-                }
-            },
             loadProduct() {
                 let product_id = this.$router.history.current.params.id;
                 axios.get('/api/product/'+product_id)
                 .then(
                     ({data}) => {
-                        this.product_images = data.product.product_images;
                         this.product = data.product;
                         this.form.product_id = data.product.id;
-                        this.image_folder = data.product;
                         this.image_folder = data.product.image_folder;
                     }
                 ).catch(err => console.log(err));
+            },
+            loadColorVariantImages() {
+                if(this.form.color_id) {
+                    let index = this.form.color_id;
+                    let obj = this.product.colors.filter(function(colorObj) {
+                        return colorObj.id == index;
+                    });
+                    console.log(obj)
+                    this.color_variant_images = obj[0].color_variant_images;
+                } else {
+                    this.color_variant_images = [];
+                }
             },
             addTag() {
                 if(this.product_tag !== '') {
@@ -197,9 +161,7 @@
                 .then((res) => {
                     Fire.$emit('AfterCreate');
                     this.form.reset();
-                    this.describe_color = false;
-                    this.product_images = [];
-                    this.variant_images = [];
+                    this.color_variant_images = [];
                     this.form.errors.clear();
                     Toast.fire({
                         icon: 'success',
@@ -229,7 +191,7 @@
             });
         },
         mounted() {
-            console.log('Component mounted.')
+            //console.log('Component mounted.')
         }
     }
 </script>

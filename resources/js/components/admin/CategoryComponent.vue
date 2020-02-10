@@ -52,70 +52,70 @@
         <!-- Modal: modalCart -->
         <div @click="detectClick" @keydown.esc="getPage(currentPage)" class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <!--Header-->
-            <div class="modal-header">
-                <h4 v-show="!editMode" class="modal-title" id="myModalLabel">Add Category</h4>
-                <h4 v-show="editMode" class="modal-title" id="myModalLabel">Edit Category</h4>
-                <button @click="getPage(currentPage)" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <!--Body-->
-            <form @submit.prevent="editMode? updateCategory() : createCategory()">
-                <div class="modal-body">              
-                    <div class="form-group">
-                        <label for="title">Category Title</label>
-                        <input v-model="form.title" :class="{'is-invalid': form.errors.has('title')}" type="text" class="form-control" id="title" placeholder="Category Title">
-                        <div class="invalid-feedback">
-                            <span v-for="err in formErrors.title">{{err}}</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <select @change="loadSubCategories" v-model="form.main" name="main" id="main" :class="{'is-invalid': form.errors.has('main')}" class="custom-select browser-default">
-                            <option value="">Select Main Category</option>
-                            <option value="0">None</option>
-                            <option v-for="mainCat in mains" v-bind:value="mainCat.id" v-bind:selected="mainCat.id == form.main.id">{{mainCat.title}}</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <span v-for="err in formErrors.main">{{err}}</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <select v-model="form.sub" name="sub" id="sub" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('sub')}">
-                            <option value="">Select Sub Category</option>
-                            <option value="0">None</option>
-                            <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" v-bind:selected="value == form.sub.id">{{key}}</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <span v-for="err in formErrors.sub">{{err}}</span>
-                        </div>
-                    </div>  
-                    <div class="md-form input-group mb-3">
-                        <input type="text" v-model="category_tag" @keyup.enter="addTag" class="form-control" 
-                        id="add_tags" placeholder="Add Category Tag and Press Enter">
-                        <div class="input-group-append">
-                            <button @click="addTag" class="btn btn-md btn-secondary m-0 px-3" type="button" >Add</button>
-                        </div>
-                    </div>                 
-                    <div class="p-2" :class="[form.tags.length > 0 ? borderClass : '']">
-                        <a v-for="(tag, index) in form.tags" 
-                        @click="removeTag(index)" @mouseover="hoverBtn = index" @mouseout="hoverBtn = undefined" 
-                        :class="[isHovering(index) ? 'badge badge-danger' : 'badge badge-default']" class=" d-inline p-2 ml-2">
-                            {{tag}}
-                        </a>                       
-                    </div>           
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <h4 v-show="!editMode" class="modal-title" id="myModalLabel">Add Category</h4>
+                    <h4 v-show="editMode" class="modal-title" id="myModalLabel">Edit Category</h4>
+                    <button @click="getPage(currentPage)" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
-                <!--Footer-->
-                <div class="modal-footer">
-                    <button @click="getPage(currentPage)" type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
-                    <button v-show="!editMode" type="submit" class="btn btn-default">Create</button>
-                    <button v-show="editMode" type="submit" class="btn btn-default">Update</button>
+                <!--Body-->
+                <form @submit.prevent="editMode? updateCategory() : createCategory()">
+                    <div class="modal-body">              
+                        <div class="form-group">
+                            <label for="title">Category Title</label>
+                            <input v-model="form.title" :class="{'is-invalid': form.errors.has('title')}" type="text" class="form-control" id="title" placeholder="Category Title">
+                            <div class="invalid-feedback">
+                                <span v-for="err in formErrors.title">{{err}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select @change="loadSubCategories" v-model="form.main" name="main" id="main" :class="{'is-invalid': form.errors.has('main')}" class="custom-select browser-default">
+                                <option value="">Select Main Category</option>
+                                <option value="0">None</option>
+                                <option v-for="mainCat in mains" v-bind:value="mainCat.id" v-bind:selected="mainCat.id == form.main.id">{{mainCat.title}}</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <span v-for="err in formErrors.main">{{err}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select v-model="form.sub" name="sub" id="sub" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('sub')}">
+                                <option value="">Select Sub Category</option>
+                                <option value="0">None</option>
+                                <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" v-bind:selected="value == form.sub.id">{{key}}</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <span v-for="err in formErrors.sub">{{err}}</span>
+                            </div>
+                        </div>  
+                        <div class="md-form input-group mb-3">
+                            <input type="text" v-model="category_tag" @keyup.enter="addTag" class="form-control" 
+                            id="add_tags" placeholder="Add Category Tag and Press Enter">
+                            <div class="input-group-append">
+                                <button @click="addTag" class="btn btn-md btn-secondary m-0 px-3" type="button" >Add</button>
+                            </div>
+                        </div>                 
+                        <div class="p-2" :class="[form.tags.length > 0 ? borderClass : '']">
+                            <a v-for="(tag, index) in form.tags" 
+                            @click="removeTag(index)" @mouseover="hoverBtn = index" @mouseout="hoverBtn = undefined" 
+                            :class="[isHovering(index) ? 'badge badge-danger' : 'badge badge-default']" class=" d-inline p-2 ml-2">
+                                {{tag}}
+                            </a>                       
+                        </div>           
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button @click="getPage(currentPage)" type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
+                        <button v-show="!editMode" type="submit" class="btn btn-default">Create</button>
+                        <button v-show="editMode" type="submit" class="btn btn-default">Update</button>
+                    </div>
+                </form>
                 </div>
-            </form>
             </div>
-        </div>
         </div>
         <!-- Modal: modalCart -->
     </div>

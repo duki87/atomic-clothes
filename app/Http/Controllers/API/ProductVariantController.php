@@ -33,22 +33,19 @@ class ProductVariantController extends Controller
         $this->validate($request, [
             'size' => 'required|string|min:1|max:5',
             'sku' => 'required|string|max:20',
-            'color' => 'required|string|max:255',
+            'color_id' => 'required|integer',
             'stock' => 'required|integer',
         ]);
         $variant = new ProductVariant([
             'product_id' => $request->product_id,
             'size' => $request->size,
             'sku' => $request->sku,
-            'color' => $request->color,
+            'color_id' => $request->color_id,
             'stock' => $request->stock,
             'tags'  =>  !empty($request->tags) ? json_encode($request->tags) : '',
         ]);
         if($variant->save()) {
-            foreach($request->variant_images as $imgId) {
-/*                 $variant_image = ProductImages::where(['id' => $imgId])->update([
-                    'variant_id' => $variant->id
-                ]); */
+/*             foreach($request->variant_images as $imgId) {
                 $product_image = ProductImages::where(['id' => $imgId])->first();
                 $variant_image = new ProductImages([
                     'product_id' => null,
@@ -56,7 +53,7 @@ class ProductVariantController extends Controller
                     'image' => $product_image->image
                 ]);
                 $variant_image->save();
-            }
+            } */
             return ['message' => 'success'];
         }
         return ['message' => 'failed'];

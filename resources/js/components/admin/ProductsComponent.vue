@@ -22,7 +22,7 @@
                                         <th class="th-sm text-center">Sub Cat.</th>
                                         <th class="th-sm text-center">Category</th>
                                         <th class="th-sm text-center">Cover</th>
-                                        <th class="th-sm text-center">Tags</th>
+                                        <th class="th-sm text-center">Colors</th>
                                         <th class="th-sm text-center">Variants</th>
                                         <th class="th-sm text-center">Actions</th>
                                     </tr>                      
@@ -37,9 +37,10 @@
                                             <img v-if="product.cover_image !== 'not_selected'" :src="'/images/products/' + product.image_folder + '/' + product.cover_image" style="width:50px" alt="">
                                         </td>
                                         <td class="text-center align-middle">
-                                            <a v-for="(tag, index) in product.tags"  :key="index" class="badge badge-default d-inline p-2 ml-2">
-                                                {{tag}}
-                                            </a>
+                                            <button @click="loadProductData(product)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#colorsModal">
+                                                View Colors
+                                            </button>
+                                            <router-link :to="{ name: 'add-color-variant', params: { id: product.id }}" class="btn btn-default btn-sm mt-2" exact>Add Color</router-link>
                                         </td>
                                         <td class="text-center">
                                             <router-link :to="{ name: 'product-variants', params: { id: product.id }}" class="btn btn-secondary btn-sm" exact>Edit Variants</router-link>
@@ -62,6 +63,7 @@
                 </div>
             </div>
         </div>
+        <product-colors :product_id="form.id"></product-colors>
     </div>
 </template>
 
@@ -70,6 +72,7 @@
         data() {
             return {
                 form: new Form({
+                    id: '',
                     main_category_id: '',
                     sub_category_id: '',
                     category_id: '',
@@ -92,6 +95,9 @@
                     this.products = data.products;
                     }
                 ).catch(e => console.log(e)); 
+            },
+            loadProductData(product) {
+                this.form.fill(product);
             },
             deleteProduct(product) {
                 this.form.reset();

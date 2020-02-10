@@ -80,6 +80,7 @@ const options = {
 //Components
 Vue.component('example-component', require('./components/admin/ExampleComponent.vue').default);
 Vue.component('carousel', require('./components/front/CarouselComponent.vue').default);
+Vue.component('product-colors', require('./components/admin/ProductColorsComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

@@ -15,6 +15,11 @@ class Product extends Model
         return $this->hasMany('App\ProductVariant', 'product_id');
     }
 
+    public function colors()
+    {
+        return $this->hasMany('App\ProductColor', 'product_id');
+    }
+
     public function product_images()
     {
         return $this->hasMany('App\ProductImages', 'product_id');

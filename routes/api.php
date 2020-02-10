@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         'brand' => 'API\BrandController',
         'product' => 'API\ProductController',
         'variant' => 'API\ProductVariantController',
+        'color' =>  'API\ProductColorController',
     ]);
     
     //Other category routes
@@ -44,6 +45,9 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     //Other variant routes
     Route::get('getVariantsByProductId/{product_id}', 'API\ProductVariantController@getVariantsByProductId');
+
+    //Other colors routes
+    Route::get('getProductColorVariants/{product_id}', 'API\ProductColorController@getProductColorVariants');
 });
 
 //Front routes
