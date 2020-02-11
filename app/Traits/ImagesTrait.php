@@ -73,16 +73,6 @@
         }
     }
 
-    public function destroyVariantImages($id)
-    {
-        $variant = ProductVariant::where(['id' => $id])->with('variant_images')->first();
-        if($variant->variant_images) {
-            foreach($variant->variant_images as $image) {
-                ProductImages::where(['id' => $image['id']])->delete();
-            }
-        }
-    }
-
     public static function uploadConstraintImage($image, $ratio, $saveFormat, $folder) 
     {
         $img = Image::make($image);

@@ -10,17 +10,12 @@ class ProductVariant extends Model
         'product_id', 'sku', 'size', 'color_id', 'stock', 'tags'
     ];
 
-    public function variant_images()
-    {
-        return $this->hasMany('App\ProductImages', 'variant_id');
-    }
-
     public function product()
     {
         return $this->hasMany('App\Product', 'id', 'product_id');
     }
 
-    public function color()
+    public function variant_color()
     {
         return $this->hasOne('App\ProductColor', 'id', 'color_id');
     }

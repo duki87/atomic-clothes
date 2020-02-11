@@ -28,16 +28,16 @@
                                 </thead>
                                 <tbody>                                    
                                     <tr v-for="variant in variants.data" :key="variant.id"> 
-                                        <td class="text-center">{{variant.sku}}</td> 
-                                        <td class="text-center">{{variant.color}}</td> 
-                                        <td class="text-center">{{variant.size}}</td>
-                                        <td class="text-center">{{variant.stock}}</td>
+                                        <td class="text-center">{{ variant.sku }}</td> 
+                                        <td class="text-center">{{ variant.variant_color == null ? '' : variant.variant_color.color }}</td> 
+                                        <td class="text-center">{{ variant.size }}</td>
+                                        <td class="text-center">{{ variant.stock }}</td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" @click="onModalShow(variant)" data-target="#imagesModal" data-backdrop="true">View</button>
+                                            <button v-if="variant.variant_color !== null" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" @click="onModalShow(variant)" data-target="#imagesModal" data-backdrop="true">View</button>
                                         </td>
                                         <td class="text-center align-middle">
-                                            <a v-for="(tag, index) in variant.tags" class="badge badge-default d-inline p-2 ml-2">
-                                                {{tag}}
+                                            <a v-for="(tag, index) in variant.tags" :key="index" class="badge badge-default d-inline p-2 ml-2">
+                                                {{ tag }}
                                             </a>
                                         </td>
                                         <td class="text-center">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-content">
                     <div class="modal-body" v-if="variant_images" style="overflow-x: scroll !important; height: 250px">
-                        <img style="cursor:pointer; object-fit:cover; position:relative; width:30%; height:200px" class="ml-2 img-thumbnail" v-for="(imgObj, index) in variant_images" alt="thumbnail" :src="'/images/products/' + image_folder + '/' + imgObj.image" :data-index="index">
+                        <img style="cursor:pointer; object-fit:cover; position:relative; width:30%; height:200px" class="ml-2 img-thumbnail" v-for="(imgObj, index) in variant_images" :key="index" alt="thumbnail" :src="'/images/products/' + image_folder + '/' + imgObj.image" :data-index="index">
                     </div>
                 </div>
             </div>
@@ -82,14 +82,12 @@
         data() {
             return {
                 form: new Form({
-                    variant_id: '',
+                    id: '',
                     sku: '',
-                    color: '',
-                    described_color: '',
+                    color_id: '',
                     size: '',
                     stock: 0,
                     tags: [],
-                    variant_images: []
                 }),
                 variants: {},
                 variant_images: [],
@@ -101,15 +99,15 @@
             loadVariants() {
                 axios.get('/api/getVariantsByProductId/'+this.product_id).then(
                 ({ data }) => {
-                    this.variants = data.variants;
-                    }
-                ).catch(e => console.log(e)); 
+                    console.log(data.variants)
+                    this.variants = data.variants;                   
+                }).catch(e => console.log(e)); 
             },
             deleteVariant(variant) {
                 this.form.reset();
                 this.form.fill(variant);
                 Swal.fire({
-                    title: 'Are you sure to delete this variant variant?',
+                    title: 'Are you sure to delete this product variant?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -162,8 +160,11 @@
                 this.image_folder = '';
             },
             onModalShow(variant) {
-                this.variant_images = variant.variant_images;
-                this.image_folder = variant.product[0].image_folder;
+                this.variant_images = [];
+                if(variant.variant_color !== null) {
+                    this.variant_images = variant.variant_color.color_variant_images;
+                    this.image_folder = variant.product[0].image_folder;
+                }
             }
         },
         created() {        

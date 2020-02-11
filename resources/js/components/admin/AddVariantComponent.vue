@@ -77,7 +77,7 @@
                                 <a v-for="(tag, index) in form.tags" :key="index" 
                                 @click="removeTag(index)" @mouseover="hoverBtn = index" @mouseout="hoverBtn = undefined" 
                                 :class="[isHovering(index) ? 'badge badge-danger' : 'badge badge-default']" class=" d-inline p-2 ml-2">
-                                    {{tag}}
+                                    {{ tag }}
                                 </a>                       
                             </div> 
                         </div>   
@@ -110,7 +110,7 @@
                 borderClass: 'border border-secondary',
                 hoverBtn: undefined,        
                 formErrors: {},
-                color_variant_images: [],
+                color_variant_images: []
             }          
         },
         methods: {
@@ -131,7 +131,6 @@
                     let obj = this.product.colors.filter(function(colorObj) {
                         return colorObj.id == index;
                     });
-                    console.log(obj)
                     this.color_variant_images = obj[0].color_variant_images;
                 } else {
                     this.color_variant_images = [];

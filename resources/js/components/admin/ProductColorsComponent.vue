@@ -20,19 +20,18 @@
                         </tr>                      
                     </thead>
                     <tbody>
-                        <tr v-for="(colorVariant, index) in product.colors" :key="index" style="cursor:pointer">
+                        <tr v-for="(colorVariant, index) in colorVariants" :key="index" style="cursor:pointer">
                             <td class="th-sm">{{ colorVariant.color }}</td>
                             <td class="th-sm text-center">{{ colorVariant.color_variant_images.length > 0 ? colorVariant.color_variant_images.length+' images' : 'No Images' }} </td>
                             <td class="th-sm text-center">
                                 <button @click="deleteColorVariant(colorVariant)" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                                <router-link :to="{ name: 'edit-color-variant', params: { id: product.id }}" class="btn btn-primary btn-sm" exact><i class="far fa-edit"></i></router-link>   
+                                <router-link :to="{ name: 'edit-color-variant', params: { id: colorVariant.product_id }}" class="btn btn-primary btn-sm" exact><i class="far fa-edit"></i></router-link>   
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="modal-footer">
-                <router-link :to="{ name: 'add-color-variant', params: { id: product.id }}" class="btn btn-primary">Add Color Variant</router-link>   
+            <div class="modal-footer">  
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -44,30 +43,65 @@
     export default {
         data() {
             return {
-                colorVariantForm: new Form({
-                    id: Number,
-                    product_id: String,
-                    color: String,
+                form: new Form({
+                    id: '',
+                    product_id: '',
+                    color: ''
                 }),
-                describe_color: false,
-                colorsList: ['Red', 'Blue', 'Green', 'Pink', 'Purple', 'White', 'Black', 'Grey'],
-                formErrors: {},
-                product: {},
-                borderClass: 'border border-secondary',
-                hoverBtn: undefined,        
+                colorVariants: [],      
                 formErrors: {},
                 color_variant_images: [],
                 image_folder: ''
             }          
         },
         methods: {
-            loadColorVariant(productId) {
+            loadColorVariants(productId) {
                 axios.get(`/api/getProductColorVariants/${productId}`).then(
                     ({data}) => {
-                        this.product = data.product;
+                        this.colorVariants = data.colorVariants;
                     }
                 );
             },
+            deleteColorVariant(colorVariant) {
+                //console.log(colorVariant)
+                this.form.reset()
+                this.form.fill(colorVariant)
+                Swal.fire({
+                    title: 'Are you sure to delete this product color?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Delete',
+                    onClose: this.cancelProgress 
+                }).then((result) => {
+                    this.$Progress.start();
+                        if(result.value) {
+                            this.form.delete('/api/color/'+colorVariant.id)
+                            .then((data) => {
+                                this.$Progress.finish();
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Product Variant has been deleted.',
+                                    'success'
+                                );
+                                this.form.reset();
+                                this.loadColorVariants(this.product_id);
+                            }).catch(
+                                () => {
+                                    this.$Progress.fail();
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'There was an error!'
+                                    })
+                                }
+                            );
+                        }
+                }).catch(
+                    console.log('error')
+                )
+            }
         },
         props: {
             product_id: ''
@@ -76,7 +110,7 @@
             product_id: function(newVal, oldVal) { 
                 // watch it
                 //console.log('Prop changed: ', newVal, ' | was: ', oldVal);
-                this.loadColorVariant(newVal);
+                this.loadColorVariants(newVal);
             }
         },
         created() {

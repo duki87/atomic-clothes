@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <!-- <router-view></router-view> -->
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">

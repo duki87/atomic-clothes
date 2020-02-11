@@ -39,12 +39,29 @@ class ProductColorController extends Controller
 
     public function show($id)
     {
-        //
+        $colorVariant = ProductColor::where(['id' => $id])->with('color_variant_images')->first();
+        return ['colorVariant' => $colorVariant];
+    }
+
+    public function destroy($id)
+    {
+        $colorVariant = ProductColor::where(['id' => $id])->with('color_variant_images')->first();
+        $colorId = $colorVariant->id;
+        $images = $colorVariant->color_variant_images;
+        if($colorVariant->delete()) {
+            foreach($images as $image) {
+                $product_image = ProductImages::where(['color_id' => $colorId])->update([
+                    'color_id' => 0
+                ]);
+            }
+            return ['message' => 'success'];
+        }
+        return ['message' => 'failed'];
     }
 
     public function getProductColorVariants($product_id)
     {
-        $product = Product::where(['id' => $product_id])->with('colors')->with('colors.color_variant_images')->first();
-        return ['product' => $product];
+        $colorVariants = ProductColor::where(['product_id' => $product_id])->with('color_variant_images')->get();
+        return ['colorVariants' => $colorVariants];
     }
 }
