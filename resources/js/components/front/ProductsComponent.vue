@@ -24,10 +24,10 @@
             <!--Grid row-->
             <div class="row wow fadeIn">
                 <!--Grid column-->
-                <div class="col-md-6 mb-4" v-if="form.variant_images.length > 0">
-                    <img :src="'/images/products/' + product.image_folder + '/' + form.variant_images[activeImage].image" class="img-fluid" alt="">
+                <div class="col-md-6 mb-4" v-if="color_variant_images && color_variant_images.length > 0">
+                    <img :src="'/images/products/' + form.image_folder + '/' + color_variant_images[activeImage].image" class="img-fluid" alt="">
                     <div class="d-flex justify-content-between mt-2" style="flex-wrap: wrap;">
-                        <img v-for="(image, index) in form.variant_images" :key="index" :src="'/images/products/' + product.image_folder + '/' + image.image" alt="thumbnail" class="img-thumbnail mt-2" style="cursor:pointer; object-fit:cover; position:relative; width:32%; height:100px" @click="changeActiveImage(index)">
+                        <img v-for="(image, index) in color_variant_images" :key="index" :src="'/images/products/' + form.image_folder + '/' + image.image" alt="thumbnail" class="img-thumbnail mt-2" style="cursor:pointer; object-fit:cover; position:relative; width:32%; height:100px" @click="changeActiveImage(index)">
                     </div>
                 </div>
                 <!--Grid column-->
@@ -41,32 +41,42 @@
                                 <span class="badge red mr-1" :class="tagColors[index]">{{ tag }}</span>
                             </a>
                         </div>
-                        <p class="lead" v-if="product.discount">
+                        <p class="lead" v-if="form.discount">
                             <span>
-                                <del>$ {{ product.price }}</del>
+                                <del>$ {{ form.price }}</del>
                             </span>
                             <span class="mr-1">
-                                $ {{ product.discount }}
+                                $ {{ form.discount }}
                             </span>
                         </p>
-                        <p class="lead" v-if="!product.discount">
+                        <p class="lead" v-if="!form.discount">
                             <span class="mr-1">
-                                $ {{ product.price }}
+                                $ {{ form.price }}
                             </span>
                         </p>
                         <p class="lead font-weight-bold">Description</p>
                         <p>
-                            {{ product.description }}
+                            {{ form.description }}
                         </p>
 
-                        <p class="lead font-weight-bold d-inline">Select Color And Size</p>
+                        <p class="lead font-weight-bold">Select Color And Size</p>
                         <div class="dropdown d-inline mb-4">
                             <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenu6" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                {{ selectVariantText }}
+                                {{ selectColorText }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu6">
-                                <a v-for="(variant, index) in product.variants" :key="index" class="dropdown-item" :class="{'active': form.id == variant.id}" @click="selectVariant(variant)">{{ variant.color }} {{ variant.size }} (available: {{ variant.stock }}) </a>
+                                <a v-for="(color, index) in form.colors" :key="index" class="dropdown-item" :class="{'active': color.id == selectedColor.id}" @click="selectColor(color)">{{ color.color }} </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown d-inline mb-4">
+                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenu6" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {{ selectSizeText }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu6">
+                                <a v-for="(sizeVariant, index) in availableSizes" :key="index" class="dropdown-item" :class="{'active': sizeVariant.id == selectedSize.id}" @click="selectSize(sizeVariant)">{{ sizeVariant.size }} (available: {{ sizeVariant.stock }}) </a>
                             </div>
                         </div>
 
@@ -125,17 +135,43 @@
             return {
                 form: new Form({
                     id: '',
-                    sku: '',
-                    color: '',
-                    size: '',
-                    stock: 0,
+                    main_category_id: '',
+                    sub_category_id: '',
+                    category_id: '',
+                    brand_id: '',
+                    code: '',
+                    title: '',
+                    url: '',
+                    description: '',
+                    price: '',
+                    discount: '',
+                    image_folder: '',
+                    cover_image: '',
                     tags: [],
-                    variant_images: []
+                    status: '',
+                    variants: [{
+                        id: '',
+                        sku: '',
+                        color_id: '',
+                        size: '',
+                        stock: 0,
+                        tags: []
+                    }],
+                    colors: [{
+                        id: '',
+                        product_id: '',
+                        color: '',
+                    }]                 
                 }),
                 product: {},
                 activeImage: 0,
-                selectVariantText: 'Select',
-                tagColors: ['red', 'blue', 'purple', 'green', 'yellow', 'violet', 'orange']
+                selectColorText: 'Select Color',
+                selectSizeText: 'Select Size',
+                tagColors: ['red', 'blue', 'purple', 'green', 'yellow', 'violet', 'orange'],
+                selectedColor: {},
+                selectedSize: {},
+                availableSizes: [],
+                color_variant_images: []
             }
         },
         methods: {
@@ -144,15 +180,26 @@
                 axios.get('/api/getProduct/'+params.product).then(
                 ({ data }) => {
                         this.product = data.product[0];
-                        this.form.fill(this.product.variants[0]);
-                        this.selectVariantText = `${this.form.color} ${this.form.size}`;
+                        this.form.fill(data.product[0]);
+                        let color = this.form.colors[0];
+                        this.selectedColor = color;
+                        this.availableSizes =  color.variants;
+                        this.selectedSize = color.variants[0];
+                        this.selectColorText = color.color;
+                        this.selectSizeText = `${color.variants[0].size} (available: ${color.variants[0].stock})`;
+                        this.color_variant_images = color.color_variant_images;
                     }
                 ).catch(e => console.log(e)); 
             },
-            selectVariant(variant) {
-                this.form.fill(variant);
-                this.activeImage = 0;
-                this.selectVariantText = `${this.form.color} ${this.form.size}`;
+            selectSize(sizeVariant) {
+                this.selectedSize = sizeVariant;
+                this.selectSizeText = `${sizeVariant.size} (available: ${sizeVariant.stock})`;
+            },
+            selectColor(color) {
+                this.selectedColor = color;
+                this.selectColorText = color.color;
+                this.availableSizes = color.variants;
+                this.color_variant_images = color.color_variant_images;
             },
             changeActiveImage(index) {
                 this.activeImage = index;

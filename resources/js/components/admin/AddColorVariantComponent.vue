@@ -34,7 +34,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-row mt-2 d-flex justify-content-around" :class="[product_images.length < 1 ? 'd-none' : '']">
+                            <div class="form-row mt-2 d-flex justify-content-around" :class="[product_images.length === 0 ? 'd-none' : '']">
                                 <div class="col-md-12">
                                     <p>Add Images To Product Variant</p>
                                 </div>
@@ -94,7 +94,6 @@
                     ({data}) => {
                         let product_images = data.product.product_images.filter(this.filterImages)
                         this.product_images = product_images;
-                        //this.product_images = data.product.product_images;
                         this.product = data.product;
                         this.image_folder = data.product.image_folder;
                     }
@@ -128,7 +127,6 @@
                 this.$Progress.start();
                 this.form.post('/api/color')
                 .then((res) => {
-                    Fire.$emit('AfterCreate');
                     this.form.reset();
                     this.describe_color = false;
                     this.product_images = [];
@@ -139,6 +137,7 @@
                         title: 'New Product Color Created!'
                     });
                     this.$Progress.finish();
+                    this.loadProduct();
                 })
                 .catch(
                     (err) => {
@@ -157,9 +156,6 @@
         },
         created() {
             this.loadProduct();
-            Fire.$on('AfterCreate', () => {
-                this.loadProduct();
-            });
         },
         mounted() {
             console.log('Component mounted.')

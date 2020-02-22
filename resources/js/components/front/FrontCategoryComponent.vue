@@ -13,7 +13,7 @@
                     <!--Card image-->
                     <div class="view overlay">
                         <img v-if="product.cover_image !== 'not_selected'" :src="'/images/products/' + product.image_folder + '/' + product.cover_image" class="card-img-top" alt="">
-                        <router-link :to="{ name: 'front-product', params: { product: product.id }}" class="" tag="a">
+                        <router-link :to="{ name: 'front-product', params: { product: product.url }}" class="" tag="a">
                             <div class="mask rgba-white-slight"></div>
                         </router-link>
                     </div>
