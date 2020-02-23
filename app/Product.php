@@ -24,4 +24,9 @@ class Product extends Model
     {
         return $this->hasMany('App\ProductImages', 'product_id');
     }
+
+    public function test()
+    {
+        return $this->hasManyThrough('App\ProductVariant', 'App\ProductColor');
+    }
 }

@@ -54,7 +54,11 @@ class FrontController extends Controller
 
     public function getProduct($product)
     {
-        $product = Product::where(['url' => $product])->with('colors', 'colors.variants', 'colors.color_variant_images', 'variants')->get();
+        $product = Product::where(['url' => $product])
+        ->with('colors')
+        ->with('colors.variants')
+        ->with('colors.color_variant_images')
+        ->get();
         $product->transform(function($product) {
             $product->mainCat = Category::select('title', 'url')->where(['id' => $product->main_category_id])->first();
             $product->subCat = Category::select('title', 'url')->where(['id' => $product->sub_category_id])->first();
