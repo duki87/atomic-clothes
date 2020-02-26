@@ -10,6 +10,8 @@ use App\ProductImages;
 use App\Category;
 use App\Brand;
 use App\Traits\ManualPaginationTrait;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class FrontController extends Controller
 {
@@ -55,19 +57,18 @@ class FrontController extends Controller
     public function getProduct($product)
     {
         $product = Product::where(['url' => $product])
-        ->with('colors')
+        ->with('category', 'main_category', 'sub_category', 'brand')
+        ->with('colors')       
         ->with('colors.variants')
         ->with('colors.color_variant_images')
-        ->get();
-        $product->transform(function($product) {
-            $product->mainCat = Category::select('title', 'url')->where(['id' => $product->main_category_id])->first();
-            $product->subCat = Category::select('title', 'url')->where(['id' => $product->sub_category_id])->first();
-            $product->cat = Category::select('title', 'url')->where(['id' => $product->category_id])->first();
-            $product->brandTitle = Brand::where(['id' => $product->brand_id])->first()['title'];
+        ->first();
+        if($product) {
             $product->tags = $product->tags ? json_decode($product->tags) : [];
-            return $product;
-        });
-        return ['product' => $product];
+            return ['product' => $product];
+        }
+        $validator = Validator::make([], []); // Empty data and rules fields
+        $validator->errors()->add('product', 'NOT_FOUND');
+        throw new ValidationException($validator);
     }
 
     private function returnCollectionID($collectionURL)

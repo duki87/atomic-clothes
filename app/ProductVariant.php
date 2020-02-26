@@ -12,7 +12,7 @@ class ProductVariant extends Model
 
     public function product()
     {
-        return $this->hasMany('App\Product', 'id', 'product_id');
+        return $this->hasOne('App\Product', 'id', 'product_id');
     }
 
     public function variant_color()

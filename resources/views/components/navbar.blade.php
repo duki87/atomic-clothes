@@ -47,7 +47,7 @@
 
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
-                @if(Session::has('cart'))
+                @if(Cookie::has('atomic-cart'))
                 <li class="nav-item">
                     <a class="nav-link waves-effect">
                         <span class="badge red z-depth-1 mr-1"> 1 </span>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2020 at 10:10 PM
+-- Generation Time: Feb 26, 2020 at 11:20 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -74,6 +74,58 @@ INSERT INTO `brands` (`id`, `title`, `url`, `description`, `logo`, `website`, `t
 (1, 'Atomic', '', 'Atomic is our primary brand.', 'ukaVONUHw4XWHTuvVS8Pg2bbhxXb7uq3.png', 'http://www.atomic.com', '[\"atomic\"]', '2019-11-26 18:10:08', '2019-11-26 18:10:08'),
 (2, 'Core', '', 'Core is a new brand which offers casual clothing.', 's2MC7Q27EWHnzi5Nvy3iiaxj3WKUmVOU.png', 'http://www.core-clothing.com', '[\"core\"]', '2019-11-26 18:35:13', '2019-11-26 18:35:13'),
 (3, 'Proto', '', 'Proto is a new brand', 'yhHffY7rihunpd36BeLvTvYhEib0HTRL.png', 'http://www.proto.com', '[\"proto\"]', '2020-01-15 21:21:54', '2020-01-15 21:21:54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `total` double(8,2) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`, `total`, `status`, `created_at`, `updated_at`) VALUES
+(8, 0, 0.00, 1, '2020-02-26 21:12:55', '2020-02-26 21:12:55'),
+(9, 0, 0.00, 1, '2020-02-26 21:13:20', '2020-02-26 21:13:20'),
+(10, 0, 0.00, 1, '2020-02-26 21:15:05', '2020-02-26 21:15:05'),
+(11, 0, 0.00, 1, '2020-02-26 21:18:42', '2020-02-26 21:18:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_items`
+--
+
+CREATE TABLE `cart_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `cart_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_price` double(8,2) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `subtotal` double(8,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `product_price`, `quantity`, `subtotal`, `created_at`, `updated_at`) VALUES
+(7, 8, 4, 15.99, 1, 15.99, '2020-02-26 21:12:55', '2020-02-26 21:12:55'),
+(8, 9, 4, 15.99, 1, 15.99, '2020-02-26 21:13:20', '2020-02-26 21:13:20'),
+(9, 10, 4, 15.99, 1, 15.99, '2020-02-26 21:15:06', '2020-02-26 21:15:06'),
+(10, 11, 4, 15.99, 1, 15.99, '2020-02-26 21:18:42', '2020-02-26 21:18:42');
 
 -- --------------------------------------------------------
 
@@ -158,7 +210,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (25, '2020_02_10_101206_alter_products_table_add_url', 18),
 (26, '2020_02_10_101408_alter_brands_table_add_url', 19),
 (27, '2020_02_10_111855_alter_products_table_make_unique_url', 20),
-(28, '2020_02_10_132743_alter_product_images_delete_variant_id', 21);
+(28, '2020_02_10_132743_alter_product_images_delete_variant_id', 21),
+(29, '2020_02_22_100655_alter_product_images_table_make_color_id_nullable', 22),
+(30, '2020_02_22_105125_alter_product_images_table_add_default_value_to_color_id', 23),
+(31, '2020_02_26_160906_create_carts_table', 24),
+(32, '2020_02_26_171142_create_cart_items_table', 24);
 
 -- --------------------------------------------------------
 
@@ -281,10 +337,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_id`, `brand_id`, `code`, `title`, `url`, `description`, `price`, `discount`, `image_folder`, `cover_image`, `tags`, `status`, `created_at`, `updated_at`) VALUES
-(39, 1, 8, 9, 2, 'YMRS094451', 'Men T-Shirt M-113', 'men-t-Shirt-m-113', 'Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113 Men T-Shirt M-113', 20.99, NULL, '16012020190353-0raywsr8qmuh6fve', 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '[\"men-t-shirt-m-113\"]', 1, '2020-01-16 18:03:53', '2020-01-16 18:04:41'),
-(40, 1, 4, 5, 1, 'YEC2092441', 'Men Shirt Classic A-235', 'Men-shirt-classic-a-235', 'Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235 Men Shirt Classic A-235', 25.99, NULL, '16012020194556-c97adnlgjozezxfz', '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '', 1, '2020-01-16 18:45:56', '2020-01-16 18:47:14'),
-(41, 2, 13, 14, 2, 'QIDK046902', 'Women T-Shirt Y-12', 'women-t-shirt-y-12', 'Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12 Women T-Shirt Y-12', 14.99, 11.99, '16012020194959-zgiciiayj3doqxzt', 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '', 1, '2020-01-16 18:49:59', '2020-01-16 18:54:16'),
-(71, 1, 15, 16, 2, '8JU2060610', 'Men Pants Core', 'men-pants-core', 'fgh fghfsgh fjyrf nf ndgcbn fhjfhmj ghmgmgm', 29.99, 25.99, '06022020104234-iwdkjmwugjugrnft', 'lTtAExjEzZ3BbOi6DraFNOSRbDOKy9wQ.jpg', '[\"pants\",\"core\",\"men\"]', 1, '2020-02-06 09:42:35', '2020-02-06 09:44:05');
+(4, 1, 4, 5, 2, 'PT3E014622', 'shirt', 'shirt', 'shirt shirt shirt shirt shirt shirt shirt shirt shirt shirt shirt', 21.99, 15.99, '22022020101658-za3y7mbuagi4oydt', 'tSk1i69rQFOKzD8dUCdQ6AOgVrunpiBQ.jpg', '[\"shirt\"]', 1, '2020-02-22 09:16:58', '2020-02-22 09:18:02');
 
 -- --------------------------------------------------------
 
@@ -305,12 +358,9 @@ CREATE TABLE `product_colors` (
 --
 
 INSERT INTO `product_colors` (`id`, `product_id`, `color`, `created_at`, `updated_at`) VALUES
-(1, 71, 'black', NULL, NULL),
-(2, 71, 'red', NULL, NULL),
-(3, 41, 'white', NULL, NULL),
-(4, 41, 'pink', NULL, NULL),
-(7, 41, 'Purple', '2020-02-10 17:31:33', '2020-02-10 17:31:33'),
-(8, 41, 'various colors', '2020-02-10 17:33:49', '2020-02-10 17:33:49');
+(1, 4, 'RED TARTAN PLAID SHIRT', '2020-02-22 09:27:03', '2020-02-22 09:27:03'),
+(2, 4, 'BLACK TARTAN PLAID SHIRT', '2020-02-22 09:49:18', '2020-02-22 09:49:18'),
+(3, 4, 'BROWN TARTAN PLAID SHIRT', '2020-02-22 09:49:31', '2020-02-22 09:49:31');
 
 -- --------------------------------------------------------
 
@@ -321,7 +371,7 @@ INSERT INTO `product_colors` (`id`, `product_id`, `color`, `created_at`, `update
 CREATE TABLE `product_images` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `color_id` int(11) NOT NULL,
+  `color_id` int(11) DEFAULT 0,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -332,96 +382,12 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `color_id`, `image`, `created_at`, `updated_at`) VALUES
-(15, 39, 0, 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '2020-01-16 18:04:37', '2020-01-16 18:04:37'),
-(16, 39, 0, 'aR5lcLImOdGJFTpuryzn7uH7evuzjDhG.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
-(17, 39, 0, 'DTLeL4ltOYH1BfwOhG9se3pMjnso80pV.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
-(18, 39, 0, 'qi1lwB5HugXxCtIDCFztX0iejHxWD5rZ.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
-(19, 39, 0, 'pbcbE2I2I13xCuGuUbzjYzefatEU5PSp.jpg', '2020-01-16 18:04:38', '2020-01-16 18:04:38'),
-(20, 39, 0, 'nF0F4Pq4yiOIdkaCCFpT7lolDxhLItmg.jpg', '2020-01-16 18:04:39', '2020-01-16 18:04:39'),
-(21, 39, 0, '3TEw2zWgg9KTb4BWNwtpvDbBL39lnWnN.jpg', '2020-01-16 18:04:39', '2020-01-16 18:04:39'),
-(22, NULL, 0, 'qi1lwB5HugXxCtIDCFztX0iejHxWD5rZ.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
-(23, NULL, 0, 'pbcbE2I2I13xCuGuUbzjYzefatEU5PSp.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
-(24, NULL, 0, 'nF0F4Pq4yiOIdkaCCFpT7lolDxhLItmg.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
-(25, NULL, 0, '3TEw2zWgg9KTb4BWNwtpvDbBL39lnWnN.jpg', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
-(26, NULL, 0, 'I2qAAvwG2BpfVuU3YKM5jBV9LMoNvgkD.jpg', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
-(27, NULL, 0, 'aR5lcLImOdGJFTpuryzn7uH7evuzjDhG.jpg', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
-(28, NULL, 0, 'DTLeL4ltOYH1BfwOhG9se3pMjnso80pV.jpg', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
-(29, 40, 0, '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '2020-01-16 18:46:08', '2020-01-16 18:46:08'),
-(30, 40, 0, 'oE6T6HjLQ7rZJ205ydpQZaAApgB4CToW.jpg', '2020-01-16 18:46:08', '2020-01-16 18:46:08'),
-(31, 40, 0, 'zUGNSf5PmveHw0RW9qblaz06YPxi2SmN.jpg', '2020-01-16 18:46:08', '2020-01-16 18:46:08'),
-(32, 40, 0, 'yOBS5p5U6bNzajXP0NFHtHkK8gv0SIle.jpg', '2020-01-16 18:46:09', '2020-01-16 18:46:09'),
-(33, 40, 0, 'lyBzgZQXn6i82UkfFM4Zfi7Vsutb16m6.jpg', '2020-01-16 18:46:09', '2020-01-16 18:46:09'),
-(34, 40, 0, 'uDYXb5NoDxlHxpMfS65kjHExyugu7X2Y.jpg', '2020-01-16 18:46:09', '2020-01-16 18:46:09'),
-(35, NULL, 0, '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '2020-01-16 18:47:52', '2020-01-16 18:47:52'),
-(36, NULL, 0, 'oE6T6HjLQ7rZJ205ydpQZaAApgB4CToW.jpg', '2020-01-16 18:47:52', '2020-01-16 18:47:52'),
-(37, NULL, 0, '0MVxb1NOR3fe6r4INZIcm5Wtl0tLVguO.jpg', '2020-01-16 18:48:21', '2020-01-16 18:48:21'),
-(38, NULL, 0, 'oE6T6HjLQ7rZJ205ydpQZaAApgB4CToW.jpg', '2020-01-16 18:48:21', '2020-01-16 18:48:21'),
-(39, NULL, 0, 'lyBzgZQXn6i82UkfFM4Zfi7Vsutb16m6.jpg', '2020-01-16 18:49:19', '2020-01-16 18:49:19'),
-(40, NULL, 0, 'uDYXb5NoDxlHxpMfS65kjHExyugu7X2Y.jpg', '2020-01-16 18:49:19', '2020-01-16 18:49:19'),
-(41, NULL, 0, 'uDYXb5NoDxlHxpMfS65kjHExyugu7X2Y.jpg', '2020-01-16 18:49:41', '2020-01-16 18:49:41'),
-(42, NULL, 0, 'lyBzgZQXn6i82UkfFM4Zfi7Vsutb16m6.jpg', '2020-01-16 18:49:41', '2020-01-16 18:49:41'),
-(52, 41, 4, 'ZLGlXIMZFe94fwgaM6FFiPvNoEMvp1KH.jpg', '2020-01-16 18:50:43', '2020-01-16 18:50:43'),
-(53, 41, 4, 'yRMi8uJZbFYxEoUe2UimmPT29eS7mOQX.jpg', '2020-01-16 18:50:43', '2020-01-16 18:50:43'),
-(54, 41, 8, 'ApEIgKMDhIIHfCZmHHg4ovS4Oxbkauyo.jpg', '2020-01-16 18:50:44', '2020-02-10 17:33:49'),
-(55, 41, 4, 'SLTYHY348oEYHkiHCtNxE0b5YNwi0kdG.jpg', '2020-01-16 18:50:44', '2020-01-16 18:50:44'),
-(56, 41, 7, '8m24M2OR4NBmB4ECRarz3W5kAbuhqoyr.jpg', '2020-01-16 18:50:45', '2020-02-10 17:31:33'),
-(57, 41, 8, 'jjuMnkY4VltA7fXQjgZysBCB3ssf3yUE.jpg', '2020-01-16 18:50:45', '2020-02-10 17:33:50'),
-(58, 41, 7, '22MPdyV1jjydA7TezsYMpPGAnox0uhIJ.jpg', '2020-01-16 18:50:45', '2020-02-10 17:31:33'),
-(59, 41, 7, 'dof7iswv3cLMWc4lKkMSSvUCP447C17k.jpg', '2020-01-16 18:50:45', '2020-02-10 17:31:33'),
-(60, 41, 7, '47SeeKDfvoG3wkrbJd5MSH1ZahnXEdfV.jpg', '2020-01-16 18:50:46', '2020-02-10 17:31:33'),
-(61, 41, 8, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 18:50:46', '2020-02-10 17:33:50'),
-(62, 41, 3, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 18:50:46', '2020-01-16 18:50:46'),
-(63, 41, 3, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 18:50:47', '2020-01-16 18:50:47'),
-(64, 41, 3, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 18:50:47', '2020-01-16 18:50:47'),
-(65, NULL, 0, 'ZLGlXIMZFe94fwgaM6FFiPvNoEMvp1KH.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
-(66, NULL, 0, 'yRMi8uJZbFYxEoUe2UimmPT29eS7mOQX.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
-(67, NULL, 0, 'ApEIgKMDhIIHfCZmHHg4ovS4Oxbkauyo.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
-(68, NULL, 0, 'SLTYHY348oEYHkiHCtNxE0b5YNwi0kdG.jpg', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
-(69, NULL, 0, 'ZLGlXIMZFe94fwgaM6FFiPvNoEMvp1KH.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
-(70, NULL, 0, 'yRMi8uJZbFYxEoUe2UimmPT29eS7mOQX.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
-(71, NULL, 0, 'ApEIgKMDhIIHfCZmHHg4ovS4Oxbkauyo.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
-(72, NULL, 0, 'SLTYHY348oEYHkiHCtNxE0b5YNwi0kdG.jpg', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
-(73, NULL, 0, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
-(74, NULL, 0, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
-(75, NULL, 0, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
-(76, NULL, 0, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
-(77, NULL, 0, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
-(78, NULL, 0, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
-(79, NULL, 0, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
-(80, NULL, 0, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
-(81, NULL, 0, '8m24M2OR4NBmB4ECRarz3W5kAbuhqoyr.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
-(82, NULL, 0, 'jjuMnkY4VltA7fXQjgZysBCB3ssf3yUE.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
-(83, NULL, 0, '22MPdyV1jjydA7TezsYMpPGAnox0uhIJ.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
-(84, NULL, 0, 'dof7iswv3cLMWc4lKkMSSvUCP447C17k.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
-(85, NULL, 0, '47SeeKDfvoG3wkrbJd5MSH1ZahnXEdfV.jpg', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
-(86, NULL, 0, 'uoZ3LKkVhILqki542Zkj4GufR89WzNGo.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
-(87, NULL, 0, 'OgB5FaX6e8Gz0N360i4xHLzJ46w54nkU.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
-(88, NULL, 0, 'lnBLBRnw8O0CuAiLsvGDAFVLrlgvGhZq.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
-(89, NULL, 0, 'Clu7fCdUxoPN6f7s2O3dSta6WKeOPzUe.jpg', '2020-01-16 20:29:01', '2020-01-16 20:29:01'),
-(100, 46, 0, 'ckaeIGFbOpGpqUsiCQuCVGEhctHtLmuW.jpg', '2020-01-23 13:59:04', '2020-01-23 13:59:04'),
-(101, 46, 0, 'FmHtUOFNA68kDAj6bd9MYN85B1OoieOm.jpg', '2020-01-23 13:59:04', '2020-01-23 13:59:04'),
-(144, 54, 0, 'idTLx459JRTYTE15zrvphWDQxC93f90n.jpg', '2020-01-23 14:37:23', '2020-01-23 14:37:23'),
-(145, 54, 0, 'T2C4ItadQvskjfOJ2qERoLCib1rbDoJU.jpg', '2020-01-23 14:37:23', '2020-01-23 14:37:23'),
-(146, 54, 0, 'PNdtJhuhzAhWDtzI4ZkZ8sLIkyte1npG.jpg', '2020-01-23 14:37:23', '2020-01-23 14:37:23'),
-(147, 54, 0, 'y0YeB0DjEnH5GQxi3ZOM2b6efIljRpSV.jpg', '2020-01-23 14:37:24', '2020-01-23 14:37:24'),
-(148, 54, 0, 'SsM7A0NrGFNdS2PyA63XGj2qonKe9Ak2.jpg', '2020-01-23 14:37:24', '2020-01-23 14:37:24'),
-(149, 54, 0, 'xPHrZLgpnt8tzDWGz056bwQYXosKH0p5.jpg', '2020-01-23 14:37:24', '2020-01-23 14:37:24'),
-(150, 54, 0, 'GgctoYbU0NRZuwjfuz8ikeOSkflOTuaU.jpg', '2020-01-23 14:37:25', '2020-01-23 14:37:25'),
-(165, 57, 0, 'PK9XLxLzSqyEL127MIvcUtvbhDQi3sIi.jpg', '2020-01-23 14:45:51', '2020-01-23 14:45:51'),
-(166, 57, 0, 'UnyWEyyiNGF55CsmiMST2DZlqpPoAT5Q.jpg', '2020-01-23 14:45:51', '2020-01-23 14:45:51'),
-(167, 57, 0, 'eQQJBVXLhJVhdhgdeB8zAy3sRsiCAnmT.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
-(168, 57, 0, 'Na9zjgRaH9XGBjP8rbkb1fuK3zrEKDSn.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
-(169, 57, 0, '2wAr1jgUZ5LEtC19bVbcI6N5Nhi1AV7y.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
-(170, 57, 0, 'zMhFU7qfYPB9sd7mBSqSL1wElEdTW6pf.jpg', '2020-01-23 14:45:52', '2020-01-23 14:45:52'),
-(171, 57, 0, 'an4qKjnirQl3Vop6rAxg8wFE9IiO95aB.jpg', '2020-01-23 14:45:53', '2020-01-23 14:45:53'),
-(183, NULL, 0, '3TEw2zWgg9KTb4BWNwtpvDbBL39lnWnN.jpg', '2020-02-03 12:11:04', '2020-02-03 12:11:04'),
-(184, NULL, 0, 'qi1lwB5HugXxCtIDCFztX0iejHxWD5rZ.jpg', '2020-02-03 12:11:04', '2020-02-03 12:11:04'),
-(185, NULL, 0, 'nF0F4Pq4yiOIdkaCCFpT7lolDxhLItmg.jpg', '2020-02-03 12:11:05', '2020-02-03 12:11:05'),
-(186, NULL, 0, 'pbcbE2I2I13xCuGuUbzjYzefatEU5PSp.jpg', '2020-02-03 12:11:05', '2020-02-03 12:11:05'),
-(187, 71, 0, 'lTtAExjEzZ3BbOi6DraFNOSRbDOKy9wQ.jpg', '2020-02-06 09:43:49', '2020-02-06 09:43:49'),
-(188, 71, 0, 'F021QZkxVmiFI9I6ggIODbgTAPtkvZOb.jpg', '2020-02-06 09:43:50', '2020-02-06 09:43:50'),
-(189, NULL, 0, 'lTtAExjEzZ3BbOi6DraFNOSRbDOKy9wQ.jpg', '2020-02-06 09:45:16', '2020-02-06 09:45:16'),
-(190, NULL, 0, 'F021QZkxVmiFI9I6ggIODbgTAPtkvZOb.jpg', '2020-02-06 09:45:16', '2020-02-06 09:45:16');
+(1, 4, 1, 'I1Z6fHhW3U6eigOIuKLoBui4nOkfz7Rn.jpg', '2020-02-22 09:17:32', '2020-02-22 09:27:03'),
+(2, 4, 1, 'oQ9dEpHKYl8q97k9o1ExPlOeV8vsMBJB.jpg', '2020-02-22 09:17:33', '2020-02-22 09:27:03'),
+(3, 4, 3, '8H8avp8rlDc66HAt6RwOdmOvuhiMsXkC.jpg', '2020-02-22 09:17:33', '2020-02-22 09:49:31'),
+(4, 4, 3, '5ncGCL3NE6DEvhahincm3s1CoaPv5ZJ4.jpg', '2020-02-22 09:17:33', '2020-02-22 09:49:31'),
+(5, 4, 2, 'tSk1i69rQFOKzD8dUCdQ6AOgVrunpiBQ.jpg', '2020-02-22 09:17:34', '2020-02-22 09:49:18'),
+(6, 4, 2, 'M5KXCF79R55pqW5JplnySSpL2u6UPHES.jpg', '2020-02-22 09:17:34', '2020-02-22 09:49:18');
 
 -- --------------------------------------------------------
 
@@ -446,21 +412,9 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`id`, `product_id`, `color_id`, `sku`, `size`, `stock`, `tags`, `created_at`, `updated_at`) VALUES
-(12, 39, 0, 'MRD', 'M', 100, '[\"m\",\"red\"]', '2020-01-16 18:06:06', '2020-01-16 18:06:06'),
-(13, 39, 0, 'MBK', 'M', 200, '[\"m\",\"black\"]', '2020-01-16 18:06:43', '2020-01-16 18:06:43'),
-(14, 40, 0, 'LRD', 'L', 200, '', '2020-01-16 18:47:52', '2020-01-16 18:47:52'),
-(15, 40, 0, 'MRD', 'M', 200, '', '2020-01-16 18:48:21', '2020-01-16 18:48:21'),
-(16, 40, 0, 'LBK', 'L', 200, '', '2020-01-16 18:49:19', '2020-01-16 18:49:19'),
-(17, 40, 0, 'MBK', 'M', 200, '', '2020-01-16 18:49:41', '2020-01-16 18:49:41'),
-(18, 41, 0, 'SPK', 'S', 200, '', '2020-01-16 18:54:45', '2020-01-16 18:54:45'),
-(19, 41, 0, 'MPK', 'M', 30, '', '2020-01-16 18:55:17', '2020-01-16 18:55:17'),
-(20, 41, 0, 'LWH', 'L', 50, '', '2020-01-16 18:55:43', '2020-01-16 18:55:43'),
-(21, 41, 0, 'XLWH', 'XL', 100, '', '2020-01-16 18:56:57', '2020-01-16 18:56:57'),
-(22, 41, 0, 'LPR', 'L', 150, '', '2020-01-16 18:57:38', '2020-01-16 18:57:38'),
-(23, 41, 0, 'XSWH', 'XS', 345, '', '2020-01-16 20:29:00', '2020-01-16 20:29:00'),
-(25, 39, 0, 'XLRD', 'XL', 1000, '', '2020-02-03 12:11:04', '2020-02-03 12:11:04'),
-(26, 71, 0, 'MBK', 'M', 100, '', '2020-02-06 09:45:16', '2020-02-06 09:45:16'),
-(27, 41, 3, 'LWH', 'L', 100, '', '2020-02-10 20:10:04', '2020-02-10 20:10:04');
+(1, 4, 1, 'RL', 'L', 1000, '', '2020-02-22 09:53:47', '2020-02-22 09:53:47'),
+(2, 4, 2, 'BL', 'L', 1000, '', '2020-02-22 09:58:31', '2020-02-22 09:58:31'),
+(3, 4, 2, 'BS', 'S', 10, '', '2020-02-22 09:58:52', '2020-02-22 09:58:52');
 
 -- --------------------------------------------------------
 
@@ -504,6 +458,18 @@ ALTER TABLE `admins`
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cart_items`
+--
+ALTER TABLE `cart_items`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -600,6 +566,18 @@ ALTER TABLE `brands`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
@@ -609,7 +587,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `oauth_clients`
@@ -627,25 +605,25 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product_colors`
 --
 ALTER TABLE `product_colors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -25,6 +25,26 @@ class Product extends Model
         return $this->hasMany('App\ProductImages', 'product_id');
     }
 
+    public function main_category()
+    {
+        return $this->belongsTo('App\Category', 'main_category_id', 'id');
+    }
+
+    public function sub_category()
+    {
+        return $this->belongsTo('App\Category', 'sub_category_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category', 'category_id', 'id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo('App\Brand', 'brand_id', 'id');
+    }
+
     public function test()
     {
         return $this->hasManyThrough('App\ProductVariant', 'App\ProductColor');

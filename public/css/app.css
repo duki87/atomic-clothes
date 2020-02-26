@@ -23333,3 +23333,7 @@ ul.stepper li.completed a .label {
   color: red;
 }
 
+.dropdown-menu-ch {
+  padding: 0;
+}
+

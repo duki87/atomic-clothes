@@ -7,8 +7,9 @@ const routes = [
         //{ path: ':subCategory', name: 'front-subCategory', component: require('./components/front/FrontSubCategoryComponent.vue').default  },
       ]  
     },
-    { path: '/products/:product', name: 'front-product', component: require('./components/front/ProductsComponent.vue').default},
+    { path: '/products/:product', name: 'front-product', component: require('./components/front/ProductComponent.vue').default },
     { path: '/stores', name: 'store', component: require('./components/front/StoreComponent.vue').default },
+    { path: '/cart', name: 'cart', component: require('./components/front/CartComponent.vue').default },
     //admin routes
     { path: '/admin', component: require('./components/admin/DashboardComponent.vue').default  },
     { path: '/admin/categories', component: require('./components/admin/CategoryComponent.vue').default  },
