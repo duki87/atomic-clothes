@@ -47,25 +47,16 @@
 
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
-                @if(Cookie::has('atomic-cart'))
+                <?php if(isset($_COOKIE['atomic_cart'])): ?>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect">
+                    <router-link to="/cart" class="nav-link waves-effect" tag="a" active-class="active" exact>
                         <span class="badge red z-depth-1 mr-1"> 1 </span>
                         <i class="fas fa-shopping-cart"></i>
                         <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                    </a>
+                    </router-link>
                 </li>
-                @endif
-                <li class="nav-item">
-                    <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect">
-                        <i class="fab fa-google"></i>
-                    </a>
-                </li>
+                <?php endif;?>      
+
                 @guest
                 <li class="nav-item">
                     <a href="{{ route('login') }}" class="nav-link border border-light rounded waves-effect">

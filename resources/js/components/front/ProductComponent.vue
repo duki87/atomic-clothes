@@ -164,6 +164,7 @@
                     id: Number,
                     cart_id: Number,
                     product_id: Number,
+                    variant_id: Number,
                     product_price: Number,
                     quantity: 1,
                     subtotal: Number
@@ -210,15 +211,18 @@
                 this.availableSizes = color.variants.filter(variant => {
                     return variant.stock > 0;
                 });
+                this.selectSizeText = `${this.availableSizes[0].size} (available: ${this.availableSizes[0].stock})`;
                 this.color_variant_images = color.color_variant_images;
+                this.selectedSize = this.availableSizes[0];
             },
             changeActiveImage(index) {
                 this.activeImage = index;
             },
-            addToCart() {
+            addToCart() {              
                 let product_price = this.form.discount ? this.form.discount : this.form.price;
                 this.cartItemForm.cart_id = '';
                 this.cartItemForm.product_id = this.form.id;
+                this.cartItemForm.variant_id = this.selectedSize.id;
                 this.cartItemForm.product_price = product_price;
                 this.cartItemForm.subtotal = this.cartItemForm.quantity * product_price;
                 this.cartItemForm.post('/api/addToCart')
