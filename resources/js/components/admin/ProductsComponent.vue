@@ -113,7 +113,7 @@
                 }).then((result) => {
                     this.$Progress.start();
                         if(result.value) {
-                            this.form.delete('/api/product/'+product.id)
+                            this.form.delete(`/api/product/${product.id}`)
                             .then(() => {
                                 this.$Progress.finish();
                                 Swal.fire(

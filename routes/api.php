@@ -60,3 +60,6 @@ Route::get('getProduct/{product}', 'API\FrontController@getProduct');
 
 Route::get('cookieExist', 'API\CartController@cookie_exist');
 Route::post('addToCart', 'API\CartController@add_to_cart');
+Route::get('cart/increase/{item_id}', 'API\CartController@increase');
+Route::get('cart/decrease/{item_id}', 'API\CartController@decrease');
+Route::get('cart/deleteItem/{item_id}', 'API\CartController@delete_item');
