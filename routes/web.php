@@ -29,7 +29,6 @@ Route::group(['prefix' => 'admin'], function() {
     Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
     Route::get('/', 'AdminController@dashboard')->name('admin.dashboard')->middleware('role:admin|superadmin');
     Route::get('/manage-users', 'AdminController@users')->name('admin.users.manage')->middleware('role:superadmin|');
-    //Route::get('{path}', 'AdminController@dashboard')->where(['path', '([A-z\d-\/_.]+)?', 'path']);
     Route::get('/{any}', 'AdminController@dashboard')->where('any', '.*');
 });
 

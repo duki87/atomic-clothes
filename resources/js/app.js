@@ -26,6 +26,9 @@ Vue.use(VueWow)
 //Router setup
 Vue.use(VueRouter);
 
+//Global cart var
+Vue.prototype.hasCart = false;
+
 const router = new VueRouter({
     mode: 'history',
     routes
@@ -81,6 +84,7 @@ const options = {
 Vue.component('example-component', require('./components/admin/ExampleComponent.vue').default);
 Vue.component('carousel', require('./components/front/CarouselComponent.vue').default);
 Vue.component('product-colors', require('./components/admin/ProductColorsComponent.vue').default);
+Vue.component('front-navbar', require('./components/front/NavbarComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

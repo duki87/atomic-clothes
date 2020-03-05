@@ -58,8 +58,11 @@ class CartController extends Controller
             $this->increase_stock_quantity($item->quantity, $item->variant);
             $item->delete();
         } 
-        $cart->delete();
-        return response('Cart deleted');
+        
+        if($cart->delete()) {
+            return response('Cart deleted')
+            ->cookie('atomic_cart', $cart->id, -1);
+        }     
     }
 
     public function add_to_cart(Request $request)

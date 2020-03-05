@@ -3,10 +3,11 @@
         <div class="col-md-12 mb-4 mx-auto">
 
             <!-- Heading -->
-            <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Your Shopping cart</span>
                 <span class="badge badge-secondary badge-pill">{{ form.cart_items.length }}</span>
-            </h4>
+            </h3>
+            <hr>
 
             <!-- Cart -->
             <table class="table table-striped table-responsive-md btn-table">
@@ -46,7 +47,10 @@
                             <td class="text-center">
                                 <button @click="decrease(item)" type="button" class="btn btn-primary px-3"><i class="fas fa-minus" aria-hidden="true"></i></button>
                                 {{ item.quantity }}
-                                <button @click="increase(item)" type="button" class="btn btn-primary px-3"><i class="fas fa-plus" aria-hidden="true"></i></button>
+                                <button @click="increase(item)" type="button" :disabled="item.variant.stock == 0" class="btn btn-primary px-3"><i class="fas fa-plus" aria-hidden="true"></i></button>
+                                <br>
+                                <small class="text-danger" v-if="item.variant.stock == 1">Only one item left!</small>
+                                <small class="text-danger" v-if="item.variant.stock == 0">No more items on stock!</small>
                             </td>
                             <td class="text-center">
                                 <strong>${{ item.subtotal }}</strong>
@@ -114,15 +118,19 @@
                     });
             },
             decrease(item) {
-                axios.get(`/api/cart/decrease/${item.id}`)
-                    .then(res => {
-                        this.loadCart();
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                if(item.quantity === 1) {
+                    this.deleteItem(item);
+                } else {
+                    axios.get(`/api/cart/decrease/${item.id}`)
+                        .then(res => {
+                            this.loadCart();
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
             },
-            deleteItem() {
+            deleteItem(item) {
                 axios.get(`/api/cart/deleteItem/${item.id}`)
                     .then(res => {
                         this.loadCart();
@@ -153,7 +161,7 @@
         },
         mounted() {
             this.loadCart();
-            console.log('Component mounted.')
+            //console.log('Component mounted.')
         }
     }
 </script>

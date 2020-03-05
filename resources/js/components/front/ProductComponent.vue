@@ -26,7 +26,7 @@
                 <!--Grid column-->
                 <div class="col-md-6 mb-4" v-if="color_variant_images && color_variant_images.length > 0">
                     <img :src="'/images/products/' + form.image_folder + '/' + color_variant_images[activeImage].image" class="img-fluid" alt="">
-                    <div class="d-flex justify-content-between mt-2" style="flex-wrap: wrap;">
+                    <div class="d-flex align-content-start flex-wrap mt-2" style="flex-wrap: wrap;">
                         <img v-for="(image, index) in color_variant_images" :key="index" :src="'/images/products/' + form.image_folder + '/' + image.image" alt="thumbnail" class="img-thumbnail mt-2" style="cursor:pointer; object-fit:cover; position:relative; width:32%; height:100px" @click="changeActiveImage(index)">
                     </div>
                 </div>
@@ -228,6 +228,8 @@
                 this.cartItemForm.post('/api/addToCart')
                 .then(added => {
                     console.log(added)
+                    hasCart = true;
+                    console.log(hasCart)
                 })
                 .catch(err => {
                     console.log(err)

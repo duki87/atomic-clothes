@@ -53,6 +53,7 @@
         <div id="app">
             @component('components.navbar')
             @endcomponent
+            {{-- <front-navbar></front-navbar> --}}
             <!--Main layout-->
             <main>
                 @component('components.carousel')
@@ -69,7 +70,7 @@
         <script type="text/javascript">
             // Animations initialization
             //new WOW().init();
-
+            //window.hasCart = false;
         </script>
     </body>
 
