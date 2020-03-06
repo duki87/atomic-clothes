@@ -1,5 +1,6 @@
 <template>
     <div class="container">  
+        <carousel></carousel>
         Welcome!
     </div>
 </template>

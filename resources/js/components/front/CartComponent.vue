@@ -1,84 +1,86 @@
 <template>
-    <div class="container mt-2" v-if="ready">
-        <div class="col-md-12 mb-4 mx-auto">
+    <div style="margin-top:100px">
+        <div class="container mt-2" v-if="ready">      
+            <div class="col-md-12 mb-4 mx-auto">
 
-            <!-- Heading -->
-            <h3 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">Your Shopping cart</span>
-                <span class="badge badge-secondary badge-pill">{{ form.cart_items.length }}</span>
-            </h3>
-            <hr>
+                <!-- Heading -->
+                <h3 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your Shopping cart</span>
+                    <span class="badge badge-secondary badge-pill">{{ form.cart_items.length }}</span>
+                </h3>
+                <hr>
 
-            <!-- Cart -->
-            <table class="table table-striped table-responsive-md btn-table">
-                <thead>
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th>Product</th>
-                        <th class="text-center">Image</th>
-                        <th class="text-center">Price</th>
-                        <th class="text-center">Quantity</th>
-                        <th class="text-center">Subtotal</th>
-                        <th class="text-center">Delete</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in form.cart_items" :key="index">
-                            <th scope="row" class="text-center">{{ ++index }}</th>
-                            <td>
-                                {{ item.product.title+' '+item.variant.variant_color.color+' '+item.variant.size }}
-                                <br>
-                                <small>
-                                    {{ item.product.code+''+item.variant.sku }}
-                                </small>
+                <!-- Cart -->
+                <table class="table table-striped table-responsive-md btn-table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Product</th>
+                            <th class="text-center">Image</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Subtotal</th>
+                            <th class="text-center">Delete</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in form.cart_items" :key="index">
+                                <th scope="row" class="text-center">{{ ++index }}</th>
+                                <td>
+                                    {{ item.product.title+' '+item.variant.variant_color.color+' '+item.variant.size }}
+                                    <br>
+                                    <small>
+                                        {{ item.product.code+''+item.variant.sku }}
+                                    </small>
+                                </td>
+                                <td class="text-center">
+                                    <img :src="'/images/products/' + item.product.image_folder + '/' + item.variant.variant_color.color_variant_images[0].image" style="width:50px" alt="">
+                                </td>
+                                <td class="text-center">
+                                    <span v-if="item.product.discount">
+                                        <s>${{ item.product.price }}</s><br>
+                                        <strong>${{ item.product.discount }}</strong>
+                                    </span>
+                                    <span v-if="!item.product.discount">
+                                        <strong>${{ item.product.price }}</strong>
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <button @click="decrease(item)" type="button" class="btn btn-primary px-3"><i class="fas fa-minus" aria-hidden="true"></i></button>
+                                    {{ item.quantity }}
+                                    <button @click="increase(item)" type="button" :disabled="item.variant.stock == 0" class="btn btn-primary px-3"><i class="fas fa-plus" aria-hidden="true"></i></button>
+                                    <br>
+                                    <small class="text-danger" v-if="item.variant.stock == 1">Only one item left!</small>
+                                    <small class="text-danger" v-if="item.variant.stock == 0">No more items on stock!</small>
+                                </td>
+                                <td class="text-center">
+                                    <strong>${{ item.subtotal }}</strong>
+                                </td>
+                                <td class="text-center">
+                                    <button @click="deleteItem(item)" type="button" class="btn btn-danger px-3"><i class="fas fa-times" title="Delete Item"></i></button>
+                                </td>
+                            </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Continue to Checkout</button>
+                                <button class="btn btn-default btn-md waves-effect m-0" type="button">Use Promo Code</button>
                             </td>
                             <td class="text-center">
-                                <img :src="'/images/products/' + item.product.image_folder + '/' + item.variant.variant_color.color_variant_images[0].image" style="width:50px" alt="">
+                                <strong>Total:</strong>
                             </td>
                             <td class="text-center">
-                                <span v-if="item.product.discount">
-                                    <s>${{ item.product.price }}</s><br>
-                                    <strong>${{ item.product.discount }}</strong>
-                                </span>
-                                <span v-if="!item.product.discount">
-                                    <strong>${{ item.product.price }}</strong>
-                                </span>
+                                <strong>${{ form.total }}</strong>
                             </td>
                             <td class="text-center">
-                                <button @click="decrease(item)" type="button" class="btn btn-primary px-3"><i class="fas fa-minus" aria-hidden="true"></i></button>
-                                {{ item.quantity }}
-                                <button @click="increase(item)" type="button" :disabled="item.variant.stock == 0" class="btn btn-primary px-3"><i class="fas fa-plus" aria-hidden="true"></i></button>
-                                <br>
-                                <small class="text-danger" v-if="item.variant.stock == 1">Only one item left!</small>
-                                <small class="text-danger" v-if="item.variant.stock == 0">No more items on stock!</small>
-                            </td>
-                            <td class="text-center">
-                                <strong>${{ item.subtotal }}</strong>
-                            </td>
-                            <td class="text-center">
-                                <button @click="deleteItem(item)" type="button" class="btn btn-danger px-3"><i class="fas fa-times" title="Delete Item"></i></button>
+                                <button @click="deleteCart" type="button" class="btn btn-danger px-3"><i class="fas fa-trash" title="Delete Cart"></i></button>
                             </td>
                         </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Continue to Checkout</button>
-                            <button class="btn btn-default btn-md waves-effect m-0" type="button">Use Promo Code</button>
-                        </td>
-                        <td class="text-center">
-                            <strong>Total:</strong>
-                        </td>
-                        <td class="text-center">
-                            <strong>${{ form.total }}</strong>
-                        </td>
-                        <td class="text-center">
-                            <button @click="deleteCart" type="button" class="btn btn-danger px-3"><i class="fas fa-trash" title="Delete Cart"></i></button>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>             
-            <!-- Cart -->
+                    </tfoot>
+                </table>             
+                <!-- Cart -->
+            </div>
         </div>
     </div>
 </template>

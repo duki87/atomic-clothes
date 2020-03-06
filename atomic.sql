@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2020 at 07:32 PM
+-- Generation Time: Mar 06, 2020 at 02:48 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -95,7 +95,7 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `total`, `status`, `created_at`, `updated_at`) VALUES
-(29, 0, 31.95, 1, '2020-03-03 16:58:57', '2020-03-03 17:00:08');
+(33, 0, 47.97, 1, '2020-03-05 14:33:15', '2020-03-05 15:33:06');
 
 -- --------------------------------------------------------
 
@@ -120,9 +120,7 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `variant_id`, `product_price`, `quantity`, `subtotal`, `created_at`, `updated_at`) VALUES
-(24, 29, 5, 1, 3.99, 2, 7.98, '2020-03-03 16:58:57', '2020-03-03 16:58:57'),
-(25, 29, 5, 6, 3.99, 2, 7.98, '2020-03-03 16:59:16', '2020-03-03 16:59:16'),
-(26, 29, 4, 12, 15.99, 1, 15.99, '2020-03-03 17:00:08', '2020-03-03 17:00:08');
+(34, 33, 4, 11, 15.99, 2, 47.97, '2020-03-05 15:10:37', '2020-03-05 15:11:36');
 
 -- --------------------------------------------------------
 
@@ -336,7 +334,10 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_id`, `brand_id`, `code`, `title`, `url`, `description`, `price`, `discount`, `image_folder`, `cover_image`, `tags`, `status`, `created_at`, `updated_at`) VALUES
 (4, 1, 4, 5, 2, 'PT3E014622', 'shirt', 'shirt', 'shirt shirt shirt shirt shirt shirt shirt shirt shirt shirt shirt', 21.99, 15.99, '22022020101658-za3y7mbuagi4oydt', 'tSk1i69rQFOKzD8dUCdQ6AOgVrunpiBQ.jpg', '[\"shirt\"]', 1, '2020-02-22 09:16:58', '2020-02-22 09:18:02'),
-(5, 2, 13, 14, 3, 'DHXO023077', 'Women T-Shirt', 'women-t-shirt', 'Very nice t-shirt available in three colors and all sizes!', 5.99, 3.99, '03032020141431-bgmiugx1cwwls3kk', 'a8LMPHkp1i1GoWvdhvRSu0k923NYHhJr.jpg', '', 1, '2020-03-03 13:14:31', '2020-03-03 13:15:43');
+(5, 2, 13, 14, 3, 'DHXO023077', 'Women T-Shirt', 'women-t-shirt', 'Very nice t-shirt available in three colors and all sizes!', 5.99, 3.99, '03032020141431-bgmiugx1cwwls3kk', 'a8LMPHkp1i1GoWvdhvRSu0k923NYHhJr.jpg', '', 1, '2020-03-03 13:14:31', '2020-03-03 13:15:43'),
+(6, 1, 4, 5, 2, 'QLKJ017588', 'Core Shirt M-122', 'core-shirt-m-122', 'Core Shirt M-122 Core Shirt M-122 Core Shirt M-122', 20.99, NULL, '06032020114442-lp0dqldo1cv2vvlb', 'nAdsIJdoqMkbBESiWjDinwESYu7JKDh5.jpg', '', 1, '2020-03-06 10:44:43', '2020-03-06 10:45:43'),
+(7, 1, 4, 5, 1, 'VYE9039252', 'Shirt Atomic AX-12', 'shirt-atomic-ax-12', 'Shirt Atomic AX-12 Shirt Atomic AX-12 Shirt Atomic AX-12', 19.95, NULL, '06032020114650-bpw0igm8a3rcaxtx', 'tM6Q8QsdryBGleh8hQoR7CLsgL4zoRld.jpg', '', 1, '2020-03-06 10:46:50', '2020-03-06 10:47:33'),
+(8, 1, 4, 5, 1, '9LWP009105', 'Atomic Classic Shirt C-13', 'atomic-classic-shirt-c-13', 'Atomic Classic Shirt C-13 Atomic Classic Shirt C-13 Atomic Classic Shirt C-13', 12.99, 10.99, '06032020120047-vl550dqxnvqfjhfe', 'zRn4bGt2556SpVxV2EygPMSZiJB4QU6K.jpg', '', 1, '2020-03-06 11:00:47', '2020-03-06 11:02:14');
 
 -- --------------------------------------------------------
 
@@ -362,7 +363,10 @@ INSERT INTO `product_colors` (`id`, `product_id`, `color`, `created_at`, `update
 (3, 4, 'BROWN TARTAN PLAID SHIRT', '2020-02-22 09:49:31', '2020-02-22 09:49:31'),
 (4, 5, 'Pink', '2020-03-03 13:16:31', '2020-03-03 13:16:31'),
 (5, 5, 'Purple', '2020-03-03 13:16:45', '2020-03-03 13:16:45'),
-(6, 5, 'White', '2020-03-03 13:16:52', '2020-03-03 13:16:52');
+(6, 5, 'White', '2020-03-03 13:16:52', '2020-03-03 13:16:52'),
+(7, 6, 'Black and white', '2020-03-06 10:46:08', '2020-03-06 10:46:08'),
+(8, 7, 'Green with black squares', '2020-03-06 10:47:54', '2020-03-06 10:47:54'),
+(9, 8, 'Red with black squares', '2020-03-06 11:02:36', '2020-03-06 11:02:36');
 
 -- --------------------------------------------------------
 
@@ -402,7 +406,10 @@ INSERT INTO `product_images` (`id`, `product_id`, `color_id`, `image`, `created_
 (16, 5, 6, 'Hq7RvnaqX9zJvkSqZE6uGx2WhvemetCz.jpg', '2020-03-03 13:14:54', '2020-03-03 13:16:52'),
 (17, 5, 6, 'D1NlyFJ9zoz1oscJZW9HpF8sdY1Xgaxd.jpg', '2020-03-03 13:14:54', '2020-03-03 13:16:52'),
 (18, 5, 6, 'mUGU4Fni9qb51Wa6V2ZNzG0mgXgoShpX.jpg', '2020-03-03 13:14:55', '2020-03-03 13:16:52'),
-(19, 5, 6, 'sxNRsByObkuz0Pf8bQ1cs6myIYwEXU0y.jpg', '2020-03-03 13:14:55', '2020-03-03 13:16:52');
+(19, 5, 6, 'sxNRsByObkuz0Pf8bQ1cs6myIYwEXU0y.jpg', '2020-03-03 13:14:55', '2020-03-03 13:16:52'),
+(20, 6, 7, 'nAdsIJdoqMkbBESiWjDinwESYu7JKDh5.jpg', '2020-03-06 10:45:34', '2020-03-06 10:46:08'),
+(21, 7, 8, 'tM6Q8QsdryBGleh8hQoR7CLsgL4zoRld.jpg', '2020-03-06 10:47:21', '2020-03-06 10:47:54'),
+(22, 8, 9, 'zRn4bGt2556SpVxV2EygPMSZiJB4QU6K.jpg', '2020-03-06 11:01:34', '2020-03-06 11:02:36');
 
 -- --------------------------------------------------------
 
@@ -427,19 +434,24 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`id`, `product_id`, `color_id`, `sku`, `size`, `stock`, `tags`, `created_at`, `updated_at`) VALUES
-(1, 5, 4, 'PKL', 'L', 200, '', '2020-03-03 13:59:14', '2020-03-03 13:59:14'),
+(1, 5, 4, 'PKL', 'L', 200, '', '2020-03-03 13:59:14', '2020-03-05 15:33:06'),
 (2, 5, 4, 'PKM', 'M', 200, '', '2020-03-03 13:59:25', '2020-03-03 13:59:25'),
 (3, 5, 4, 'PKXL', 'XL', 1000, '', '2020-03-03 13:59:39', '2020-03-03 13:59:39'),
-(4, 5, 5, 'PPS', 'S', 200, '', '2020-03-03 13:59:51', '2020-03-03 13:59:51'),
-(5, 5, 5, 'PPL', 'L', 300, '', '2020-03-03 14:00:04', '2020-03-03 14:00:04'),
-(6, 5, 6, 'WHXS', 'XS', 200, '', '2020-03-03 14:00:18', '2020-03-03 14:00:18'),
+(4, 5, 5, 'PPS', 'S', 203, '', '2020-03-03 13:59:51', '2020-03-04 18:51:09'),
+(5, 5, 5, 'PPL', 'L', 300, '', '2020-03-03 14:00:04', '2020-03-05 15:24:06'),
+(6, 5, 6, 'WHXS', 'XS', 607, '', '2020-03-03 14:00:18', '2020-03-04 18:51:09'),
 (7, 5, 6, 'WHS', 'S', 400, '', '2020-03-03 14:00:29', '2020-03-03 14:00:29'),
 (8, 5, 6, 'WHL', 'L', 330, '', '2020-03-03 14:00:41', '2020-03-03 14:00:41'),
-(9, 4, 1, 'RDL', 'L', 4000, '', '2020-03-03 14:01:20', '2020-03-03 14:01:20'),
+(9, 4, 1, 'RDL', 'L', 2, '', '2020-03-03 14:01:20', '2020-03-05 15:29:16'),
 (10, 4, 1, 'RDXL', 'XL', 400, '', '2020-03-03 14:01:40', '2020-03-03 14:01:40'),
-(11, 4, 2, 'BKM', 'M', 100, '', '2020-03-03 14:01:52', '2020-03-03 14:01:52'),
-(12, 4, 3, 'BRL', 'L', 400, '', '2020-03-03 14:02:11', '2020-03-03 14:02:11'),
-(13, 4, 3, 'BRM', 'M', 500, '', '2020-03-03 14:02:28', '2020-03-03 14:02:28');
+(11, 4, 2, 'BKM', 'M', 98, '', '2020-03-03 14:01:52', '2020-03-05 15:11:36'),
+(12, 4, 3, 'BRL', 'L', 408, '', '2020-03-03 14:02:11', '2020-03-05 15:23:58'),
+(13, 4, 3, 'BRM', 'M', 500, '', '2020-03-03 14:02:28', '2020-03-03 14:02:28'),
+(14, 6, 7, 'BWL', 'L', 1000, '', '2020-03-06 10:46:26', '2020-03-06 10:46:26'),
+(15, 7, 8, 'GBM', 'M', 500, '', '2020-03-06 10:48:14', '2020-03-06 10:48:14'),
+(16, 8, 9, 'RBL', 'L', 500, '', '2020-03-06 11:02:59', '2020-03-06 11:02:59'),
+(17, 8, 9, 'RBS', 'S', 100, '', '2020-03-06 11:03:08', '2020-03-06 11:03:08'),
+(18, 8, 9, 'RBL', 'L', 1800, '', '2020-03-06 11:03:23', '2020-03-06 11:03:23');
 
 -- --------------------------------------------------------
 
@@ -594,13 +606,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -630,25 +642,25 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product_colors`
 --
 ALTER TABLE `product_colors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`

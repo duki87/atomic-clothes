@@ -53,11 +53,8 @@
         <div id="app">
             @component('components.navbar')
             @endcomponent
-            {{-- <front-navbar></front-navbar> --}}
             <!--Main layout-->
             <main>
-                @component('components.carousel')
-                @endcomponent
                 @yield('content')
             </main>
             <!--Main layout-->

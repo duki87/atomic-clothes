@@ -19,39 +19,32 @@ class FrontController extends Controller
 
     public function getCollection($collectionURL)
     {
-        $id = $this->returnCollectionID($collectionURL);
-        $collection = Category::where([
-            ['main', '=', $id],
-            ['sub', '=', 0]
-        ])->get();
-        return ['collection' => $collection];
-    }
-
-    public function getCategory($collectionURL)
-    {
-        $id = $this->returnCollectionID($collectionURL);
-        $collection = Category::where([
-            ['main', '=', $id],
-            ['sub', '=', 0]
-        ])->get();
-        return ['collection' => $collection];
+        $category = Category::where(['url' => $collectionURL])
+        ->with('sub_categories')
+        ->first();
+        return response(['collection' => $category->sub_categories]);
     }
 
     public function getProducts($collectionURL, $categoryURL)
     {
+        $category = Category::where(['url' => $categoryURL])
+        ->with('main_category')
+        ->first();
         $products = Product::where([
-            ['main_category_id', '=', $this->returnCollectionID($collectionURL)],
-            ['sub_category_id', '=', $this->returnCategoryID($collectionURL, $categoryURL)]
-        ])->get();
+            ['main_category_id', '=', $category->main_category->id],
+            ['sub_category_id', '=', $category->id]
+        ])
+        ->with('category', 'main_category', 'sub_category', 'brand')
+        ->with('colors')       
+        ->with('colors.variants')
+        ->with('colors.color_variant_images')
+        ->get();
         $products->transform(function($product) {
-            $product->subCatTitle = Category::where(['id' => $product->sub_category_id])->first()['title'];
-            $product->catTitle = Category::where(['id' => $product->category_id])->first()['title'];
-            $product->brandTitle = Brand::where(['id' => $product->brand_id])->first()['title'];
             $product->tags = $product->tags ? json_decode($product->tags) : [];
             return $product;
         });
-        $products = self::paginate($products, $products->count(), 5);
-        return ['products' => $products];
+        $products = self::paginate($products, $products->count(), 3);
+        return response(['products' => $products]);
     }
 
     public function getProduct($product)
@@ -69,24 +62,5 @@ class FrontController extends Controller
         $validator = Validator::make([], []); // Empty data and rules fields
         $validator->errors()->add('product', 'NOT_FOUND');
         throw new ValidationException($validator);
-    }
-
-    private function returnCollectionID($collectionURL)
-    {
-        $collectionID = Category::where([
-            ['main', '=', 0],
-            ['url', '=', $collectionURL]
-        ])->pluck('id')->first();
-        return $collectionID;
-    }
-
-    private function returnCategoryID($collectionURL, $categoryURL)
-    {
-        $categoryID = Category::where([
-            //['main', '=', 0],
-            ['sub', '=', 0],
-            ['url', '=', $categoryURL]
-        ])->pluck('id')->first();
-        return $categoryID;
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="ready">  
+    <div class="container" v-if="ready" style="margin-top:70px">  
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb cyan lighten-4 mt-2" v-if="form.main_category">
                 <li class="breadcrumb-item">
