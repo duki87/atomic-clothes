@@ -1,8 +1,8 @@
 <template>
     <div class="container" id="app">
-        <!--Section: Products v.3-->
+        <filter-products v-bind:filters="filters" v-on:filtersEmit="acceptFilters($event)"></filter-products>
+        <!--Section-->
         <section class="text-center mb-4">
-
             <!--Grid row-->
             <div class="row wow fadeIn">
 
@@ -11,7 +11,7 @@
                     <!--Card-->
                     <div class="card" style="height: 360px">
                         <!--Card image-->
-                        <div class="view overlay">
+                        <div>
                             <img v-if="product.cover_image !== 'not_selected'" :src="'/images/products/' + product.image_folder + '/' + product.cover_image" class="card-img-top" style="width:100%; height:232px; object-fit:cover" alt="">
                             <router-link :to="{ name: 'front-product', params: { product: product.url }}" class="" tag="a">
                                 <div class="mask rgba-white-slight"></div>
@@ -74,19 +74,23 @@
         data() {
             return {
                 currentPage: Number,
-                products: {}
-            }
+                products: {},
+                filters: {}
+            }         
         },
         methods: {
-            loadProducts() {
+            loadProducts(filters = null) {
                 let params = this.$route.params;
                 if(params.category) {
-                    axios.get(`/api/getProducts/${params.collection}/${params.category}`).then(
+                    axios.get(`/api/getProducts/${params.collection}/${params.category}/${filters}`).then(
                     ({ data }) => {
                             console.log(data)
                             this.products = data.products;
+                            this.filters = data.filters;
                         }
                     ).catch(e => console.log(e)); 
+                } else {
+                    
                 }
             },
             getPage(page = 1) {
@@ -100,6 +104,9 @@
                     console.log(err);
                 }) 
             },
+            acceptFilters(filters) {
+                this.loadProducts(JSON.stringify(filters));
+            }
         },
         created() {
             this.loadProducts();

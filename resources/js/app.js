@@ -85,6 +85,7 @@ Vue.component('example-component', require('./components/admin/ExampleComponent.
 Vue.component('carousel', require('./components/front/CarouselComponent.vue').default);
 Vue.component('product-colors', require('./components/admin/ProductColorsComponent.vue').default);
 Vue.component('front-navbar', require('./components/front/NavbarComponent.vue').default);
+Vue.component('filter-products', require('./components/front/FilterComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

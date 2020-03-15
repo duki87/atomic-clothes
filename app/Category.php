@@ -10,6 +10,11 @@ class Category extends Model
         'main', 'sub', 'url', 'title', 'tags'
     ];
 
+    public function categories()
+    {
+        return $this->hasMany('App\Category', 'sub', 'id');
+    }
+
     public function sub_categories()
     {
         return $this->hasMany('App\Category', 'main', 'id')->where(['sub' => 0]);

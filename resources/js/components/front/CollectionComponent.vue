@@ -3,7 +3,7 @@
         <div class="container" style="margin-top:65px;">
             <div class="col-md-12 mb-4 mx-auto"> 
                 <!--Navbar-->
-                <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+                <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-2">
                     <!-- Navbar brand -->
                     <span class="navbar-brand">Categories:</span>
                     <!-- Collapse button -->

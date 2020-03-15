@@ -25,10 +25,15 @@ class FrontController extends Controller
         return response(['collection' => $category->sub_categories]);
     }
 
-    public function getProducts($collectionURL, $categoryURL)
+    public function getProducts($collectionURL, $categoryURL, $filters = null)
     {
+        if($filters != 'null') {
+            json_decode($filters, true);
+            print_r($filters);
+        }
         $category = Category::where(['url' => $categoryURL])
         ->with('main_category')
+        ->with('categories')
         ->first();
         $products = Product::where([
             ['main_category_id', '=', $category->main_category->id],
@@ -43,8 +48,15 @@ class FrontController extends Controller
             $product->tags = $product->tags ? json_decode($product->tags) : [];
             return $product;
         });
+        $brands = $products->pluck('brand')->unique();
+        $colors = $products->pluck('colors')->unique();
+        $colorList = $colors->flatten(1);    
         $products = self::paginate($products, $products->count(), 3);
-        return response(['products' => $products]);
+        return response([
+            'products' => $products, 
+            'filters' => ['categories' => $category->categories, 'brands' => $brands, 'colors' => $colorList],
+            'applied' => $filters
+        ]);
     }
 
     public function getProduct($product)
@@ -62,5 +74,18 @@ class FrontController extends Controller
         $validator = Validator::make([], []); // Empty data and rules fields
         $validator->errors()->add('product', 'NOT_FOUND');
         throw new ValidationException($validator);
+    }
+
+    private function filterBy($filters) 
+    {
+        //Make product search filters
+        $where = [];
+        if(isset($filters['category'])) {
+            $where['category_id'] = $filters['category']; 
+        }
+        if(isset($filters['brand'])) {
+            $where['brand_id'] = $filters['brand']; 
+        }
+        return $where;
     }
 }

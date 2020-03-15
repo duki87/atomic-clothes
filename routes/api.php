@@ -55,7 +55,7 @@ Route::apiResources([
     'cart'  => 'API\CartController',
 ]);
 Route::get('getCollection/{collection}', 'API\FrontController@getCollection');
-Route::get('getProducts/{collection}/{category}', 'API\FrontController@getProducts');
+Route::get('getProducts/{collection}/{category}/{filters?}', 'API\FrontController@getProducts');
 Route::get('getProduct/{product}', 'API\FrontController@getProduct');
 
 Route::get('cookieExist', 'API\CartController@cookie_exist');
