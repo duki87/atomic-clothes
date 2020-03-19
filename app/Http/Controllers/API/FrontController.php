@@ -25,16 +25,18 @@ class FrontController extends Controller
         return response(['collection' => $category->sub_categories]);
     }
 
-    public function getProducts($collectionURL, $categoryURL, $filters = null)
+    public function getProducts($collectionURL, $categoryURL, $filters = 'all')
     {
-        if($filters != 'null') {
-            json_decode($filters, true);
-            print_r($filters);
-        }
+        $filtersToApply = [];
         $category = Category::where(['url' => $categoryURL])
         ->with('main_category')
         ->with('categories')
         ->first();
+        //Check if filters are set
+        if($filters != 'all') {
+            $filtersToApply = json_decode($filters, true);
+        }
+        $colorFilter = isset($filtersToApply['color']) ? $filtersToApply['color'] : '';
         $products = Product::where([
             ['main_category_id', '=', $category->main_category->id],
             ['sub_category_id', '=', $category->id]
@@ -51,6 +53,24 @@ class FrontController extends Controller
         $brands = $products->pluck('brand')->unique();
         $colors = $products->pluck('colors')->unique();
         $colorList = $colors->flatten(1);    
+        if(isset($filtersToApply['category'])) {
+            $categoryFilter = $filtersToApply['category'];
+            $products = $products->filter(function($product) use ($categoryFilter) {
+                return $product->category_id == $categoryFilter;
+            });
+        }
+        if(isset($filtersToApply['brand'])) { 
+            $brandFilter = $filtersToApply['brand'];
+            $products = $products->filter(function($product) use ($brandFilter) {
+                return $product->brand_id == $brandFilter;
+            });
+        }
+        // if(isset($filtersToApply['color'])) { 
+        //     $colorFilter = $filtersToApply['color'];
+        //     $products = $products->colors->filter(function($color) use ($colorFilter) {
+        //         return $color->id == $colorFilter;
+        //     });
+        // }
         $products = self::paginate($products, $products->count(), 3);
         return response([
             'products' => $products, 

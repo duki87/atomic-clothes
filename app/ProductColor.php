@@ -20,6 +20,11 @@ class ProductColor extends Model
         return $this->hasMany('App\ProductVariant', 'color_id');
     }
 
+    // public function variants()
+    // {
+    //     return $this->belongsToMany('App\ProductVariant', 'color_id');
+    // }
+
     public function product()
     {
         return $this->hasOne('App\Product', 'id', 'product_id');
