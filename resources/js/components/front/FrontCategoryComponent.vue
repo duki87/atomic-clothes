@@ -82,7 +82,7 @@
                 if(params.category) {
                     axios.get(`/api/getProducts/${params.collection}/${params.category}/${filters}`).then(
                     ({ data }) => {
-                            console.log(data)
+                            //console.log(data)
                             this.products = data.products;
                             this.filters = data.filters;
                         }

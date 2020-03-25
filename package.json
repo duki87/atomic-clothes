@@ -28,7 +28,7 @@
         "laravel-vue-pagination": "^2.3.1",
         "mdbootstrap": "^4.8.11",
         "moment": "^2.24.0",
-        "sweetalert2": "^9.3.6",
+        "sweetalert2": "^9.10.3",
         "v-form": "^2.3.5",
         "vform": "^1.0.1",
         "vue-draggable": "^2.0.5",
