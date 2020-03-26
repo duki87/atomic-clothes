@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import bsCustomFileInput from 'mdbootstrap/js/modules/bs-custom-file-input';
+//import mdbRate from 'mdbootstrap/js/addons/rating';
 import VueRouter from 'vue-router';
 import { Form, HasError, AlertError } from 'vform';
 import moment from 'moment';
@@ -12,10 +13,11 @@ import Swal from 'sweetalert2';
 import VueDraggable from 'vue-draggable';
 import routes from './routes';
 import VueWow from 'vue-wow'
-
-global.bsCustomFileInput = bsCustomFileInput;
  
 require('./bootstrap');
+
+global.bsCustomFileInput = bsCustomFileInput;
+//global.mdbRate = mdbRate;
 
 window.Vue = require('vue');
 window.Form = Form;
@@ -86,6 +88,7 @@ Vue.component('carousel', require('./components/front/CarouselComponent.vue').de
 Vue.component('product-colors', require('./components/admin/ProductColorsComponent.vue').default);
 Vue.component('front-navbar', require('./components/front/NavbarComponent.vue').default);
 Vue.component('filter-products', require('./components/front/FilterComponent.vue').default);
+Vue.component('comment', require('./components/front/CommentComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

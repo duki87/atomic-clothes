@@ -65,12 +65,16 @@ class FrontController extends Controller
                 return $product->brand_id == $brandFilter;
             });
         }
-        // if(isset($filtersToApply['color'])) { 
-        //     $colorFilter = $filtersToApply['color'];
-        //     $products = $products->colors->filter(function($color) use ($colorFilter) {
-        //         return $color->id == $colorFilter;
-        //     });
-        // }
+        if(isset($filtersToApply['color']) && $filtersToApply['color'] != '') { 
+            $colorFilter = $filtersToApply['color'];
+            $products = $products->filter(function($product) use ($colorFilter) {
+                foreach($product->colors as $color) {
+                    if($color->color === $colorFilter) {
+                        return $product;
+                    }
+                }
+            });
+        }
         $products = self::paginate($products, $products->count(), 3);
         return response([
             'products' => $products, 
@@ -94,18 +98,5 @@ class FrontController extends Controller
         $validator = Validator::make([], []); // Empty data and rules fields
         $validator->errors()->add('product', 'NOT_FOUND');
         throw new ValidationException($validator);
-    }
-
-    private function filterBy($filters) 
-    {
-        //Make product search filters
-        $where = [];
-        if(isset($filters['category'])) {
-            $where['category_id'] = $filters['category']; 
-        }
-        if(isset($filters['brand'])) {
-            $where['brand_id'] = $filters['brand']; 
-        }
-        return $where;
     }
 }

@@ -28,7 +28,7 @@
                     <button class="btn btn-sm btn-default dropdown-toggle mt-0 ml-0" type="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">{{ filterTitles['color'] }}</button>
                     <div class="dropdown-menu">
-                        <a v-for="(color, index) in filters.colors" :key="index" @click="createFilters('color', color.id, color.color)" class="dropdown-item">{{ color.color }}</a>
+                        <a v-for="(color, index) in filters.colors" :key="index" @click="createFilters('color', color.color, color.color)" class="dropdown-item">{{ color.color }}</a>
                     </div>
                 </div>
                 <!-- Filter by Color -->
@@ -51,7 +51,7 @@
                 selectedFilters: {
                     category: Number,
                     brand: Number,
-                    color: Number
+                    color: ''
                 },
                 filterTitles: {
                     brand: 'Brand',
@@ -65,14 +65,14 @@
             filters: {}
         },
         methods: {
-            createFilters(filter, id, title) {
+            createFilters(filter, param, title) {
                 this.filterApplied = true;
-                this.selectedFilters[filter] = parseInt(id);
+                this.selectedFilters[filter] = param;
                 this.filterTitles[filter] = title;
                 this.$emit('filtersEmit', this.selectedFilters);
             },
             cancelFilters() {
-                this.selectedFilters = { category: Number, brand: Number, color: Number };
+                this.selectedFilters = { category: Number, brand: Number, color: '' };
                 this.filterTitles = { category: 'Category', brand: 'Brand', color: 'Color' };
                 this.filterApplied = false;
                 this.$emit('filtersEmit', 'all');

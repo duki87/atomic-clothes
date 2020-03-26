@@ -12,11 +12,6 @@
                         {{ form.sub_category.title }}
                     </router-link>
                 </li>
-                <li class="breadcrumb-item">
-                    <router-link :to="{ name: 'collections', params: { collection: form.category.url }}" tag="a">
-                        {{ form.category.title }}
-                    </router-link>
-                </li>
                 <li class="breadcrumb-item active">{{ form.title }}</li>
             </ol>
         </nav>
@@ -34,6 +29,7 @@
 
                 <!--Grid column-->
                 <div class="col-md-6 mb-4">
+                    <span id="rateMe2" class="empty-stars"></span>
                     <!--Content-->
                     <div class="p-4">
                         <div class="mb-3">
