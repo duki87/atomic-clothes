@@ -19,7 +19,6 @@ class CartController extends Controller
     {
         if(Cookie::has('atomic_cart')) {
             $cart_id = Cookie::get('atomic_cart');
-            //$cart = Cart::where(['id' => $cart_id])->with('cart_items')->first();
             $cart = Cart::where(['id' => $cart_id])->with(['cart_items' => function($query) {
                 $query->orderBy('product_id', 'desc');
             }])
@@ -145,11 +144,13 @@ class CartController extends Controller
     public function cookie_exist()
     {
         if(Cookie::has('atomic_cart')) {
-            return ['cookie' => true];
+            return response(['cookie' => true], 200);
+        } else {
+            return response(['cookie' => false], 500);
         } 
-        $validator = Validator::make([], []); // Empty data and rules fields
-        $validator->errors()->add('cart', 'NOT_FOUND');
-        throw new ValidationException($validator);
+        // $validator = Validator::make([], []); 
+        // $validator->errors()->add('cart', 'NOT_FOUND');
+        // throw new ValidationException($validator);
     }
 
     public function increase($item_id)

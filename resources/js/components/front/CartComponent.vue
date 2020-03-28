@@ -103,8 +103,12 @@
             loadCart() {
                 axios.get('/api/cart').then(
                 ({ data }) => {
+                        if(data.cart.cart_items.length === 0) {
+                            this.deleteCart();
+                        }
                         this.form.fill(data.cart);
                         this.ready = true;
+                        this.cartUpdate(data.cart.cart_items.length);
                     }
                 ).catch((e) => {
                     this.$router.push('/');
@@ -134,36 +138,43 @@
             },
             deleteItem(item) {
                 axios.get(`/api/cart/deleteItem/${item.id}`)
-                    .then(res => {
+                    .then((res) => {
                         this.loadCart();
                     })
                     .catch(err => {
                         console.log(err);
                     });
             },
-            deleteCart(item) {
+            deleteCart() {
                 this.form.delete(`/api/cart/${this.form.id}`)
-                    .then(res => {
+                    .then((res) => {
+                        this.cartUpdate(0);
                         this.$router.push('/');
                     })
                     .catch(err => {
-                        console.log(err)
+                        console.log(err);
                     })
+            },
+            cartUpdate(quantity) {
+                this.$root.$emit('CART_UPDATE', quantity);
             }
         },
         beforeMount() {
             axios.get('/api/cookieExist')
-            .then(cookie => {
-                return true;
+            .then((cookie) => {
+                if(cookie) {
+                    this.loadCart();
+                }            
             })
             .catch(err => {
-                console.log(err)
                 this.$router.go(-1);
-            });
+            });   
         },
+        created() {
+        
+        },   
         mounted() {
-            this.loadCart();
-            //console.log('Component mounted.')
+
         }
     }
 </script>

@@ -45,17 +45,8 @@
                 </ul>
 
                 <!-- Right -->
-                <ul class="navbar-nav nav-flex-icons">
-                    <?php if(isset($_COOKIE['atomic_cart'])): ?>
-                    <li class="nav-item">
-                        <router-link to="/cart" class="nav-link waves-effect" tag="a" active-class="active" exact>
-                            <span class="badge red z-depth-1 mr-1"> 1 </span>
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                        </router-link>
-                    </li>
-                    <?php endif;?>      
-
+                <ul class="navbar-nav nav-flex-icons">      
+                    <cart-icon></cart-icon>           
                     @guest
                     <li class="nav-item">
                         <a href="{{ route('login') }}" class="nav-link border border-light rounded waves-effect">

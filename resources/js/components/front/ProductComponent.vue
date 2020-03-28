@@ -222,15 +222,28 @@
                 this.cartItemForm.product_price = product_price;
                 this.cartItemForm.subtotal = this.cartItemForm.quantity * product_price;
                 this.cartItemForm.post('/api/addToCart')
-                .then(added => {
-                    console.log(added)
-                    hasCart = true;
-                    console.log(hasCart)
+                .then((added) => {
+                    this.loadCart();
                 })
                 .catch(err => {
                     console.log(err)
                 })
-            }
+            },
+            loadCart() { 
+                axios.get('/api/cart').then(
+                ({ data }) => {
+                        if(data.cart.cart_items) {
+                            this.cartUpdate(data.cart.cart_items.length);
+                        }
+                    }
+                ).catch((e) => {
+                    this.cart.exists = false;
+                    this.cart.count = 0;
+                }); 
+            },
+            cartUpdate(quantity) {
+                this.$root.$emit('CART_UPDATE', quantity);
+            },
         },
         created() {
             this.loadProduct();

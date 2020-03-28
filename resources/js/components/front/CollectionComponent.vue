@@ -52,6 +52,7 @@
         methods: {
             loadCollection() {
                 let params = this.$route.params;
+                console.log(params)
                 axios.get('/api/getCollection/'+params.collection).then(
                 ({ data }) => {
                         console.log(data)

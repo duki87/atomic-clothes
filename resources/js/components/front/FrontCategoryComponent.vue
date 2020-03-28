@@ -1,5 +1,5 @@
 <template>
-    <div class="container" id="app">
+    <div class="container">
         <filter-products v-bind:filters="filters" v-on:filtersEmit="filterProducts($event)"></filter-products>
         <!--Section-->
         <section class="text-center mb-4">

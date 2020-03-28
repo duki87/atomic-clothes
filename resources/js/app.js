@@ -3,6 +3,11 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import {
+  MglMap,
+  MglMarker,
+  MglGeojsonLayer
+} from 'vue-mapbox';
 import bsCustomFileInput from 'mdbootstrap/js/modules/bs-custom-file-input';
 //import mdbRate from 'mdbootstrap/js/addons/rating';
 import VueRouter from 'vue-router';
@@ -12,7 +17,7 @@ import VueProgressBar from 'vue-progressbar';
 import Swal from 'sweetalert2';
 import VueDraggable from 'vue-draggable';
 import routes from './routes';
-import VueWow from 'vue-wow'
+import VueWow from 'vue-wow';
  
 require('./bootstrap');
 
@@ -89,6 +94,8 @@ Vue.component('product-colors', require('./components/admin/ProductColorsCompone
 Vue.component('front-navbar', require('./components/front/NavbarComponent.vue').default);
 Vue.component('filter-products', require('./components/front/FilterComponent.vue').default);
 Vue.component('comment', require('./components/front/CommentComponent.vue').default);
+Vue.component('store', require('./components/front/StoreComponent.vue').default);
+Vue.component('cart-icon', require('./components/front/CartIconComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

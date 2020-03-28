@@ -8,8 +8,9 @@ const routes = [
       ]  
     },
     { path: '/products/:product', name: 'front-product', component: require('./components/front/ProductComponent.vue').default },
-    { path: '/stores', name: 'store', component: require('./components/front/StoreComponent.vue').default },
-    { path: '/cart', name: 'cart', component: require('./components/front/CartComponent.vue').default },
+    { path: '/stores', name: 'stores', component: require('./components/front/StoresComponent.vue').default },
+    //{ path: '/stores/:url', name: 'store', component: require('./components/front/StoreLocationComponent.vue').default },
+    { path: '/cart', name: 'cart', beforeEnter: (to, from, next) => {}, component: require('./components/front/CartComponent.vue').default },
     //admin routes
     { path: '/admin', component: require('./components/admin/DashboardComponent.vue').default  },
     { path: '/admin/categories', component: require('./components/admin/CategoryComponent.vue').default  },

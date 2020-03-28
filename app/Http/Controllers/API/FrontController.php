@@ -28,18 +28,16 @@ class FrontController extends Controller
     public function getProducts($collectionURL, $categoryURL, $filters = 'all')
     {
         $filtersToApply = [];
-        $category = Category::where(['url' => $categoryURL])
-        ->with('main_category')
-        ->with('categories')
-        ->first();
+        $main_category = Category::where(['url' => $collectionURL])->first();
+        $sub_category = Category::where(['url' => $categoryURL])->with('categories')->first();
         //Check if filters are set
         if($filters != 'all') {
             $filtersToApply = json_decode($filters, true);
         }
         $colorFilter = isset($filtersToApply['color']) ? $filtersToApply['color'] : '';
         $products = Product::where([
-            ['main_category_id', '=', $category->main_category->id],
-            ['sub_category_id', '=', $category->id]
+            ['main_category_id', '=', $main_category->id],
+            ['sub_category_id', '=', $sub_category->id]
         ])
         ->with('category', 'main_category', 'sub_category', 'brand')
         ->with('colors')       
@@ -78,7 +76,7 @@ class FrontController extends Controller
         $products = self::paginate($products, $products->count(), 3);
         return response([
             'products' => $products, 
-            'filters' => ['categories' => $category->categories, 'brands' => $brands, 'colors' => $colorList],
+            'filters' => ['categories' => $sub_category->categories, 'brands' => $brands, 'colors' => $colorList],
             'applied' => $filters
         ]);
     }
