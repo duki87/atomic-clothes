@@ -28,13 +28,10 @@ window.Vue = require('vue');
 window.Form = Form;
 
 //Mount wow js
-Vue.use(VueWow)
+Vue.use(VueWow);
 
 //Router setup
 Vue.use(VueRouter);
-
-//Global cart var
-Vue.prototype.hasCart = false;
 
 const router = new VueRouter({
     mode: 'history',
@@ -53,6 +50,9 @@ const Toast = Swal.mixin({
   timer: 3000
 });
 window.Toast = Toast;
+
+//Global variable $cart which determines whether cart is set or not
+window.$cart;
 
 //new instance of Vue to create custom events
 window.Fire = new Vue();
@@ -84,9 +84,6 @@ const options = {
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
 //Components
 Vue.component('example-component', require('./components/admin/ExampleComponent.vue').default);
 Vue.component('carousel', require('./components/front/CarouselComponent.vue').default);
@@ -96,6 +93,7 @@ Vue.component('filter-products', require('./components/front/FilterComponent.vue
 Vue.component('comment', require('./components/front/CommentComponent.vue').default);
 Vue.component('store', require('./components/front/StoreComponent.vue').default);
 Vue.component('cart-icon', require('./components/front/CartIconComponent.vue').default);
+Vue.component('promo-code', require('./components/front/PromoCodeComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

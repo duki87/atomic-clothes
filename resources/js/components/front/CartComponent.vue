@@ -65,7 +65,7 @@
                         <tr>
                             <td colspan="4" class="text-center">
                                 <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Continue to Checkout</button>
-                                <button class="btn btn-default btn-md waves-effect m-0" type="button">Use Promo Code</button>
+                                <button class="btn btn-default btn-md waves-effect m-0" type="button" data-toggle="modal" data-target="#promoCodeModal">Use Promo Code</button>
                             </td>
                             <td class="text-center">
                                 <strong>Total:</strong>
@@ -82,6 +82,7 @@
                 <!-- Cart -->
             </div>
         </div>
+        <promo-code></promo-code>
     </div>
 </template>
 

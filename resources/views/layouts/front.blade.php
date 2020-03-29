@@ -69,6 +69,9 @@
             //new WOW().init();
             //window.hasCart = false;
         </script>
+        <script>
+            window.$cart = @json($cookie);
+        </script>
     </body>
 
 </html>

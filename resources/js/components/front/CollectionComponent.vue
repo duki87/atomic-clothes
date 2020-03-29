@@ -15,13 +15,14 @@
                     <div class="collapse navbar-collapse" id="basicExampleNav">
                         <!-- Links -->
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                            <a class="nav-link" href="#">Featured
-                                <span class="sr-only">(current)</span>
-                            </a>
-                            </li>
-                            <li v-for="(category, index) in collection"  :key="index" class="nav-item" >
-                                <router-link :to="{ name: 'front-category', params: { category: category.url }}" class="nav-link waves-effect" tag="a" active-class="active" exact>
+                            <!-- <li class="nav-item active" :class="{ 'active': $route.params.category === 'all' }">
+                                <router-link :to="{ name: 'front-category', params: { category: '' }}" class="nav-link active waves-effect" tag="a" exact>
+                                    Featured
+                                </router-link>
+                            </li> -->
+                            <li v-for="(category, index) in collection" :key="index" class="nav-item" :class="{ 'active': $route.params.category === category.url }">
+                                <router-link :to="{ name: 'front-category', params: { category: category.url }}" 
+                                :class="{ 'active': $route.params.category === category.url }" class="nav-link waves-effect" tag="a" exact>
                                     {{ category.title }}
                                 </router-link>
                             </li>
@@ -29,7 +30,7 @@
                         <!-- Links -->
                         <form class="form-inline">
                             <div class="md-form my-0">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                             </div>
                         </form>
                     </div>
@@ -52,13 +53,13 @@
         methods: {
             loadCollection() {
                 let params = this.$route.params;
-                console.log(params)
                 axios.get('/api/getCollection/'+params.collection).then(
                 ({ data }) => {
-                        console.log(data)
                         this.collection = data.collection;
                     }
-                ).catch(e => console.log(e)); 
+                ).catch((err) => {
+                    console.log(err);
+                }); 
             },
         },
         created() {

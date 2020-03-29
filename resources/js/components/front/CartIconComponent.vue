@@ -21,8 +21,8 @@
                 ({ data }) => {
                         if(data.cart.cart_items) {
                             this.cart.exists = true;
-                            console.log(data.cart.cart_items.length)
                             this.cart.count = data.cart.cart_items.length;
+                            $cart = true;
                         }
                     }
                 ).catch((e) => {
@@ -31,24 +31,21 @@
                 }); 
             },
         },
-        created() {      
-            axios.get('/api/cookieExist')
-            .then((cookie) => {
-                if(cookie) {
-                    this.loadCart();
-                }              
-            })
-            .catch((err) => {
-            }); 
+        created() {    
+            if($cart == true) {
+                this.loadCart(); 
+            }
         },   
         mounted() {
             this.$root.$on('CART_UPDATE', (newCount) => {                
                 if(newCount === 0) {
                     this.cart.exists = false;
                     this.cart.count = newCount;
+                    this.$cart = false;
                 } else {
                     this.cart.exists = true;
                     this.cart.count = newCount;
+                    this.$cart = true;
                 }               
             })
         }

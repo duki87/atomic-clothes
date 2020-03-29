@@ -146,7 +146,7 @@ class CartController extends Controller
         if(Cookie::has('atomic_cart')) {
             return response(['cookie' => true], 200);
         } else {
-            return response(['cookie' => false], 500);
+            return response(['cookie' => false], 200);
         } 
         // $validator = Validator::make([], []); 
         // $validator->errors()->add('cart', 'NOT_FOUND');

@@ -1,3 +1,5 @@
+//import cart_exists from './middleware/cart_exists';
+
 const routes = [
     //front routes
     { path: '/', name: 'index', component: require('./components/front/IndexComponent.vue').default  },
@@ -10,7 +12,8 @@ const routes = [
     { path: '/products/:product', name: 'front-product', component: require('./components/front/ProductComponent.vue').default },
     { path: '/stores', name: 'stores', component: require('./components/front/StoresComponent.vue').default },
     //{ path: '/stores/:url', name: 'store', component: require('./components/front/StoreLocationComponent.vue').default },
-    { path: '/cart', name: 'cart', beforeEnter: (to, from, next) => {}, component: require('./components/front/CartComponent.vue').default },
+    { path: '/cart', name: 'cart', beforeEnter: (to, from, next) => {if($cart) { next(); } else { console.log($cart); next(from.path); } }, component: require('./components/front/CartComponent.vue').default },
+    { path: '/cart/checkout', name: 'checkout', beforeEnter: (to, from, next) => {if($cart == true) { next(); } else { next(from.path); } }, component: require('./components/front/CheckoutComponent.vue').default },
     //admin routes
     { path: '/admin', component: require('./components/admin/DashboardComponent.vue').default  },
     { path: '/admin/categories', component: require('./components/admin/CategoryComponent.vue').default  },

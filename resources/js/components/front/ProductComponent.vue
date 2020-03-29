@@ -224,9 +224,10 @@
                 this.cartItemForm.post('/api/addToCart')
                 .then((added) => {
                     this.loadCart();
+                    $cart = true;
                 })
                 .catch(err => {
-                    console.log(err)
+                    console.log(err);
                 })
             },
             loadCart() { 
