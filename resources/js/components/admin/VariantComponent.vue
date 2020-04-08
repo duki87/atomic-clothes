@@ -12,7 +12,7 @@
                         <button type="button" class="btn btn-default">Back to Products</button>
                         <h3 class="mt-2">Variant List for Products</h3>
                         <hr>
-                        <!-- table with brands -->
+                        <!-- table -->
                         <div class="table-responsive">
                             <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
@@ -139,9 +139,9 @@
                                 }
                             );
                         }
-                }).catch(
-                    console.log('error')
-                )
+                }).catch((error) => {
+                    console.log(error);
+                })
             },
             cancelProgress() {
                 this.form.reset();

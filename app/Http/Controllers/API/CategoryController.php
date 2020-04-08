@@ -97,6 +97,7 @@ class CategoryController extends Controller
             return ['message' => 'success'];
         }           
         return ['message' => 'failed'];
+        //return response('New Cart Item', 201)
     }
     
     public function load_subs($main_id)
@@ -129,4 +130,14 @@ class CategoryController extends Controller
         }
         return [$type => $categories];
     }
+
+    public function loadAllCategories()
+    {
+        $categories = Category::where(['main' => 0])
+        ->with('sub_categories')
+        ->with('sub_categories.categories')
+        ->get();
+        return response(['categories' => $categories], 200);
+    }
+
 }

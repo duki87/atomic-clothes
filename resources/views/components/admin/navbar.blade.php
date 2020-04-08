@@ -24,6 +24,12 @@
               </div>
             </li>
             <li class="nav-item">
+              <router-link to="/admin/promo-codes" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Promo Codes</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/admin/stores" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Stores</router-link>
+            </li>
+            <li class="nav-item">
               <router-link to="/admin/passport" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Passport</router-link>
             </li>
             @endauth

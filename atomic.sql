@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2020 at 02:48 PM
+-- Generation Time: Apr 09, 2020 at 12:03 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -95,7 +95,10 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `total`, `status`, `created_at`, `updated_at`) VALUES
-(33, 0, 47.97, 1, '2020-03-05 14:33:15', '2020-03-05 15:33:06');
+(33, 0, 47.97, 1, '2020-03-05 14:33:15', '2020-03-05 15:33:06'),
+(49, 0, 3.99, 1, '2020-03-29 17:52:15', '2020-03-29 17:52:15'),
+(51, 0, 51.96, 1, '2020-03-29 18:38:26', '2020-03-29 18:58:31'),
+(52, 0, 20.99, 1, '2020-04-07 15:38:57', '2020-04-07 15:38:58');
 
 -- --------------------------------------------------------
 
@@ -120,7 +123,11 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `variant_id`, `product_price`, `quantity`, `subtotal`, `created_at`, `updated_at`) VALUES
-(34, 33, 4, 11, 15.99, 2, 47.97, '2020-03-05 15:10:37', '2020-03-05 15:11:36');
+(34, 33, 4, 11, 15.99, 2, 47.97, '2020-03-05 15:10:37', '2020-03-05 15:11:36'),
+(69, 49, 5, 4, 3.99, 1, 3.99, '2020-03-29 17:52:15', '2020-03-29 17:52:15'),
+(71, 51, 5, 6, 3.99, 1, 3.99, '2020-03-29 18:38:26', '2020-03-29 18:38:26'),
+(72, 51, 4, 11, 15.99, 2, 47.97, '2020-03-29 18:58:30', '2020-03-29 18:58:31'),
+(73, 52, 6, 14, 20.99, 1, 20.99, '2020-04-07 15:38:58', '2020-04-07 15:38:58');
 
 -- --------------------------------------------------------
 
@@ -210,7 +217,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (30, '2020_02_22_105125_alter_product_images_table_add_default_value_to_color_id', 23),
 (31, '2020_02_26_160906_create_carts_table', 24),
 (32, '2020_02_26_171142_create_cart_items_table', 24),
-(33, '2020_03_03_142342_ater_cart_items_table_add_variant_id', 25);
+(33, '2020_03_03_142342_ater_cart_items_table_add_variant_id', 25),
+(34, '2020_04_07_173939_create_promo_codes_table', 26),
+(35, '2020_04_08_162012_alter_promo_codes_table', 27),
+(36, '2020_04_08_204010_alter_promo_codes_table_add_new_fields', 28),
+(37, '2020_04_08_204534_alter_promo_codes_table_change_coupon_type', 29),
+(38, '2020_04_08_205002_alter_promo_codes_table_add_coupon_no', 30);
 
 -- --------------------------------------------------------
 
@@ -337,7 +349,11 @@ INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_i
 (5, 2, 13, 14, 3, 'DHXO023077', 'Women T-Shirt', 'women-t-shirt', 'Very nice t-shirt available in three colors and all sizes!', 5.99, 3.99, '03032020141431-bgmiugx1cwwls3kk', 'a8LMPHkp1i1GoWvdhvRSu0k923NYHhJr.jpg', '', 1, '2020-03-03 13:14:31', '2020-03-03 13:15:43'),
 (6, 1, 4, 5, 2, 'QLKJ017588', 'Core Shirt M-122', 'core-shirt-m-122', 'Core Shirt M-122 Core Shirt M-122 Core Shirt M-122', 20.99, NULL, '06032020114442-lp0dqldo1cv2vvlb', 'nAdsIJdoqMkbBESiWjDinwESYu7JKDh5.jpg', '', 1, '2020-03-06 10:44:43', '2020-03-06 10:45:43'),
 (7, 1, 4, 5, 1, 'VYE9039252', 'Shirt Atomic AX-12', 'shirt-atomic-ax-12', 'Shirt Atomic AX-12 Shirt Atomic AX-12 Shirt Atomic AX-12', 19.95, NULL, '06032020114650-bpw0igm8a3rcaxtx', 'tM6Q8QsdryBGleh8hQoR7CLsgL4zoRld.jpg', '', 1, '2020-03-06 10:46:50', '2020-03-06 10:47:33'),
-(8, 1, 4, 5, 1, '9LWP009105', 'Atomic Classic Shirt C-13', 'atomic-classic-shirt-c-13', 'Atomic Classic Shirt C-13 Atomic Classic Shirt C-13 Atomic Classic Shirt C-13', 12.99, 10.99, '06032020120047-vl550dqxnvqfjhfe', 'zRn4bGt2556SpVxV2EygPMSZiJB4QU6K.jpg', '', 1, '2020-03-06 11:00:47', '2020-03-06 11:02:14');
+(8, 1, 4, 5, 1, '9LWP009105', 'Atomic Classic Shirt C-13', 'atomic-classic-shirt-c-13', 'Atomic Classic Shirt C-13 Atomic Classic Shirt C-13 Atomic Classic Shirt C-13', 12.99, 10.99, '06032020120047-vl550dqxnvqfjhfe', 'zRn4bGt2556SpVxV2EygPMSZiJB4QU6K.jpg', '', 1, '2020-03-06 11:00:47', '2020-03-06 11:02:14'),
+(10, 0, 0, 0, 0, 'SCHM081263', 'Product title', 'new_product-SCHM081263', 'Product description must have at least 20 characters', 0.00, 0, '07042020212139-wwfpqh5zuppvs6ry', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:21:40', '2020-04-07 19:21:40'),
+(11, 0, 0, 0, 0, 'Y1BP057270', 'Product title', 'new_product-Y1BP057270', 'Product description must have at least 20 characters', 0.00, 0, '07042020212229-rmnk8dnbjvelzd2r', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:22:29', '2020-04-07 19:22:29'),
+(12, 0, 0, 0, 0, 'JPPL086660', 'Product title', 'new_product-JPPL086660', 'Product description must have at least 20 characters', 0.00, 0, '07042020212253-dovjc8hjfglkahr1', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:22:53', '2020-04-07 19:22:53'),
+(13, 0, 0, 0, 0, 'PCT6028690', 'Product title', 'new_product-PCT6028690', 'Product description must have at least 20 characters', 0.00, 0, '07042020212347-3jmubwpmv3jz1uu0', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:23:47', '2020-04-07 19:23:47');
 
 -- --------------------------------------------------------
 
@@ -358,9 +374,9 @@ CREATE TABLE `product_colors` (
 --
 
 INSERT INTO `product_colors` (`id`, `product_id`, `color`, `created_at`, `updated_at`) VALUES
-(1, 4, 'RED TARTAN PLAID SHIRT', '2020-02-22 09:27:03', '2020-02-22 09:27:03'),
-(2, 4, 'BLACK TARTAN PLAID SHIRT', '2020-02-22 09:49:18', '2020-02-22 09:49:18'),
-(3, 4, 'BROWN TARTAN PLAID SHIRT', '2020-02-22 09:49:31', '2020-02-22 09:49:31'),
+(1, 4, 'Red', '2020-02-22 09:27:03', '2020-02-22 09:27:03'),
+(2, 4, 'Black', '2020-02-22 09:49:18', '2020-02-22 09:49:18'),
+(3, 4, 'Brown', '2020-02-22 09:49:31', '2020-02-22 09:49:31'),
 (4, 5, 'Pink', '2020-03-03 13:16:31', '2020-03-03 13:16:31'),
 (5, 5, 'Purple', '2020-03-03 13:16:45', '2020-03-03 13:16:45'),
 (6, 5, 'White', '2020-03-03 13:16:52', '2020-03-03 13:16:52'),
@@ -434,24 +450,77 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`id`, `product_id`, `color_id`, `sku`, `size`, `stock`, `tags`, `created_at`, `updated_at`) VALUES
-(1, 5, 4, 'PKL', 'L', 200, '', '2020-03-03 13:59:14', '2020-03-05 15:33:06'),
+(1, 5, 4, 'PKL', 'L', 200, '', '2020-03-03 13:59:14', '2020-03-29 15:53:18'),
 (2, 5, 4, 'PKM', 'M', 200, '', '2020-03-03 13:59:25', '2020-03-03 13:59:25'),
 (3, 5, 4, 'PKXL', 'XL', 1000, '', '2020-03-03 13:59:39', '2020-03-03 13:59:39'),
-(4, 5, 5, 'PPS', 'S', 203, '', '2020-03-03 13:59:51', '2020-03-04 18:51:09'),
+(4, 5, 5, 'PPS', 'S', 202, '', '2020-03-03 13:59:51', '2020-03-29 17:52:15'),
 (5, 5, 5, 'PPL', 'L', 300, '', '2020-03-03 14:00:04', '2020-03-05 15:24:06'),
-(6, 5, 6, 'WHXS', 'XS', 607, '', '2020-03-03 14:00:18', '2020-03-04 18:51:09'),
+(6, 5, 6, 'WHXS', 'XS', 606, '', '2020-03-03 14:00:18', '2020-03-29 18:38:26'),
 (7, 5, 6, 'WHS', 'S', 400, '', '2020-03-03 14:00:29', '2020-03-03 14:00:29'),
 (8, 5, 6, 'WHL', 'L', 330, '', '2020-03-03 14:00:41', '2020-03-03 14:00:41'),
-(9, 4, 1, 'RDL', 'L', 2, '', '2020-03-03 14:01:20', '2020-03-05 15:29:16'),
-(10, 4, 1, 'RDXL', 'XL', 400, '', '2020-03-03 14:01:40', '2020-03-03 14:01:40'),
-(11, 4, 2, 'BKM', 'M', 98, '', '2020-03-03 14:01:52', '2020-03-05 15:11:36'),
+(9, 4, 1, 'RDL', 'L', 2, '', '2020-03-03 14:01:20', '2020-03-29 15:47:43'),
+(10, 4, 1, 'RDXL', 'XL', 400, '', '2020-03-03 14:01:40', '2020-03-29 17:13:46'),
+(11, 4, 2, 'BKM', 'M', 96, '', '2020-03-03 14:01:52', '2020-03-29 18:58:31'),
 (12, 4, 3, 'BRL', 'L', 408, '', '2020-03-03 14:02:11', '2020-03-05 15:23:58'),
 (13, 4, 3, 'BRM', 'M', 500, '', '2020-03-03 14:02:28', '2020-03-03 14:02:28'),
-(14, 6, 7, 'BWL', 'L', 1000, '', '2020-03-06 10:46:26', '2020-03-06 10:46:26'),
-(15, 7, 8, 'GBM', 'M', 500, '', '2020-03-06 10:48:14', '2020-03-06 10:48:14'),
+(14, 6, 7, 'BWL', 'L', 999, '', '2020-03-06 10:46:26', '2020-04-07 15:38:58'),
+(15, 7, 8, 'GBM', 'M', 500, '', '2020-03-06 10:48:14', '2020-03-28 21:23:14'),
 (16, 8, 9, 'RBL', 'L', 500, '', '2020-03-06 11:02:59', '2020-03-06 11:02:59'),
 (17, 8, 9, 'RBS', 'S', 100, '', '2020-03-06 11:03:08', '2020-03-06 11:03:08'),
 (18, 8, 9, 'RBL', 'L', 1800, '', '2020-03-06 11:03:23', '2020-03-06 11:03:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `promo_codes`
+--
+
+CREATE TABLE `promo_codes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `brand_id` int(11) DEFAULT NULL,
+  `coupon_series` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `coupon_no` int(11) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `start` datetime NOT NULL,
+  `expire` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `promo_codes`
+--
+
+INSERT INTO `promo_codes` (`id`, `user_id`, `category_id`, `brand_id`, `coupon_series`, `coupon_no`, `discount`, `start`, `expire`, `status`, `created_at`, `updated_at`) VALUES
+(1, NULL, NULL, NULL, 'K8BW067207', 1, 20, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:02:38', '2020-04-08 19:02:38'),
+(2, NULL, NULL, NULL, '4ARQ024377', 1, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:15', '2020-04-08 19:03:15'),
+(3, NULL, NULL, NULL, '4ARQ024377', 2, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:15', '2020-04-08 19:03:15'),
+(4, NULL, NULL, NULL, '4ARQ024377', 3, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:15', '2020-04-08 19:03:15'),
+(5, NULL, NULL, NULL, '4ARQ024377', 4, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:15', '2020-04-08 19:03:15'),
+(6, NULL, NULL, NULL, '4ARQ024377', 5, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:15', '2020-04-08 19:03:15'),
+(7, NULL, NULL, NULL, '4ARQ024377', 6, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:15', '2020-04-08 19:03:15'),
+(8, NULL, NULL, NULL, '4ARQ024377', 7, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:16', '2020-04-08 19:03:16'),
+(9, NULL, NULL, NULL, '4ARQ024377', 8, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:16', '2020-04-08 19:03:16'),
+(10, NULL, NULL, NULL, '4ARQ024377', 9, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:16', '2020-04-08 19:03:16'),
+(11, NULL, NULL, NULL, '4ARQ024377', 10, 35, '2020-04-10 20:11:00', '2020-04-17 20:23:00', 1, '2020-04-08 19:03:16', '2020-04-08 19:03:16'),
+(12, NULL, 2, 3, 'MU6Z017018', 1, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:40', '2020-04-08 19:15:40'),
+(13, NULL, 2, 3, 'MU6Z017018', 2, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:40', '2020-04-08 19:15:40'),
+(14, NULL, 2, 3, 'MU6Z017018', 3, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:40', '2020-04-08 19:15:40'),
+(15, NULL, 2, 3, 'MU6Z017018', 4, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(16, NULL, 2, 3, 'MU6Z017018', 5, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(17, NULL, 2, 3, 'MU6Z017018', 6, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(18, NULL, 2, 3, 'MU6Z017018', 7, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(19, NULL, 2, 3, 'MU6Z017018', 8, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(20, NULL, 2, 3, 'MU6Z017018', 9, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(21, NULL, 2, 3, 'MU6Z017018', 10, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(22, NULL, 2, 3, 'MU6Z017018', 11, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(23, NULL, 2, 3, 'MU6Z017018', 12, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(24, NULL, 2, 3, 'MU6Z017018', 13, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(25, NULL, 2, 3, 'MU6Z017018', 14, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41'),
+(26, NULL, 2, 3, 'MU6Z017018', 15, 35, '2020-04-23 21:15:00', '2020-04-26 21:15:00', 1, '2020-04-08 19:15:41', '2020-04-08 19:15:41');
 
 -- --------------------------------------------------------
 
@@ -581,6 +650,12 @@ ALTER TABLE `product_variants`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `promo_codes`
+--
+ALTER TABLE `promo_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -606,13 +681,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -624,7 +699,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `oauth_clients`
@@ -642,7 +717,7 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product_colors`
@@ -661,6 +736,12 @@ ALTER TABLE `product_images`
 --
 ALTER TABLE `product_variants`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `promo_codes`
+--
+ALTER TABLE `promo_codes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `users`

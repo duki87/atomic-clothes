@@ -32,7 +32,7 @@
                                         </td>
                                         <td class="text-center">{{brand.website}}</td>
                                         <td class="text-center">
-                                            <a v-for="(tag, index) in brand.tags" class="badge badge-default d-inline p-2 ml-2">
+                                            <a v-for="(tag, index) in brand.tags" :key="index" class="badge badge-default d-inline p-2 ml-2">
                                                 {{tag}}
                                             </a>
                                         </td>
@@ -74,21 +74,21 @@
                         <label for="title">Brand Title</label>
                         <input v-model="form.title" :class="{'is-invalid': form.errors.has('title')}" type="text" class="form-control" id="title" placeholder="Brand Title">
                         <div class="invalid-feedback">
-                            <span v-for="err in formErrors.title">{{err}}</span>
+                            <span v-for="(err, index) in formErrors.title" :key="index">{{err}}</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="title">Brand Description</label>
                         <input v-model="form.description" :class="{'is-invalid': form.errors.has('description')}" type="text" class="form-control" id="description" placeholder="Brand Description">
                         <div class="invalid-feedback">
-                            <span v-for="err in formErrors.description">{{err}}</span>
+                            <span v-for="(err, index) in formErrors.description" :key="index">{{err}}</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="title">Brand Website</label>
                         <input v-model="form.website" :class="{'is-invalid': form.errors.has('website')}" type="text" class="form-control" id="website" placeholder="Brand Website">
                         <div class="invalid-feedback">
-                            <span v-for="err in formErrors.website">{{err}}</span>
+                            <span v-for="(err, index) in formErrors.website" :key="index">{{err}}</span>
                         </div>
                     </div>
                     <div class="md-form input-group mb-3">
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                     <div class="p-2" :class="[form.tags.length > 0 ? borderClass : '']">
-                        <a v-for="(tag, index) in form.tags" 
+                        <a v-for="(tag, index) in form.tags" :key="index" 
                         @click="removeTag(index)" @mouseover="hoverBtn = index" @mouseout="hoverBtn = undefined" 
                         :class="[isHovering(index) ? 'badge badge-danger' : 'badge badge-default']" class=" d-inline p-2 ml-2">
                             {{tag}}
@@ -112,7 +112,7 @@
                             <button @click="$refs.fileInput.click()" class="btn btn-md btn-secondary m-0 px-3" type="button" title="Upload logo"><i class="fas fa-upload"></i></button>
                         </div>
                         <div class="invalid-feedback">
-                            <span v-for="(err, index) in logoErrors">{{err}}</span>
+                            <span v-for="(err, index) in logoErrors" :key="index">{{err}}</span>
                         </div>
                     </div>
                     <div class="input-group d-none">

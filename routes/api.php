@@ -24,12 +24,14 @@ Route::group(['middleware' => 'auth:api'], function() {
         'product' => 'API\ProductController',
         'variant' => 'API\ProductVariantController',
         'color' =>  'API\ProductColorController',
+        'promo-codes' => 'API\PromoCodeController',
     ]);
     
     //Other category routes
     Route::get('loadSubCategories/{mainId}', 'API\CategoryController@load_subs'); //after applying loadCategories route for categories component, delete this
     Route::get('loadCategories/{type}/{id}', 'API\CategoryController@loadCategories');
     Route::get('destroyCategories', 'API\CategoryController@destroyAll');
+    Route::get('loadAllCategories', 'API\CategoryController@loadAllCategories');
     
     //Other brand routes
     Route::get('destroyBrandLogo/{id}', 'API\BrandController@destroyLogo');

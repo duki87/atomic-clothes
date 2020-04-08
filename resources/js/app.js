@@ -18,6 +18,8 @@ import Swal from 'sweetalert2';
 import VueDraggable from 'vue-draggable';
 import routes from './routes';
 import VueWow from 'vue-wow';
+import { DateTime as LuxonDateTime } from 'luxon';
+import { Datetime } from 'vue-datetime';
  
 require('./bootstrap');
 
@@ -29,6 +31,9 @@ window.Form = Form;
 
 //Mount wow js
 Vue.use(VueWow);
+
+//Use DateTime Component
+Vue.component('datetime', Datetime);
 
 //Router setup
 Vue.use(VueRouter);
@@ -94,6 +99,7 @@ Vue.component('comment', require('./components/front/CommentComponent.vue').defa
 Vue.component('store', require('./components/front/StoreComponent.vue').default);
 Vue.component('cart-icon', require('./components/front/CartIconComponent.vue').default);
 Vue.component('promo-code', require('./components/front/PromoCodeComponent.vue').default);
+Vue.component('add-promo-code', require('./components/admin/AddPromoCodeComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));
@@ -123,5 +129,5 @@ Vue.component(
 const app = new Vue({
     el: '#app',
     //render: (h) => h(App),
-    router
+    router,
 });

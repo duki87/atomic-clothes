@@ -126,7 +126,8 @@ class BrandController extends Controller
 
     public function loadBrands()
     {
-        $brands = Brand::orderBy('created_at', 'desc')->pluck('id', 'title')->all();                 
-        return ['brands' => $brands];
+        $brands = Brand::orderBy('created_at', 'desc')->get();                 
+        //return ['brands' => $brands];
+        return response(['brands' => $brands], 200);
     }
 }

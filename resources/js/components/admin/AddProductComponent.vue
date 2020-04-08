@@ -34,7 +34,7 @@
                                     <label for="title">Select Brand</label>
                                     <select v-model="form.brand_id" name="brand_id" id="brand_id" :class="{'is-invalid': form.errors.has('brand_id')}" class="custom-select browser-default">
                                         <option value="">Select Brand</option>
-                                        <option v-for="[key, value] of Object.entries(brands)" v-bind:value="value" v-bind:selected="value == form.brand_id" :key="key">{{key}}</option>
+                                        <option v-for="(brand, index) in brands" :key="index" v-bind:value="brand.id" v-bind:selected="brand.id == form.brand_id">{{brand.title}}</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <span v-for="err in formErrors.brand_id"  :key="err">{{err}}</span>
@@ -292,7 +292,7 @@
                 axios.get('/api/loadBrands').then(
                 ({ data }) => {
                     this.brands = data.brands;        
-                }).catch(e => console.log(e)); 
+                }).catch((error) => console.log(error)); 
             },
             uploadImages(event) {                
                 this.imageData = new FormData();

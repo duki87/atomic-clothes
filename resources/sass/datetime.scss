@@ -1,0 +1,42 @@
+.datetimepicker {
+    margin: 0 0 2em;
+  
+    & .datetimepicker-inputs input {
+      padding: 8px 10px;
+      font-size: 16px;
+      border: solid 1px #ddd;
+      color: #444;
+      width: 100%;
+    }
+  
+    & .datetimepicker-code {
+      & pre {
+        margin-bottom: 15px;
+        width: 100%;
+        font-size: 14px;
+        overflow: scroll;
+  
+        & code {
+          padding: 1.5em;
+        }
+      }
+    }
+  
+    @media screen and (min-width: 900px) {
+      display: flex;
+  
+      & .datetimepicker-inputs {
+        width: 100%;
+      }
+  
+      & .datetimepicker-code {
+        margin-top: 0;
+        width: 100%;
+      }
+    }
+  }
+  
+  .values {
+    margin-top: 20px;
+    font-size: 14px;
+  }
