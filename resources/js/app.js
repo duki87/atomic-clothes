@@ -99,7 +99,8 @@ Vue.component('comment', require('./components/front/CommentComponent.vue').defa
 Vue.component('store', require('./components/front/StoreComponent.vue').default);
 Vue.component('cart-icon', require('./components/front/CartIconComponent.vue').default);
 Vue.component('promo-code', require('./components/front/PromoCodeComponent.vue').default);
-Vue.component('add-promo-code', require('./components/admin/AddPromoCodeComponent.vue').default);
+Vue.component('add-promo-code', require('./components/admin/AddCouponComponent.vue').default);
+Vue.component('promo-codes-list', require('./components/admin/CouponListComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

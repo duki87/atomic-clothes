@@ -89,11 +89,15 @@
         },
         methods: {
             loadProducts() {
-                axios.get('/api/product').then(
+                axios.get('/api/product')
+                .then(
                 ({ data }) => {
                     this.products = data.products;
                     }
-                ).catch(e => console.log(e)); 
+                )
+                .catch((error) => {
+                    console.log(error);
+                }); 
             },
             loadProductData(product) {
                 this.form.fill(product);
@@ -145,10 +149,12 @@
             getPage(page = 1) {
                 this.currentPage = page;
                 axios.get('/api/product?page=' + page)
-                    .then(response => {
+                    .then((response) => {
                         this.products = response.data.products;
-                    }
-                );
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             },
         },
         created() {        

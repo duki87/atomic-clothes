@@ -28,7 +28,7 @@ const routes = [
     { path: '/admin/products/:id/edit-color-variant', name: 'edit-color-variant', component: require('./components/admin/EditColorVariantComponent.vue').default  },
     { path: '/admin/users', component: require('./components/admin/UsersComponent.vue').default  },
     { path: '/admin/passport', component: require('./components/admin/PassportComponent.vue').default  },
-    { path: '/admin/promo-codes', name: 'manage-promo-codes', component: require('./components/admin/PromoCodeComponent.vue').default }, 
+    { path: '/admin/manage-coupons', name: 'manage-coupons', component: require('./components/admin/CouponsComponent.vue').default }, 
     { path: '/admin/stores', name: 'manage-stores', component: require('./components/admin/StoresComponent.vue').default },
     { path: '/admin/example', component: require('./components/admin/ExampleComponent.vue').default, 
 /*         children:  [

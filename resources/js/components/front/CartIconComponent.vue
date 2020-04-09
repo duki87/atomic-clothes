@@ -25,7 +25,7 @@
                             $cart = true;
                         }
                     }
-                ).catch((e) => {
+                ).catch((error) => {
                     this.cart.exists = false;
                     this.cart.count = 0;
                 }); 

@@ -19,7 +19,7 @@ class PromoCodeController extends Controller
         $promoCodes = PromoCode::get();
         $promoCodes = $promoCodes->groupBy('coupon_series');
         $promoCodes = self::paginate($promoCodes, $promoCodes->count(), 5);
-        return response(['promo_codes' => $promoCodes], 200);
+        return response(['coupons' => $promoCodes], 200);
     }
 
     public function store(Request $request)
@@ -58,9 +58,13 @@ class PromoCodeController extends Controller
         
     }
 
-    public function destroy()
+    public function destroy($series)
     {
-        
+        $coupons = PromoCode::where(['coupon_series' => $series])->get();
+        $coupons->each(function($coupon, $key) {
+            $coupon->delete();
+        });
+        return response(['DELETED'], 200);
     }
 
     private function generateCode() 

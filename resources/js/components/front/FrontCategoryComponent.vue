@@ -102,7 +102,6 @@
                 }) 
             },
             filterProducts(filters) {
-                console.log(filters)
                 this.loadProducts(JSON.stringify(filters));
             }
         },

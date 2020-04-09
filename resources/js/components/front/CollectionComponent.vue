@@ -57,8 +57,8 @@
                 ({ data }) => {
                         this.collection = data.collection;
                     }
-                ).catch((err) => {
-                    console.log(err);
+                ).catch((error) => {
+                    console.log(error);
                 }); 
             },
         },

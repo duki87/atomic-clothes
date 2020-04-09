@@ -79,7 +79,7 @@
             }
         },
         created() {
-           console.log(this.filters);
+           //console.log(this.filters);
         },
         mounted() {
             //console.log('Component mounted.');

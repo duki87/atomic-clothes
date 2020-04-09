@@ -24,7 +24,7 @@
               </div>
             </li>
             <li class="nav-item">
-              <router-link to="/admin/promo-codes" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Promo Codes</router-link>
+              <router-link to="/admin/manage-coupons" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Manage Coupons</router-link>
             </li>
             <li class="nav-item">
               <router-link to="/admin/stores" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Stores</router-link>

@@ -27,7 +27,7 @@
                                         <td class="text-center">{{category.mainTitle}}</td>
                                         <td class="text-center">{{category.subTitle}}</td>
                                         <td class="text-center">
-                                            <a v-for="(tag, index) in category.tags" class="badge badge-default d-inline p-2 ml-2">
+                                            <a v-for="(tag, index) in category.tags" :key="index" class="badge badge-default d-inline p-2 ml-2">
                                                 {{tag}}
                                             </a>
                                         </td>
@@ -69,27 +69,27 @@
                             <label for="title">Category Title</label>
                             <input v-model="form.title" :class="{'is-invalid': form.errors.has('title')}" type="text" class="form-control" id="title" placeholder="Category Title">
                             <div class="invalid-feedback">
-                                <span v-for="err in formErrors.title">{{err}}</span>
+                                <span v-for="(err, index) in formErrors.title" :key="index">{{err}}</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <select @change="loadSubCategories" v-model="form.main" name="main" id="main" :class="{'is-invalid': form.errors.has('main')}" class="custom-select browser-default">
                                 <option value="">Select Main Category</option>
                                 <option value="0">None</option>
-                                <option v-for="mainCat in mains" v-bind:value="mainCat.id" v-bind:selected="mainCat.id == form.main.id">{{mainCat.title}}</option>
+                                <option v-for="(mainCat, index) in mains" :key="index" v-bind:value="mainCat.id" v-bind:selected="mainCat.id == form.main.id">{{mainCat.title}}</option>
                             </select>
                             <div class="invalid-feedback">
-                                <span v-for="err in formErrors.main">{{err}}</span>
+                                <span v-for="(err, index) in formErrors.main" :key="index">{{err}}</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <select v-model="form.sub" name="sub" id="sub" class="custom-select browser-default" :class="{'is-invalid': form.errors.has('sub')}">
                                 <option value="">Select Sub Category</option>
                                 <option value="0">None</option>
-                                <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" v-bind:selected="value == form.sub.id">{{key}}</option>
+                                <option v-for="[key, value] of Object.entries(subs)" v-bind:value="value" :key="value" v-bind:selected="value == form.sub.id">{{key}}</option>
                             </select>
                             <div class="invalid-feedback">
-                                <span v-for="err in formErrors.sub">{{err}}</span>
+                                <span v-for="(err, index) in formErrors.sub" :key="index">{{err}}</span>
                             </div>
                         </div>  
                         <div class="md-form input-group mb-3">
@@ -100,7 +100,7 @@
                             </div>
                         </div>                 
                         <div class="p-2" :class="[form.tags.length > 0 ? borderClass : '']">
-                            <a v-for="(tag, index) in form.tags" 
+                            <a v-for="(tag, index) in form.tags" :key="index"
                             @click="removeTag(index)" @mouseover="hoverBtn = index" @mouseout="hoverBtn = undefined" 
                             :class="[isHovering(index) ? 'badge badge-danger' : 'badge badge-default']" class=" d-inline p-2 ml-2">
                                 {{tag}}
