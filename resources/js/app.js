@@ -20,7 +20,8 @@ import routes from './routes';
 import VueWow from 'vue-wow';
 import { DateTime as LuxonDateTime } from 'luxon';
 import { Datetime } from 'vue-datetime';
- 
+import mapboxgl from 'mapbox-gl';
+
 require('./bootstrap');
 
 global.bsCustomFileInput = bsCustomFileInput;
@@ -28,6 +29,8 @@ global.bsCustomFileInput = bsCustomFileInput;
 
 window.Vue = require('vue');
 window.Form = Form;
+window.mapboxgl = mapboxgl;
+window.MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 
 //Mount wow js
 Vue.use(VueWow);
@@ -96,11 +99,11 @@ Vue.component('product-colors', require('./components/admin/ProductColorsCompone
 Vue.component('front-navbar', require('./components/front/NavbarComponent.vue').default);
 Vue.component('filter-products', require('./components/front/FilterComponent.vue').default);
 Vue.component('comment', require('./components/front/CommentComponent.vue').default);
-Vue.component('store', require('./components/front/StoreComponent.vue').default);
 Vue.component('cart-icon', require('./components/front/CartIconComponent.vue').default);
 Vue.component('promo-code', require('./components/front/PromoCodeComponent.vue').default);
 Vue.component('add-promo-code', require('./components/admin/AddCouponComponent.vue').default);
 Vue.component('promo-codes-list', require('./components/admin/CouponListComponent.vue').default);
+Vue.component('store-locations', require('./components/front/StoreLocationsComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

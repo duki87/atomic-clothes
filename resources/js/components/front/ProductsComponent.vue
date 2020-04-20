@@ -117,6 +117,7 @@
 <script>
     export default {
         mounted() {
+            this.$root.$emit('CAROUSEL_SHOW', false);
             console.log('Component mounted.')
         }
     }

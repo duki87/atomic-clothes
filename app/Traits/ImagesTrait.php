@@ -15,14 +15,24 @@
     {
         $this->validate($request, [
             'image' => 'mimes:jpeg,jpg,png,gif|max:2000' 
-        ]);           
+        ]);  
+        return response('validated', 200);         
+    }
+
+    public function validateStoreImage(Request $request)
+    {
+        $this->validate($request, [
+            'image' => 'mimes:jpeg,jpg,png,gif|max:3000' 
+        ]);  
+        return response('validated', 200);         
     }
 
     public function validateProductImage(Request $request)
     {
         $this->validate($request, [
             'image' => 'mimes:jpeg,jpg,png,gif|max:5000' 
-        ]);           
+        ]);     
+        return response('validated', 200);      
     }
 
     public function uploadProductImages(Request $request)

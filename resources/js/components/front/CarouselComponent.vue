@@ -1,6 +1,6 @@
 <template>
   <!--Carousel Wrapper-->
-  <div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
+  <div v-if="hasCarousel" id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
 
     <!--Indicators-->
     <ol class="carousel-indicators">
@@ -144,8 +144,24 @@
 
 <script>
     export default {
+        data() {
+          return {
+              hasCarousel: false
+          }
+        },
+        beforeCreate() {
+
+        },
         mounted() {
-            console.log('Component mounted.')
+          //console.log('Component mounted.')
+          this.$root.$on('CAROUSEL_SHOW', (show) => {       
+            console.log(show)         
+                if(show === true) {
+                  this.hasCarousel = true;
+                } else {
+                  this.hasCarousel = false;
+                }               
+            })
         }
     }
 </script>

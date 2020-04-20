@@ -19,12 +19,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'auth:api'], function() { 
     Route::apiResources([   
-        'category' => 'API\CategoryController',       
-        'brand' => 'API\BrandController',
-        'product' => 'API\ProductController',
-        'variant' => 'API\ProductVariantController',
-        'color' =>  'API\ProductColorController',
+        'category'    => 'API\CategoryController',       
+        'brand'       => 'API\BrandController',
+        'product'     => 'API\ProductController',
+        'variant'     => 'API\ProductVariantController',
+        'color'       =>  'API\ProductColorController',
         'promo-codes' => 'API\PromoCodeController',
+        'store'       => 'API\StoreController',
     ]);
     
     //Other category routes
@@ -50,6 +51,9 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     //Other colors routes
     Route::get('getProductColorVariants/{product_id}', 'API\ProductColorController@getProductColorVariants');
+
+    //Other store routes
+    Route::post('validateStoreImage', 'API\BrandController@validateStoreImage');
 });
 
 //Front routes

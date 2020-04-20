@@ -172,10 +172,10 @@
             });   
         },
         created() {
-        
+            
         },   
         mounted() {
-
+            this.$root.$emit('CAROUSEL_SHOW', false);
         }
     }
 </script>

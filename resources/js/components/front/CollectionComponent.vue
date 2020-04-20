@@ -66,7 +66,8 @@
             this.loadCollection();
         },      
         mounted() {
-            console.log('Component mounted.')
+            this.$root.$emit('CAROUSEL_SHOW', false);
+            //console.log('Component mounted.')
         }
     }
 </script>

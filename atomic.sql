@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2020 at 12:07 AM
+-- Generation Time: Apr 20, 2020 at 10:09 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -224,7 +224,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (35, '2020_04_08_162012_alter_promo_codes_table', 27),
 (36, '2020_04_08_204010_alter_promo_codes_table_add_new_fields', 28),
 (37, '2020_04_08_204534_alter_promo_codes_table_change_coupon_type', 29),
-(38, '2020_04_08_205002_alter_promo_codes_table_add_coupon_no', 30);
+(38, '2020_04_08_205002_alter_promo_codes_table_add_coupon_no', 30),
+(39, '2020_04_13_190603_create_stores_table', 31),
+(40, '2020_04_20_121522_add_image_to_stores_table', 32);
 
 -- --------------------------------------------------------
 
@@ -355,7 +357,8 @@ INSERT INTO `products` (`id`, `main_category_id`, `sub_category_id`, `category_i
 (10, 0, 0, 0, 0, 'SCHM081263', 'Product title', 'new_product-SCHM081263', 'Product description must have at least 20 characters', 0.00, 0, '07042020212139-wwfpqh5zuppvs6ry', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:21:40', '2020-04-07 19:21:40'),
 (11, 0, 0, 0, 0, 'Y1BP057270', 'Product title', 'new_product-Y1BP057270', 'Product description must have at least 20 characters', 0.00, 0, '07042020212229-rmnk8dnbjvelzd2r', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:22:29', '2020-04-07 19:22:29'),
 (12, 0, 0, 0, 0, 'JPPL086660', 'Product title', 'new_product-JPPL086660', 'Product description must have at least 20 characters', 0.00, 0, '07042020212253-dovjc8hjfglkahr1', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:22:53', '2020-04-07 19:22:53'),
-(13, 0, 0, 0, 0, 'PCT6028690', 'Product title', 'new_product-PCT6028690', 'Product description must have at least 20 characters', 0.00, 0, '07042020212347-3jmubwpmv3jz1uu0', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:23:47', '2020-04-07 19:23:47');
+(13, 0, 0, 0, 0, 'PCT6028690', 'Product title', 'new_product-PCT6028690', 'Product description must have at least 20 characters', 0.00, 0, '07042020212347-3jmubwpmv3jz1uu0', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-07 19:23:47', '2020-04-07 19:23:47'),
+(15, 0, 0, 0, 0, 'A804028113', 'Product title', 'new_product-A804028113', 'Product description must have at least 20 characters', 0.00, 0, '20042020183706-i2cbc4xcofasilz8', 'not_selected', '[\"product\",\"tags\"]', 0, '2020-04-20 16:37:07', '2020-04-20 16:37:07');
 
 -- --------------------------------------------------------
 
@@ -553,6 +556,38 @@ INSERT INTO `promo_codes` (`id`, `user_id`, `category_id`, `brand_id`, `coupon_s
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `stores`
+--
+
+CREATE TABLE `stores` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `latitude` decimal(11,7) NOT NULL,
+  `longitude` decimal(11,7) NOT NULL,
+  `manager` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `stores`
+--
+
+INSERT INTO `stores` (`id`, `title`, `city`, `address`, `phone`, `latitude`, `longitude`, `manager`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'Atomic Store Kings Point Drive', 'North Miami Beach', '300 Kings Point Drive, North Miami Beach, Florida 33160', '01123456789', '25.9241982', '-80.1253876', 'Peter', 'IhjALp89gKSzVWvlkQ2iVfmhbGsuh9nB.png', '2020-04-20 12:18:27', '2020-04-20 12:18:27'),
+(2, 'Atomic Store Gainesville', 'Gainesville', '326 Boulevard, Gainesville, Georgia 30501', '01235645789', '34.3048826', '-83.8235155', 'John Morrison', '7Vn6meycVrwGIYixV8XyGIrbWioeeapM.png', '2020-04-20 14:35:10', '2020-04-20 14:35:10'),
+(3, 'Atomic Store New York #12', 'New York', '21 West 34th Street, New York, New York 10001', '01256859789', '40.7492813', '-73.9862292', 'Margaret', 'UzOXbSpWHrWqHDoNqx8EwBYRS7tssdsg.png', '2020-04-20 14:37:26', '2020-04-20 14:37:26'),
+(4, 'Atomic Store Los Angeles #1', 'Los Angeles', '3543 Wilshire Boulevard, Los Angeles, California 90010, United States', '01258747896', '34.0618369', '-118.3019022', 'Donald Trump', 'aMcuxn0omAnedEfBzdwTH42eVzLtWfLE.png', '2020-04-20 17:51:39', '2020-04-20 17:51:39'),
+(5, 'Atomic Store Washington', 'Washington', '1200 Pennsylvania Avenue Northwest, Washington', '01456789123', '38.8950705', '-77.0287972', 'Johnson', 'ZPyWvIoTBPU8fEf1NbX7YujDW5zUYMgQ.png', '2020-04-20 17:54:25', '2020-04-20 17:54:25'),
+(6, 'Atomic Store #2 San Francisco', 'Oakland', '2501 Harrison Street, Oakland, California 94611', '01478956235', '37.8139138', '-122.2617727', 'Mickey', 'zEPqSDM63yLq6RcBb2x1jn4967yWQg9v.png', '2020-04-20 18:00:11', '2020-04-20 18:00:11');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -684,6 +719,12 @@ ALTER TABLE `promo_codes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `stores`
+--
+ALTER TABLE `stores`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -727,7 +768,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `oauth_clients`
@@ -745,7 +786,7 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `product_colors`
@@ -770,6 +811,12 @@ ALTER TABLE `product_variants`
 --
 ALTER TABLE `promo_codes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
+-- AUTO_INCREMENT for table `stores`
+--
+ALTER TABLE `stores`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

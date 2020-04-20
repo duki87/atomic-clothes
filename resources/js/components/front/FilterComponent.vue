@@ -82,6 +82,7 @@
            //console.log(this.filters);
         },
         mounted() {
+            this.$root.$emit('CAROUSEL_SHOW', false);
             //console.log('Component mounted.');
         }
     }

@@ -1,14 +1,17 @@
 <template>
     <div class="container">  
-        <carousel></carousel>
         Welcome!
     </div>
 </template>
 
 <script>
     export default {
+        beforeCreate() {
+            this.$root.$emit('CAROUSEL_SHOW', true);
+        },
         mounted() {     
-            console.log('Component mounted.')
+            this.$root.$emit('CAROUSEL_SHOW', true);
+            //console.log('Component mounted.')
         }
     }
 </script>

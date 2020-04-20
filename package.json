@@ -25,9 +25,11 @@
     },
     "dependencies": {
         "@jkryszto/mdb-for-laravel": "^1.0.0",
+        "@mapbox/mapbox-gl-geocoder": "^4.5.1",
+        "@types/heremaps": "^3.1.0",
         "laravel-vue-pagination": "^2.3.1",
         "luxon": "^1.23.0",
-        "mapbox-gl": "^1.9.0",
+        "mapbox-gl": "^1.9.1",
         "mdbootstrap": "^4.8.11",
         "moment": "^2.24.0",
         "sweetalert2": "^9.10.6",

@@ -55,6 +55,7 @@
             @endcomponent
             <!--Main layout-->
             <main>
+                <carousel></carousel>
                 @yield('content')
             </main>
             <!--Main layout-->
