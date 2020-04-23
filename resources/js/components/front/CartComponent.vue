@@ -62,6 +62,16 @@
                             </tr>
                     </tbody>
                     <tfoot>
+                        <tr v-if="valid_coupon">
+                            <td colspan="4" class="text-center"></td>
+                            <td class="text-center">
+                                <strong>Promo Code Discount ( {{ coupon.discount }} % ):</strong>
+                            </td>
+                            <td class="text-center">
+                                <strong></strong>
+                            </td>
+                            <td class="text-center"></td>
+                        </tr>
                         <tr>
                             <td colspan="4" class="text-center">
                                 <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Continue to Checkout</button>
@@ -82,7 +92,7 @@
                 <!-- Cart -->
             </div>
         </div>
-        <promo-code></promo-code>
+        <promo-code v-on:couponApplied="couponApplied($event)"></promo-code>
     </div>
 </template>
 
@@ -96,8 +106,10 @@
                     user_id: Number,
                     total: Number,
                     status: Number,
-                    cart_items: {}               
-                })
+                    cart_items: {},                              
+                }),
+                valid_coupon: false,
+                coupon: {}
             }
         },
         methods: {
@@ -114,6 +126,10 @@
                 ).catch((e) => {
                     this.$router.push('/');
                 }); 
+            },
+            couponApplied(coupon) {
+                this.valid_coupon = true;
+                this.coupon = coupon;
             },
             increase(item) {
                 axios.get(`/api/cart/increase/${item.id}`)

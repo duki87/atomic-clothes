@@ -17,19 +17,13 @@ class CartController extends Controller
 {
     public function index()
     {
-        if(Cookie::has('atomic_cart')) {
-            $cart_id = Cookie::get('atomic_cart');
-            $cart = Cart::where(['id' => $cart_id])->with(['cart_items' => function($query) {
-                $query->orderBy('product_id', 'desc');
-            }])
-            ->with('cart_items.product')  
-            ->with('cart_items.variant')    
-            ->with('cart_items.variant.variant_color')            
-            ->with('cart_items.variant.variant_color.color_variant_images')
-            ->first();
+        $cart_model = new Cart();
+        //$cart = $cart_model->get_cart();
+        $cart = Cart::get_cart();
+        if($cart) {
             return response(['cart' => $cart], 200);
-        } 
-        $validator = Validator::make([], []); // Empty data and rules fields
+        }
+        $validator = Validator::make([], []);
         $validator->errors()->add('cart', 'NOT_FOUND');
         throw new ValidationException($validator);
     }
@@ -42,6 +36,11 @@ class CartController extends Controller
     }
 
     public function store(Request $request)
+    {
+        
+    }
+
+    public function update(PromoCode $coupon)
     {
         
     }
@@ -79,7 +78,7 @@ class CartController extends Controller
         } else {
             //Create a new cart
             $cart = new Cart([
-                'user_id' => Auth::check() ? Auth::id() : 0,
+                'user_id' => Auth::check() ? Auth::guard('web')->id() : 0,
                 'total'  =>  0
             ]);
             if($cart->save()) {
@@ -148,9 +147,6 @@ class CartController extends Controller
         } else {
             return response(['cookie' => false], 200);
         } 
-        // $validator = Validator::make([], []); 
-        // $validator->errors()->add('cart', 'NOT_FOUND');
-        // throw new ValidationException($validator);
     }
 
     public function increase($item_id)

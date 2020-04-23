@@ -120,7 +120,7 @@ color: #101010;
     border-radius: 0;
 }
 
-.clearfix { display: block; }
+/* .clearfix { display: block; }
 
 .clearfix::after {
     content: '.';
@@ -128,7 +128,7 @@ color: #101010;
     height: 0;
     clear: both;
     visibility: hidden;
-}
+} */
 
 /* Marker tweaks */
 .mapboxgl-popup-close-button {

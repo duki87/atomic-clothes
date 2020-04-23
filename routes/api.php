@@ -63,6 +63,8 @@ Route::apiResources([
 Route::get('getCollection/{collection}', 'API\FrontController@getCollection');
 Route::get('getProducts/{collection}/{category}/{filters?}', 'API\FrontController@getProducts');
 Route::get('getProduct/{product}', 'API\FrontController@getProduct');
+Route::get('stores/get', 'API\FrontController@get_stores');
+Route::post('promo-codes/check', 'API\FrontController@check_promo_code');
 
 Route::get('cookieExist', 'API\CartController@cookie_exist');
 Route::post('addToCart', 'API\CartController@add_to_cart');

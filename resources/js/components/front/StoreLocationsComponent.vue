@@ -42,7 +42,7 @@ export default {
         });
       },
       loadStores() {
-        return axios.get('/api/store')
+        return axios.get('/api/stores/get')
         .then(({data}) => {
           let stores = data.stores;
           stores.forEach(store => {

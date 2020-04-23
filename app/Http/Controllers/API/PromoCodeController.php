@@ -46,7 +46,7 @@ class PromoCodeController extends Controller
             $promoCode->brand_id = $request->brand_id;
             $promoCode->discount = $request->discount;
             $promoCode->coupon_series = $coupon_series;
-            $promoCode->coupon_no = $i;
+            $promoCode->coupon_no = $this->sprint($i, $request->number_of_codes); 
             $promoCode->status = 1;
             $promoCode->save();
         } 
@@ -71,5 +71,11 @@ class PromoCodeController extends Controller
     {
         $randomNumbers = strtoupper(Str::random(4)) . sprintf("%06s", mt_rand(10,100000));
         return $randomNumbers;
+    }
+
+    private function sprint($n, $total)
+    {
+        $number = $total !== 0 ? floor(log10($total) + 1) : 1;
+        return sprintf("%0".$number."s", $n);
     }
 }

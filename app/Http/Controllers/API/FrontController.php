@@ -9,6 +9,9 @@ use App\ProductVariant;
 use App\ProductImages;
 use App\Category;
 use App\Brand;
+use App\Store;
+use App\PromoCode;
+use App\Cart;
 use App\Traits\ManualPaginationTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -97,4 +100,45 @@ class FrontController extends Controller
         $validator->errors()->add('product', 'NOT_FOUND');
         throw new ValidationException($validator);
     }
+
+    
+    public function get_stores()
+    {
+        $stores = Store::get();
+        return response(['stores' => $stores], 200);
+    }
+
+    public function check_promo_code(Request $request)
+    {
+        $coupon_no = $request->coupon_no;
+        $coupon_series = $request->coupon_series;
+        $promo_code = new PromoCode();
+        $coupon = $promo_code->find($coupon_no, $coupon_series);
+        $current_datetime = date('Y-m-d H:i:s');
+        if($coupon) {
+            //Check if this promotion has started
+            if($coupon->start > $current_datetime) {
+                return response(['error' => 'This promotion is still not active.'], 500);
+            }
+            //Check if this coupon has not expired
+            if($coupon->expire < $current_datetime) {
+                return response(['error' => 'This code has expired. Please try another one.'], 500);
+            }
+            //Check if current authenticated user owns this code
+            if($coupon->user_id && Auth::guard('web')->check()) {
+                if($coupon->user_id !== Auth::guard('web')->id()) {
+                    return response(['error' => 'This code does not belong to your account.'], 500);
+                }
+            }
+            return response(['promo_code' => $coupon, 'cart' => Cart::apply_discount_to_cart($coupon)], 200);
+        } else {
+            $error = 'This code is not valid. Please try another one.';
+        }
+        return response(['error' => 'NOT_FOUND'], 500);
+    }
+
+    // private function update_cart(PromoCode $coupon) 
+    // {
+    //     return $cart;
+    // }
 }

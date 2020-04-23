@@ -26,8 +26,14 @@
             <li class="nav-item">
               <router-link to="/admin/manage-coupons" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Manage Coupons</router-link>
             </li>
-            <li class="nav-item">
-              <router-link to="/admin/stores" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Stores</router-link>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">Manage Stores
+              </a>
+              <div class="dropdown-menu dropdown-default custom-navbar" aria-labelledby="navbarDropdownMenuLink-333">
+                <router-link to="/admin/stores" class="dropdown-item custom-dropdown-item" tag="a" active-class="custom-dropdown-item-active" exact>All Stores</router-link>
+                <router-link to="/admin/add-store" class="dropdown-item custom-dropdown-item" tag="a" active-class="custom-dropdown-item-active" exact>Add Store</router-link>
+              </div>
             </li>
             <li class="nav-item">
               <router-link to="/admin/passport" class="nav-link" tag="a" class="nav-link" active-class="active" exact>Passport</router-link>

@@ -25826,17 +25826,15 @@ gets 2/3 of the page. You can adjust this to your personal liking. */
   border-radius: 0;
 }
 
-.clearfix {
-  display: block;
-}
+/* .clearfix { display: block; }
 
 .clearfix::after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+} */
 
 /* Marker tweaks */
 
