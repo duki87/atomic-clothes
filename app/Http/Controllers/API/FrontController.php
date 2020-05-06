@@ -116,6 +116,10 @@ class FrontController extends Controller
         $coupon = $promo_code->find($coupon_no, $coupon_series);
         $current_datetime = date('Y-m-d H:i:s');
         if($coupon) {
+            //Check if promo code is already used
+            if($coupon->status === 0) {
+                return response(['error' => 'This promo code has been used.'], 500);
+            }
             //Check if this promotion has started
             if($coupon->start > $current_datetime) {
                 return response(['error' => 'This promotion is still not active.'], 500);
@@ -130,7 +134,8 @@ class FrontController extends Controller
                     return response(['error' => 'This code does not belong to your account.'], 500);
                 }
             }
-            return response(['promo_code' => $coupon, 'cart' => Cart::apply_discount_to_cart($coupon)], 200);
+            $apply = Cart::apply_discount_to_cart($coupon);
+            return response(['promo_code' => $coupon, 'applied' => $apply], 200);
         } else {
             $error = 'This code is not valid. Please try another one.';
         }

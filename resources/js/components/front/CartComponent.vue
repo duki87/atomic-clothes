@@ -62,13 +62,13 @@
                             </tr>
                     </tbody>
                     <tfoot>
-                        <tr v-if="valid_coupon">
+                        <tr v-if="form.promo_code_id">
                             <td colspan="4" class="text-center"></td>
                             <td class="text-center">
-                                <strong>Promo Code Discount ( {{ coupon.discount }} % ):</strong>
+                                <strong>Used Promo Code:  {{ form.promo_code.coupon_series }} {{ form.promo_code.coupon_no }}. Discount ({{ coupon.discount }} %):</strong>
                             </td>
                             <td class="text-center">
-                                <strong></strong>
+                                <strong>- ${{ form.discount }}</strong>
                             </td>
                             <td class="text-center"></td>
                         </tr>
@@ -81,7 +81,10 @@
                                 <strong>Total:</strong>
                             </td>
                             <td class="text-center">
-                                <strong>${{ form.total }}</strong>
+                                <strong>
+                                    <span v-if="form.discount">${{ (form.total - form.discount).toFixed(2) }}</span>
+                                    <span v-else>${{ form.total }}</span>
+                                </strong>
                             </td>
                             <td class="text-center">
                                 <button @click="deleteCart" type="button" class="btn btn-danger px-3"><i class="fas fa-trash" title="Delete Cart"></i></button>
@@ -105,8 +108,11 @@
                     id: Number,
                     user_id: Number,
                     total: Number,
+                    discount: Number,
                     status: Number,
-                    cart_items: {},                              
+                    promo_code_id: Number,
+                    cart_items: {},
+                    promo_code: {}                             
                 }),
                 valid_coupon: false,
                 coupon: {}
@@ -116,6 +122,7 @@
             loadCart() {
                 axios.get('/api/cart').then(
                 ({ data }) => {
+                    console.log(data.cart)
                         if(data.cart.cart_items.length === 0) {
                             this.deleteCart();
                         }
@@ -130,6 +137,7 @@
             couponApplied(coupon) {
                 this.valid_coupon = true;
                 this.coupon = coupon;
+                this.loadCart();
             },
             increase(item) {
                 axios.get(`/api/cart/increase/${item.id}`)

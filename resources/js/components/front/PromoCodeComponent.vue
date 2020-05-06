@@ -41,9 +41,10 @@
             checkPromoCode() {
                 return axios.post('/api/promo-codes/check', {coupon_series: this.coupon_series, coupon_no: this.coupon_no})
                 .then((res) => {
-                    $('#promoCodeModal').modal('hide');
-                    this.$emit('couponApplied', res.data.promo_code);
-                    console.log(res);
+                    if(res.data.applied) {
+                        $('#promoCodeModal').modal('hide');
+                        this.$emit('couponApplied', res.data.promo_code);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);

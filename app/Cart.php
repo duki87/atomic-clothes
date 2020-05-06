@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cookie;
 use App\PromoCode;
+use App\CartItem;
 
 class Cart extends Model
 {
     protected $fillable = [
-        'user_id', 'total', 'status'
+        'user_id', 'total', 'status', 'promo_code_id', 'discount'
     ];
 
     public function cart_items()
@@ -21,6 +22,11 @@ class Cart extends Model
     {
         return $this->hasOne('App\User', 'id', 'user_id');
     }
+    
+    public function promo_code()
+    {
+        return $this->hasOne('App\PromoCode', 'id', 'promo_code_id');
+    }
 
     public static function get_cart()
     {
@@ -29,6 +35,7 @@ class Cart extends Model
             $cart = self::where(['id' => $id])->with(['cart_items' => function($query) {
                 $query->orderBy('product_id', 'desc');
             }])
+            ->with('promo_code')
             ->with('cart_items.product')  
             ->with('cart_items.variant')    
             ->with('cart_items.variant.variant_color')            
@@ -41,16 +48,55 @@ class Cart extends Model
 
     public static function apply_discount_to_cart(PromoCode $coupon)
     {
-        //UPDATE: CART: PROMO_CODE_ID, DISCOUNT; FOR EVERY CART ITEM DISCOUNT 
         $cart = self::get_cart();
-        //Check if coupon is for certain category of clothes
-        if($coupon->category_id) {
-
+        $cartItemsToApplyDiscount = [];
+        foreach($cart->cart_items as $cart_item) {
+            if($coupon->brand_id && $coupon->category_id) {
+                if($cart_item->product->brand_id === $coupon->brand_id && $cart_item->product->sub_category_id === $coupon->category_id) {
+                    $cartItemsToApplyDiscount[] = $cart_item;
+                }  
+            } elseif($coupon->category_id) {
+                if($cart_item->product->sub_category_id === $coupon->category_id) {
+                    $cartItemsToApplyDiscount[] = $cart_item;
+                }   
+            } elseif($coupon->brand_id) {
+                if($cart_item->product->brand_id === $coupon->brand_id) {
+                    $cartItemsToApplyDiscount[] = $cart_item;
+                }  
+            } else {
+                $cartItemsToApplyDiscount[] = $cart_item; 
+            }
+            //Check if coupon is for certain category of clothes
+            // if($coupon->category_id) {
+            //     if($cart_item->product->category_id === $coupon->category_id) {
+            //         $cartItemsToApplyDiscount[] = $cart_item;
+            //     }               
+            // }
+            // //Check if coupon is for certain brand of clothes
+            // if($coupon->brand_id) {
+            //     if($cart_item->product->brand_id === $coupon->brand_id) {
+            //         $cartItemsToApplyDiscount[] = $cart_item;
+            //     }  
+            // }
+            // if(!$coupon->brand_id && !$coupon->category_id) {
+            //     $cartItemsToApplyDiscount[] = $cart_item; 
+            // }
         }
-        //Check if coupon is for certain brand of clothes
-        if($coupon->brand_id) {
-
+        if($cartItemsToApplyDiscount) {
+            foreach($cartItemsToApplyDiscount as $cart_item) {
+                $price = $cart_item->product->discount ? $cart_item->product->discount : $cart_item->product->price;
+                $discount = ($coupon->discount/100) * $price * $cart_item->quantity;
+                $cart_item->discount = $discount;
+                $cart_item->save();
+                $cart->discount += $discount;
+                $cart->promo_code_id = $coupon->id;
+                $cart->save();
+                $coupon->status = 0;
+                $coupon->save();
+            }
+            return $cart;
+        } else {
+            return false;
         }
-
     }
 }
