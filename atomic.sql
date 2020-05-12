@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2020 at 11:45 PM
+-- Generation Time: May 12, 2020 at 07:59 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -103,7 +103,9 @@ INSERT INTO `carts` (`id`, `user_id`, `promo_code_id`, `total`, `discount`, `sta
 (52, 0, NULL, 20.99, 0.00, 1, '2020-04-07 15:38:57', '2020-04-07 15:38:58'),
 (53, 0, NULL, 19.95, 0.00, 1, '2020-04-09 15:22:23', '2020-04-09 15:22:24'),
 (54, 0, NULL, 10.99, 0.00, 1, '2020-04-21 09:11:27', '2020-04-21 09:11:27'),
-(56, 0, NULL, 19.95, 0.00, 1, '2020-04-23 19:39:32', '2020-04-23 19:39:32');
+(56, 0, NULL, 19.95, 0.00, 1, '2020-04-23 19:39:32', '2020-04-23 19:39:32'),
+(58, 0, 121, 24.98, 7.49, 1, '2020-05-06 18:30:27', '2020-05-06 19:29:53'),
+(59, 0, NULL, 20.99, 0.00, 1, '2020-05-11 14:42:26', '2020-05-12 07:17:07');
 
 -- --------------------------------------------------------
 
@@ -136,7 +138,10 @@ INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `variant_id`, `product_
 (73, 52, 6, 14, 20.99, 1, 20.99, 0.00, '2020-04-07 15:38:58', '2020-04-07 15:38:58'),
 (74, 53, 7, 15, 19.95, 1, 19.95, 0.00, '2020-04-09 15:22:24', '2020-04-09 15:22:24'),
 (75, 54, 8, 16, 10.99, 1, 10.99, 0.00, '2020-04-21 09:11:27', '2020-04-21 09:11:27'),
-(77, 56, 7, 15, 19.95, 1, 19.95, 0.00, '2020-04-23 19:39:32', '2020-04-23 19:39:32');
+(77, 56, 7, 15, 19.95, 1, 19.95, 0.00, '2020-04-23 19:39:32', '2020-04-23 19:39:32'),
+(79, 58, 6, 14, 20.99, 1, 20.99, 6.30, '2020-05-06 18:30:27', '2020-05-06 19:29:52'),
+(80, 58, 5, 6, 3.99, 1, 3.99, 1.20, '2020-05-06 18:46:58', '2020-05-06 19:29:53'),
+(81, 59, 6, 14, 20.99, 1, 20.99, 0.00, '2020-05-11 14:42:26', '2020-05-12 07:17:07');
 
 -- --------------------------------------------------------
 
@@ -236,7 +241,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (40, '2020_04_20_121522_add_image_to_stores_table', 32),
 (41, '2020_04_21_124701_alter_promo_codes_table_change_coupon_no_type', 33),
 (42, '2020_04_23_213024_alter_cart_items_table_add_discount', 34),
-(43, '2020_04_23_213508_alter_cart_table_add_promo_code', 35);
+(43, '2020_04_23_213508_alter_cart_table_add_promo_code', 35),
+(44, '2020_05_12_104938_create_store_stocks_table', 36);
 
 -- --------------------------------------------------------
 
@@ -470,16 +476,16 @@ INSERT INTO `product_variants` (`id`, `product_id`, `color_id`, `sku`, `size`, `
 (3, 5, 4, 'PKXL', 'XL', 1000, '', '2020-03-03 13:59:39', '2020-03-03 13:59:39'),
 (4, 5, 5, 'PPS', 'S', 202, '', '2020-03-03 13:59:51', '2020-03-29 17:52:15'),
 (5, 5, 5, 'PPL', 'L', 300, '', '2020-03-03 14:00:04', '2020-03-05 15:24:06'),
-(6, 5, 6, 'WHXS', 'XS', 606, '', '2020-03-03 14:00:18', '2020-03-29 18:38:26'),
+(6, 5, 6, 'WHXS', 'XS', 605, '', '2020-03-03 14:00:18', '2020-05-06 18:46:58'),
 (7, 5, 6, 'WHS', 'S', 400, '', '2020-03-03 14:00:29', '2020-03-03 14:00:29'),
 (8, 5, 6, 'WHL', 'L', 330, '', '2020-03-03 14:00:41', '2020-03-03 14:00:41'),
-(9, 4, 1, 'RDL', 'L', 2, '', '2020-03-03 14:01:20', '2020-03-29 15:47:43'),
+(9, 4, 1, 'RDL', 'L', 500, '', '2020-03-03 14:01:20', '2020-03-29 15:47:43'),
 (10, 4, 1, 'RDXL', 'XL', 400, '', '2020-03-03 14:01:40', '2020-03-29 17:13:46'),
 (11, 4, 2, 'BKM', 'M', 96, '', '2020-03-03 14:01:52', '2020-03-29 18:58:31'),
 (12, 4, 3, 'BRL', 'L', 408, '', '2020-03-03 14:02:11', '2020-03-05 15:23:58'),
 (13, 4, 3, 'BRM', 'M', 500, '', '2020-03-03 14:02:28', '2020-03-03 14:02:28'),
-(14, 6, 7, 'BWL', 'L', 999, '', '2020-03-06 10:46:26', '2020-04-23 19:39:18'),
-(15, 7, 8, 'GBM', 'M', 498, '', '2020-03-06 10:48:14', '2020-04-23 19:39:32'),
+(14, 6, 7, 'BWL', 'L', 997, '', '2020-03-06 10:46:26', '2020-05-11 14:42:26'),
+(15, 7, 8, 'GBM', 'M', 498, '', '2020-03-06 10:48:14', '2020-05-06 18:29:40'),
 (16, 8, 9, 'RBL', 'L', 499, '', '2020-03-06 11:02:59', '2020-04-21 09:11:27'),
 (17, 8, 9, 'RBS', 'S', 100, '', '2020-03-06 11:03:08', '2020-03-06 11:03:08'),
 (18, 8, 9, 'RBL', 'L', 1800, '', '2020-03-06 11:03:23', '2020-03-06 11:03:23');
@@ -510,11 +516,11 @@ CREATE TABLE `promo_codes` (
 --
 
 INSERT INTO `promo_codes` (`id`, `user_id`, `category_id`, `brand_id`, `coupon_series`, `coupon_no`, `discount`, `start`, `expire`, `status`, `created_at`, `updated_at`) VALUES
-(117, NULL, NULL, 1, 'UWSF000377', '01', 30, '2020-04-22 00:00:00', '2020-04-22 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
-(118, NULL, NULL, 1, 'UWSF000377', '02', 30, '2020-04-21 12:49:00', '2020-04-26 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
+(117, NULL, NULL, 1, 'UWSF000377', '01', 30, '2020-04-22 00:00:00', '2020-05-10 12:49:00', 0, '2020-04-21 10:49:24', '2020-05-06 17:45:00'),
+(118, NULL, NULL, 1, 'UWSF000377', '02', 30, '2020-04-21 12:49:00', '2020-05-22 12:49:00', 0, '2020-04-21 10:49:24', '2020-05-06 18:06:11'),
 (119, NULL, NULL, 1, 'UWSF000377', '03', 30, '2020-04-21 12:49:00', '2020-04-26 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
 (120, NULL, NULL, 1, 'UWSF000377', '04', 30, '2020-04-21 12:49:00', '2020-04-26 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
-(121, NULL, NULL, 1, 'UWSF000377', '05', 30, '2020-04-21 12:49:00', '2020-04-26 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
+(121, NULL, NULL, NULL, 'UWSF000377', '05', 30, '2020-04-21 12:49:00', '2020-05-20 12:49:00', 1, '2020-04-21 10:49:24', '2020-05-12 07:17:07'),
 (122, NULL, NULL, 1, 'UWSF000377', '06', 30, '2020-04-21 12:49:00', '2020-04-26 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
 (123, NULL, NULL, 1, 'UWSF000377', '07', 30, '2020-04-21 12:49:00', '2020-04-26 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
 (124, NULL, NULL, 1, 'UWSF000377', '08', 30, '2020-04-21 12:49:00', '2020-04-26 12:49:00', 1, '2020-04-21 10:49:24', '2020-04-21 10:49:24'),
@@ -552,6 +558,30 @@ INSERT INTO `stores` (`id`, `title`, `city`, `address`, `phone`, `latitude`, `lo
 (4, 'Atomic Store Los Angeles #1', 'Los Angeles', '3543 Wilshire Boulevard, Los Angeles, California 90010, United States', '01258747896', '34.0618369', '-118.3019022', 'Donald Trump', 'aMcuxn0omAnedEfBzdwTH42eVzLtWfLE.png', '2020-04-20 17:51:39', '2020-04-20 17:51:39'),
 (5, 'Atomic Store Washington', 'Washington', '1200 Pennsylvania Avenue Northwest, Washington', '01456789123', '38.8950705', '-77.0287972', 'Johnson', 'ZPyWvIoTBPU8fEf1NbX7YujDW5zUYMgQ.png', '2020-04-20 17:54:25', '2020-04-20 17:54:25'),
 (6, 'Atomic Store #2 San Francisco', 'Oakland', '2501 Harrison Street, Oakland, California 94611', '01478956235', '37.8139138', '-122.2617727', 'Mickey', 'zEPqSDM63yLq6RcBb2x1jn4967yWQg9v.png', '2020-04-20 18:00:11', '2020-04-20 18:00:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `store_stocks`
+--
+
+CREATE TABLE `store_stocks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `variant_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `store_stocks`
+--
+
+INSERT INTO `store_stocks` (`id`, `store_id`, `product_id`, `variant_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(1, 1, 4, 9, 200, NULL, NULL),
+(2, 2, 4, 9, 300, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -693,6 +723,12 @@ ALTER TABLE `stores`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `store_stocks`
+--
+ALTER TABLE `store_stocks`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -718,13 +754,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -736,7 +772,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `oauth_clients`
@@ -754,7 +790,7 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `product_colors`
@@ -785,6 +821,12 @@ ALTER TABLE `promo_codes`
 --
 ALTER TABLE `stores`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `store_stocks`
+--
+ALTER TABLE `store_stocks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

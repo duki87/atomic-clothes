@@ -75,7 +75,8 @@
                         <tr>
                             <td colspan="4" class="text-center">
                                 <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Continue to Checkout</button>
-                                <button class="btn btn-default btn-md waves-effect m-0" type="button" data-toggle="modal" data-target="#promoCodeModal">Use Promo Code</button>
+                                <button v-if="!form.promo_code_id" class="btn btn-default btn-md waves-effect m-0" type="button" data-toggle="modal" data-target="#promoCodeModal">Use Promo Code</button>
+                                <button v-if="form.promo_code_id" @click="removeCoupon" class="btn btn-danger btn-md waves-effect m-0" type="button">Remove Coupon</button>
                             </td>
                             <td class="text-center">
                                 <strong>Total:</strong>
@@ -95,7 +96,7 @@
                 <!-- Cart -->
             </div>
         </div>
-        <promo-code v-on:couponApplied="couponApplied($event)"></promo-code>
+        <promo-code v-on:couponApplied="couponApplied($event)" v-bind:couponRemoved="couponRemoved"></promo-code>
     </div>
 </template>
 
@@ -115,7 +116,8 @@
                     promo_code: {}                             
                 }),
                 valid_coupon: false,
-                coupon: {}
+                coupon: {},
+                couponRemoved: false
             }
         },
         methods: {
@@ -138,6 +140,19 @@
                 this.valid_coupon = true;
                 this.coupon = coupon;
                 this.loadCart();
+            },
+            removeCoupon() {
+                axios.get(`/api/user-promo-codes/remove-promo-code/${this.form.promo_code.coupon_series}-${this.form.promo_code.coupon_no}`)
+                    .then(res => {
+                        this.couponRemoved = true;
+                        this.coupon = {};
+                        this.valid_coupon = false;
+                        this.loadCart();
+                        this.couponRemoved = false;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             },
             increase(item) {
                 axios.get(`/api/cart/increase/${item.id}`)

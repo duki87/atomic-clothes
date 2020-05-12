@@ -137,14 +137,14 @@
                             if(data.variant.tags) {
                                 JSON.parse(data.variant.tags).forEach(tag => this.form.tags.push(tag));
                             }
-                            this.product = data.variant.product[0];
+                            this.product = data.variant.product;
                             if(data.variant.variant_color !== null) {
                                 this.color_variant_images = data.variant.variant_color.color_variant_images;
-                                this.image_folder = data.variant.product[0].image_folder;
+                                this.image_folder = data.variant.product.image_folder;
                             }
-                            this.image_folder = data.variant.product[0].image_folder;
+                            this.image_folder = data.variant.product.image_folder;
                             this.variant_images = data.variant.variant_images;
-                            this.product = data.variant.product[0];
+                            this.product = data.variant.product;
                         }
                     )
                     .catch(err => console.log(err));

@@ -104,6 +104,7 @@ Vue.component('promo-code', require('./components/front/PromoCodeComponent.vue')
 Vue.component('add-promo-code', require('./components/admin/AddCouponComponent.vue').default);
 Vue.component('promo-codes-list', require('./components/admin/CouponListComponent.vue').default);
 Vue.component('store-locations', require('./components/front/StoreLocationsComponent.vue').default);
+Vue.component('store-info', require('./components/front/StoreInfoComponent.vue').default);
 
 //Laravel Vue Pagination component
 Vue.component('pagination', require('laravel-vue-pagination'));

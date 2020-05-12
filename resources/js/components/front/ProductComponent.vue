@@ -83,6 +83,26 @@
                                 <i class="fas fa-shopping-cart ml-1"></i>
                             </button>
                         </form>
+                        <div v-if="storeAvailability.length > 0" class="table-wrapper-scroll-y my-custom-scrollbar">
+                            <table class="table table-striped" style="height:50px">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            <strong>Available in stores:</strong>
+                                            <br>
+                                            <small>
+                                                <i>Click on store name for more details</i>
+                                            </small>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(storeStock, index) in storeAvailability" :key="index" data-toggle="modal" data-target="#storeInfoModal" style="cursor:pointer" @click="viewStoreInfo(storeStock.store)">
+                                        <th scope="row">{{ storeStock.store.title }}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!--Content-->
                 </div>
@@ -122,6 +142,7 @@
             </div>
             <!--Grid row-->
         </div>
+        <store-info v-bind:storeInfo="storeInfo"></store-info>
     </div>
 </template>
 
@@ -172,7 +193,9 @@
                 selectedColor: {},
                 selectedSize: {},
                 availableSizes: [],
-                color_variant_images: []               
+                storeAvailability: [],
+                color_variant_images: [],
+                storeInfo: {}           
             }
         },
         methods: {
@@ -184,6 +207,7 @@
                         let color = this.form.colors[0];
                         this.selectedColor = color;
                         this.availableSizes = color.variants;
+                        this.storeAvailability = color.variants[0].store_stocks;
                         this.selectedSize = color.variants[0];
                         this.selectColorText = color.color;
                         this.selectSizeText = `${color.variants[0].size} (available: ${color.variants[0].stock})`;
@@ -200,6 +224,7 @@
             selectSize(sizeVariant) {
                 this.selectedSize = sizeVariant;
                 this.selectSizeText = `${sizeVariant.size} (available: ${sizeVariant.stock})`;
+                this.storeAvailability = sizeVariant.store_stocks;
             },
             selectColor(color) {
                 this.selectedColor = color;
@@ -210,9 +235,13 @@
                 this.selectSizeText = `${this.availableSizes[0].size} (available: ${this.availableSizes[0].stock})`;
                 this.color_variant_images = color.color_variant_images;
                 this.selectedSize = this.availableSizes[0];
+                this.storeAvailability = color.variants[0].store_stocks;
             },
             changeActiveImage(index) {
                 this.activeImage = index;
+            },
+            viewStoreInfo(store) {
+                this.storeInfo = store;
             },
             addToCart() {              
                 let product_price = this.form.discount ? this.form.discount : this.form.price;

@@ -54,7 +54,7 @@
             @component('components.navbar')
             @endcomponent
             <!--Main layout-->
-            <main style="height: 600px;">
+            <main>
                 <carousel></carousel>
                 @yield('content')
             </main>

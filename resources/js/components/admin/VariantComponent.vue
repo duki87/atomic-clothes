@@ -41,7 +41,7 @@
                                             </a>
                                         </td>
                                         <td class="text-center">
-                                            <router-link :to="{ name: 'edit-variant', params: { id: variant.product[0].id, variant_id: variant.id }}" class="btn btn-primary btn-sm" exact><i class="far fa-edit"></i></router-link>
+                                            <router-link :to="{ name: 'edit-variant', params: { id: variant.product.id, variant_id: variant.id }}" class="btn btn-primary btn-sm" exact><i class="far fa-edit"></i></router-link>
                                             <button @click="deleteVariant(variant)" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
                                         </td>
                                     </tr>
@@ -97,7 +97,7 @@
         },
         methods: {
             loadVariants() {
-                axios.get('/api/getVariantsByProductId/'+this.product_id).then(
+                axios.get(`/api/getVariantsByProductId/${this.product_id}`).then(
                 ({ data }) => {
                     console.log(data.variants)
                     this.variants = data.variants;                   
@@ -163,11 +163,12 @@
                 this.variant_images = [];
                 if(variant.variant_color !== null) {
                     this.variant_images = variant.variant_color.color_variant_images;
-                    this.image_folder = variant.product[0].image_folder;
+                    this.image_folder = variant.product.image_folder;
                 }
             }
         },
         created() {        
+            console.log(this.$router.history.current.params.id)
             this.product_id = this.$router.history.current.params.id;
             this.loadVariants();
             Fire.$on('AfterCreate', () => {

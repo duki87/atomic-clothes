@@ -64,7 +64,7 @@ class Cart extends Model
                     $cartItemsToApplyDiscount[] = $cart_item;
                 }  
             } else {
-                $cartItemsToApplyDiscount[] = $cart_item; 
+                $cartItemsToApplyDiscount[] = $cart_item;
             }
             //Check if coupon is for certain category of clothes
             // if($coupon->category_id) {
@@ -96,7 +96,30 @@ class Cart extends Model
             }
             return $cart;
         } else {
-            return false;
+            return 'COUPON_NOT_APPLIED';
+        }
+    }
+
+    public static function remove_coupon_from_cart(PromoCode $coupon)
+    {
+        $cart = self::get_cart();
+        if($cart) {
+            foreach($cart->cart_items as $cart_item) {
+                if($cart_item->discount > 0) {
+                    $cart_item->discount = 0;
+                    $cart_item->save();
+                }
+            }       
+            $cart->promo_code_id = NULL;
+            $cart->discount = 0;
+            $coupon->status = 1;
+            // $cart->save();
+            // $coupon->save();
+            if($cart->save() && $coupon->save()) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

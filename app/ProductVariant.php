@@ -19,4 +19,9 @@ class ProductVariant extends Model
     {
         return $this->hasOne('App\ProductColor', 'id', 'color_id');
     }
+
+    public function store_stocks()
+    {
+        return $this->hasMany('App\StoreStock', 'variant_id');
+    }
 }

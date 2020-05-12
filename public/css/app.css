@@ -25966,3 +25966,13 @@ gets 2/3 of the page. You can adjust this to your personal liking. */
   display: none;
 }
 
+.my-custom-scrollbar {
+  position: relative;
+  height: 200px;
+  overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+}
+

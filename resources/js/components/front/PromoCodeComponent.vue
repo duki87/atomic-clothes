@@ -18,7 +18,7 @@
                         <input v-model="coupon_series" min="10" max="10" type="text" class="form-control">
                         <input v-model="coupon_no" min="2" type="text" @keypress="validateNumbers" class="form-control">                                            
                     </div>
-                    <small v-if="code_valid.valid" class="text-danger">This code is not valid. Please try another one.</small>  
+                    <small v-if="!code_valid.valid" class="text-danger">{{ code_valid.message }}</small>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     <button class="btn btn-indigo" @click="checkPromoCode">Use Code <i class="fas fa-paper-plane-o ml-1"></i></button>
@@ -39,15 +39,17 @@
         },
         methods: {
             checkPromoCode() {
-                return axios.post('/api/promo-codes/check', {coupon_series: this.coupon_series, coupon_no: this.coupon_no})
+                return axios.post('/api/user-promo-codes/check', {coupon_series: this.coupon_series, coupon_no: this.coupon_no})
                 .then((res) => {
                     if(res.data.applied) {
                         $('#promoCodeModal').modal('hide');
+                        this.code_valid = {valid: true, message: ''};
                         this.$emit('couponApplied', res.data.promo_code);
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    this.code_valid = {valid: false, message: error.response.data.error};
+                    //console.log(error.response.data);
                 });
             },
             validateNumbers(event) {
@@ -56,6 +58,16 @@
                     event.preventDefault();
                 }
             },
+        },
+        props: ['couponRemoved'],
+        watch: {
+            couponRemoved: function(newValue, oldValue) {
+                if(oldValue === true) {
+                    this.code_valid = {valid: false, message: ''};
+                    this.coupon_series = '';
+                    this.coupon_no = '';
+                }
+            }
         },
         mounted() {
             //console.log('Component mounted.')

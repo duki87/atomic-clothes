@@ -153,9 +153,7 @@
 
         },
         mounted() {
-          //console.log('Component mounted.')
-          this.$root.$on('CAROUSEL_SHOW', (show) => {       
-            console.log(show)         
+          this.$root.$on('CAROUSEL_SHOW', (show) => {               
                 if(show === true) {
                   this.hasCarousel = true;
                 } else {

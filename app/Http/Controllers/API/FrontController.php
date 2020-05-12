@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Product;
 use App\ProductVariant;
 use App\ProductImages;
+use App\StoreStocks;
 use App\Category;
 use App\Brand;
 use App\Store;
@@ -90,6 +91,8 @@ class FrontController extends Controller
         ->with('category', 'main_category', 'sub_category', 'brand')
         ->with('colors')       
         ->with('colors.variants')
+        ->with('colors.variants.store_stocks')
+        ->with('colors.variants.store_stocks.store')
         ->with('colors.color_variant_images')
         ->first();
         if($product) {
@@ -135,14 +138,30 @@ class FrontController extends Controller
                 }
             }
             $apply = Cart::apply_discount_to_cart($coupon);
+            if($apply === 'COUPON_NOT_APPLIED') {
+                return response(['error' => 'There are no items in cart on which coupon can be applied.'], 500);
+            }
             return response(['promo_code' => $coupon, 'applied' => $apply], 200);
         } else {
-            $error = 'This code is not valid. Please try another one.';
+            return response(['error' => 'This code is not valid. Please try another one.'], 500);
         }
-        return response(['error' => 'NOT_FOUND'], 500);
+        return response(['error' => 'This coupon does not exist.'], 500);
     }
 
-    // private function update_cart(PromoCode $coupon) 
+    public function remove_promo_code($coupon) 
+    {
+        $coupon_no = explode('-', $coupon)[1];
+        $coupon_series = explode('-', $coupon)[0];
+        $promo_code = new PromoCode();
+        $coupon = $promo_code->find($coupon_no, $coupon_series);
+        $remove = Cart::remove_coupon_from_cart($coupon);
+        if($remove) {
+            return response(['Coupon Removed'], 200);
+        }        
+        return response(['Something went wrong.'], 500);
+    }
+
+    // private function update_cart(PromoCode $coupon)
     // {
     //     return $cart;
     // }
